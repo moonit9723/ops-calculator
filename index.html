@@ -6,24 +6,28 @@
     <style>
         body { background: #121212; color: #e8fefe; font-family: 'Segoe UI', Arial; text-align: center; }
         .container { width: 520px; margin: 60px auto; padding: 40px; border-radius: 18px; background: #1a1a1a; border: 1px solid #2ee6c9; box-shadow: 0 0 30px rgba(0,255,200,0.25); }
-        h1 { color: #b9fff7; text-shadow: 0 0 12px #00ffe1; margin-bottom: 25px; }
+        
+        /* 🔥 제목과 아이콘을 나란히 배치 */
+        .title-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        h1 { color: #b9fff7; text-shadow: 0 0 12px #00ffe1; margin: 0; }
+
         .labels { display: flex; justify-content: space-around; margin-bottom: 10px; color: #9efcff; }
         .inputs { display: flex; justify-content: space-around; }
         input { width: 120px; padding: 12px; background: #0f0f0f; border: 1px solid #3eeed2; border-radius: 8px; color: #b9fff7; text-align: center; font-size: 16px; }
         input:focus { border: 1px solid #00ffe1; box-shadow: 0 0 12px #00ffe1; outline: none; }
         
-        /* 🔥 버튼 및 툴팁 래퍼 */
-        .btn-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 25px;
-            gap: 15px; /* 버튼과 동그라미 사이 간격 */
-        }
-
         /* 🔥 넓어진 계산 버튼 */
         button {
-            width: 250px; /* 버튼 너비 확장 */
+            display: block;
+            margin: 25px auto 0;
+            width: 250px;
             padding: 14px 25px;
             font-size: 18px;
             font-weight: bold;
@@ -36,68 +40,77 @@
         }
         button:hover { background: #00ffe1; color: black; box-shadow: 0 0 15px #00ffe1; }
 
-        /* 🔥 동그란 설명 아이콘 */
+        /* 🔥 클릭형 동그란 설명 아이콘 */
         .info-icon {
             position: relative;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: 2px solid #3eeed2;
             color: #3eeed2;
             font-size: 16px;
             font-weight: bold;
-            cursor: help;
+            cursor: pointer; /* 클릭 커서로 변경 */
             transition: all 0.2s;
+            user-select: none;
         }
         .info-icon:hover {
-            background: #00ffe1;
-            color: black;
+            background: rgba(0, 255, 225, 0.2);
             box-shadow: 0 0 10px #00ffe1;
-            border-color: #00ffe1;
         }
 
-        /* 🔥 마우스 오버 시 나타나는 말풍선(툴팁) */
+        /* 🔥 클릭 시 나타나는 말풍선(툴팁) */
         .info-tooltip {
             visibility: hidden;
             opacity: 0;
-            width: 240px;
+            width: 280px;
             background: #222;
             color: #e8fefe;
-            text-align: center;
+            text-align: left;
             border-radius: 8px;
-            padding: 12px;
+            padding: 15px;
             position: absolute;
             z-index: 10;
-            bottom: 140%; /* 아이콘 위쪽으로 배치 */
+            top: 150%; /* 아이콘 아래쪽으로 배치 */
             left: 50%;
             transform: translateX(-50%);
             border: 1px solid #00ffe1;
             box-shadow: 0 0 15px rgba(0, 255, 225, 0.2);
-            font-size: 13px;
-            line-height: 1.5;
-            transition: opacity 0.3s;
+            font-size: 14px;
             font-weight: normal;
+            line-height: 1.6;
+            transition: opacity 0.2s;
+            text-shadow: none; /* h1 그림자 상속 방지 */
         }
         
-        /* 말풍선 꼬리표 (아래쪽 화살표 모양) */
+        /* 말풍선 꼬리표 (위쪽 화살표 모양) */
         .info-tooltip::after {
             content: "";
             position: absolute;
-            top: 100%;
+            bottom: 100%;
             left: 50%;
             margin-left: -6px;
             border-width: 6px;
             border-style: solid;
-            border-color: #00ffe1 transparent transparent transparent;
+            border-color: transparent transparent #00ffe1 transparent;
         }
 
-        .info-icon:hover .info-tooltip {
+        /* JS로 제어할 노출 클래스 */
+        .info-tooltip.show {
             visibility: visible;
             opacity: 1;
         }
+
+        /* 툴팁 내부 리스트 강조 색상 */
+        .t-ss { color: #ffb84d; font-weight: bold; }
+        .t-s  { color: #fff176; font-weight: bold; }
+        .t-a  { color: #ff8a80; font-weight: bold; }
+        .t-b  { color: #81c784; font-weight: bold; }
+        .t-c  { color: #64b5f6; font-weight: bold; }
+        .t-d  { color: #bcaaa4; font-weight: bold; }
 
         #error { color: #ff9b9b; margin-top: 15px; }
         .result-box { margin-top: 25px; padding: 18px; border-radius: 12px; display: none; border: 1px solid; }
@@ -113,7 +126,25 @@
 <body>
 
 <div class="container">
-    <h1>OPS 등급 계산기</h1>
+    <div class="title-wrapper">
+        <h1>OPS 등급 계산기</h1>
+        <div class="info-icon" onclick="toggleTooltip(event)">
+            ?
+            <div class="info-tooltip" id="tooltip">
+                <span class="t-ss">SS (1.050)</span> : 역사에 남을 만한 시즌<br>
+                <span class="t-s">S+ (1.000)</span> : MVP급 시즌<br>
+                <span class="t-s">S (0.950)</span> : 리그 최상위권<br>
+                <span class="t-a">A+ (0.900)</span> : 리그 상위권<br>
+                <span class="t-a">A (0.850)</span> : 훌륭한 시즌<br>
+                <span class="t-b">B+ (0.800)</span> : 좋은 시즌<br>
+                <span class="t-b">B (0.750)</span> : 평균적인 지표<br>
+                <span class="t-c">C+ (0.700)</span> : 수비형 선수의 하한선<br>
+                <span class="t-c">C (0.650)</span> : 아쉬운 시즌<br>
+                <span class="t-d">D (0.600↓)</span> : 최악의 시즌
+            </div>
+        </div>
+    </div>
+
     <div class="labels">
         <div>타율</div>
         <div>출루율</div>
@@ -125,18 +156,7 @@
         <input id="slg" type="text" placeholder="0.000">
     </div>
     
-    <div class="btn-wrapper">
-        <button onclick="calculate()">계산하기</button>
-        <div class="info-icon">
-            ?
-            <span class="info-tooltip">
-                <strong>OPS (On-base Plus Slugging)</strong><br><br>
-                출루율과 장타율을 합친 값으로,<br>
-                타자의 득점 생산력을 직관적으로<br>
-                평가할 수 있는 대표적인 지표입니다.
-            </span>
-        </div>
-    </div>
+    <button onclick="calculate()">계산하기</button>
 
     <p id="error"></p>
     <div id="resultBox" class="result-box">
@@ -147,6 +167,22 @@
 
 <script>
     const inputs = ["avg", "obp", "slg"];
+
+    // 🔥 툴팁 클릭 이벤트
+    function toggleTooltip(event) {
+        event.stopPropagation(); // 클릭 이벤트가 부모로 전달되는 것 방지
+        document.getElementById('tooltip').classList.toggle('show');
+    }
+
+    // 화면의 다른 곳을 클릭하면 툴팁 닫기
+    document.addEventListener('click', function(event) {
+        const tooltip = document.getElementById('tooltip');
+        const icon = document.querySelector('.info-icon');
+        // 툴팁이 열려있고, 클릭한 곳이 아이콘 내부가 아니면 닫기
+        if (tooltip.classList.contains('show') && !icon.contains(event.target)) {
+            tooltip.classList.remove('show');
+        }
+    });
 
     function autoFormat(el) {
         let val = el.value.trim();
