@@ -2,263 +2,231 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>OPS 계산기</title>
+    <title>OPS 등급 계산기</title>
     <style>
-        body { background: #121212; color: #e8fefe; font-family: 'Segoe UI', Arial; text-align: center; }
-        .container { width: 520px; margin: 60px auto; padding: 40px; border-radius: 18px; background: #1a1a1a; border: 1px solid #2ee6c9; box-shadow: 0 0 30px rgba(0,255,200,0.25); }
+        body { background: #121212; color: #e8fefe; font-family: 'Segoe UI', Arial; text-align: center; overflow-x: hidden; }
         
-        /* 🔥 제목과 아이콘을 나란히 배치 */
-        .title-wrapper {
+        .container { 
+            position: relative; 
+            width: 520px; 
+            margin: 80px auto; 
+            padding: 40px; 
+            border-radius: 25px; 
+            background: #1a1a1a; 
+            border: 1px solid #2ee6c9; 
+            box-shadow: 0 0 40px rgba(0,255,200,0.15); 
+            z-index: 10;
+        }
+
+        /* 🔥 날아가는 야구공 애니메이션 */
+        #flyingBall {
+            position: absolute;
+            width: 45px;
+            z-index: 100;
+            display: none;
+            pointer-events: none;
+        }
+
+        @keyframes hitBall {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(900px, -300px) rotate(1080deg); opacity: 0; }
+        }
+
+        /* 📸 이미지 배치 (자연스러운 레이아웃) */
+        .deco-img { position: absolute; pointer-events: none; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
+        .img-mask { width: 100px; left: -110px; top: 10px; transform: rotate(-10deg); }
+        .img-glove { width: 120px; left: -130px; bottom: -20px; transform: rotate(15deg); }
+        .img-bat { width: 140px; right: -120px; top: -30px; transform: rotate(20deg); }
+        .img-ball-static { width: 50px; right: -100px; bottom: 20px; opacity: 0.8; }
+
+        /* 🔥 단계 선택 버튼 (내부 데이터 로드) */
+        .stage-selector {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 25px;
-            position: relative;
         }
-        h1 { color: #b9fff7; text-shadow: 0 0 12px #00ffe1; margin: 0; }
-
-        .labels { display: flex; justify-content: space-around; margin-bottom: 10px; color: #9efcff; }
-        .inputs { display: flex; justify-content: space-around; }
-        input { width: 120px; padding: 12px; background: #0f0f0f; border: 1px solid #3eeed2; border-radius: 8px; color: #b9fff7; text-align: center; font-size: 16px; }
-        input:focus { border: 1px solid #00ffe1; box-shadow: 0 0 12px #00ffe1; outline: none; }
-        
-        /* 🔥 넓어진 계산 버튼 */
-        button {
-            display: block;
-            margin: 25px auto 0;
-            width: 250px;
-            padding: 14px 25px;
-            font-size: 18px;
-            font-weight: bold;
-            background: transparent;
-            border: 1px solid #00ffe1;
-            color: #b9fff7;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-        button:hover { background: #00ffe1; color: black; box-shadow: 0 0 15px #00ffe1; }
-
-        /* 🔥 클릭형 동그란 설명 아이콘 */
-        .info-icon {
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: 2px solid #3eeed2;
-            color: #3eeed2;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer; /* 클릭 커서로 변경 */
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .info-icon:hover {
-            background: rgba(0, 255, 225, 0.2);
-            box-shadow: 0 0 10px #00ffe1;
-        }
-
-        /* 🔥 클릭 시 나타나는 말풍선(툴팁) */
-        .info-tooltip {
-            visibility: hidden;
-            opacity: 0;
-            width: 280px;
+        .stage-btn {
             background: #222;
-            color: #e8fefe;
-            text-align: left;
-            border-radius: 8px;
-            padding: 15px;
-            position: absolute;
-            z-index: 10;
-            top: 150%; /* 아이콘 아래쪽으로 배치 */
-            left: 50%;
-            transform: translateX(-50%);
-            border: 1px solid #00ffe1;
-            box-shadow: 0 0 15px rgba(0, 255, 225, 0.2);
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 1.6;
-            transition: opacity 0.2s;
-            text-shadow: none; /* h1 그림자 상속 방지 */
+            border: 1px solid #3eeed2;
+            color: #3eeed2;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
         }
+        .stage-btn:hover { background: #3eeed2; color: #111; }
+
+        /* 타이틀 & 툴팁 */
+        .title-wrapper { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px; }
+        h1 { color: #b9fff7; text-shadow: 0 0 15px #00ffe1; margin: 0; font-size: 28px; }
+        .info-icon { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #3eeed2; color: #3eeed2; cursor: pointer; font-weight: bold; line-height: 26px; }
+        .info-tooltip {
+            visibility: hidden; opacity: 0; width: 280px; background: #222; color: #fff;
+            text-align: left; border-radius: 10px; padding: 15px; position: absolute;
+            top: 60px; left: 50%; transform: translateX(-50%); border: 1px solid #00ffe1;
+            box-shadow: 0 0 20px rgba(0,255,225,0.3); font-size: 14px; line-height: 1.6; transition: 0.3s; z-index: 100;
+        }
+        .info-tooltip.show { visibility: visible; opacity: 1; }
+
+        /* 입력 및 라벨 */
+        .labels { display: flex; justify-content: space-around; margin-bottom: 8px; color: #9efcff; font-weight: bold; }
+        .inputs { display: flex; justify-content: space-around; }
+        input { width: 110px; padding: 12px; background: #080808; border: 1px solid #3eeed2; border-radius: 10px; color: #b9fff7; text-align: center; font-size: 18px; }
+        input:focus { border: 1px solid #00ffe1; box-shadow: 0 0 15px #00ffe1; outline: none; }
         
-        /* 말풍선 꼬리표 (위쪽 화살표 모양) */
-        .info-tooltip::after {
-            content: "";
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            margin-left: -6px;
-            border-width: 6px;
-            border-style: solid;
-            border-color: transparent transparent #00ffe1 transparent;
+        button#calcBtn {
+            display: block; margin: 30px auto 0; width: 320px; padding: 16px;
+            font-size: 20px; font-weight: bold; background: transparent;
+            border: 2px solid #00ffe1; color: #b9fff7; border-radius: 12px;
+            cursor: pointer; transition: 0.3s;
         }
+        button#calcBtn:hover { background: #00ffe1; color: black; box-shadow: 0 0 25px #00ffe1; }
 
-        /* JS로 제어할 노출 클래스 */
-        .info-tooltip.show {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* 툴팁 내부 리스트 강조 색상 */
-        .t-ss { color: #ffb84d; font-weight: bold; }
-        .t-s  { color: #fff176; font-weight: bold; }
-        .t-a  { color: #ff8a80; font-weight: bold; }
-        .t-b  { color: #81c784; font-weight: bold; }
-        .t-c  { color: #64b5f6; font-weight: bold; }
-        .t-d  { color: #bcaaa4; font-weight: bold; }
-
-        #error { color: #ff9b9b; margin-top: 15px; }
-        .result-box { margin-top: 25px; padding: 18px; border-radius: 12px; display: none; border: 1px solid; }
-        .ss { border-color: #ffb84d; color: #ffd699; box-shadow: 0 0 15px rgba(255, 184, 77, 0.2); }
-        .s  { border-color: #fff176; color: #fff9c4; box-shadow: 0 0 15px rgba(255, 241, 118, 0.2); }
-        .a  { border-color: #ff8a80; color: #ffcdd2; box-shadow: 0 0 15px rgba(255, 138, 128, 0.2); }
+        /* 결과창 스타일 */
+        .result-box { margin-top: 30px; padding: 20px; border-radius: 15px; display: none; border: 2px solid; }
+        .ss { border-color: #ffb84d; color: #ffd699; box-shadow: 0 0 20px rgba(255, 184, 77, 0.3); }
+        .s  { border-color: #fff176; color: #fff9c4; }
+        .a  { border-color: #ff8a80; color: #ffcdd2; }
         .b  { border-color: #81c784; color: #c8e6c9; }
         .c  { border-color: #64b5f6; color: #bbdefb; }
         .d  { border-color: #bcaaa4; color: #d7ccc8; }
-        .grade { font-size: 26px; font-weight: bold; }
+        .grade { font-size: 26px; font-weight: bold; margin-top: 8px; }
     </style>
 </head>
 <body>
 
+<img id="flyingBall" src="image-removebg-preview (4).png" alt="flying ball">
+
 <div class="container">
+    <img src="image-removebg-preview (2).png" class="deco-img img-mask" alt="mask">
+    <img src="image-removebg-preview.png" class="deco-img img-glove" alt="glove">
+    <img src="image-removebg-preview (1).png" class="deco-img img-bat" alt="bat">
+    <img src="image-removebg-preview (4).png" class="deco-img img-ball-static" alt="ball">
+
     <div class="title-wrapper">
         <h1>OPS 등급 계산기</h1>
-        <div class="info-icon" onclick="toggleTooltip(event)">
-            ?
-            <div class="info-tooltip" id="tooltip">
-                <span class="t-ss">SS (1.050)</span> : 역사에 남을 만한 시즌<br>
-                <span class="t-s">S+ (1.000)</span> : MVP급 시즌<br>
-                <span class="t-s">S (0.950)</span> : 리그 최상위권<br>
-                <span class="t-a">A+ (0.900)</span> : 리그 상위권<br>
-                <span class="t-a">A (0.850)</span> : 훌륭한 시즌<br>
-                <span class="t-b">B+ (0.800)</span> : 좋은 시즌<br>
-                <span class="t-b">B (0.750)</span> : 평균적인 지표<br>
-                <span class="t-c">C+ (0.700)</span> : 수비형 선수의 하한선<br>
-                <span class="t-c">C (0.650)</span> : 아쉬운 시즌<br>
-                <span class="t-d">D (0.600↓)</span> : 최악의 시즌
-            </div>
+        <div class="info-icon" onclick="toggleTooltip(event)">?</div>
+        <div class="info-tooltip" id="tooltip">
+            <b>SS (1.050)</b> : 역사에 남을 만한 시즌<br>
+            <b>S+ (1.000)</b> : MVP급 시즌<br>
+            <b>S (0.950)</b> : 리그 최상위권<br>
+            <b>A+ (0.900)</b> : 리그 상위권<br>
+            <b>A (0.850)</b> : 훌륭한 시즌<br>
+            <b>B+ (0.800)</b> : 좋은 시즌<br>
+            <b>B (0.750)</b> : 평균적인 지표<br>
+            <b>C+ (0.700)</b> : 수비형 선수의 하한선<br>
+            <b>C (0.650)</b> : 아쉬운 시즌<br>
+            <b>D (0.600↓)</b> : 최악의 시즌
         </div>
     </div>
 
+    <div class="stage-selector">
+        <button class="stage-btn" onclick="loadStage(1)">1단계</button>
+        <button class="stage-btn" onclick="loadStage(2)">2단계</button>
+        <button class="stage-btn" onclick="loadStage(3)">3단계</button>
+        <button class="stage-btn" onclick="loadStage(4)">4단계</button>
+        <button class="stage-btn" onclick="loadStage(5)">5단계</button>
+    </div>
+
     <div class="labels">
-        <div>타율</div>
-        <div>출루율</div>
-        <div>장타율</div>
+        <div>타율</div><div>출루율</div><div>장타율</div>
     </div>
     <div class="inputs">
-        <input id="avg" type="text" placeholder="0.000">
-        <input id="obp" type="text" placeholder="0.000">
-        <input id="slg" type="text" placeholder="0.000">
+        <input id="avg" type="text" placeholder=".000">
+        <input id="obp" type="text" placeholder=".000">
+        <input id="slg" type="text" placeholder=".000">
     </div>
     
-    <button onclick="calculate()">계산하기</button>
+    <button id="calcBtn" onclick="calculate()">기록 계산하기</button>
 
-    <p id="error"></p>
+    <p id="error" style="font-size: 14px; margin-top: 15px; color: #ff9b9b; height: 20px;"></p>
+    
     <div id="resultBox" class="result-box">
-        <p>OPS: <span id="ops"></span></p>
-        <p class="grade" id="grade"></p>
+        <p style="margin:0; opacity:0.8; font-size: 14px;">최종 OPS</p>
+        <span id="opsValue" style="font-size: 24px; font-weight: bold;"></span>
+        <div class="grade" id="gradeText"></div>
     </div>
 </div>
 
 <script>
-    const inputs = ["avg", "obp", "slg"];
+    // 🔥 요청하신 내부 데이터 저장
+    const stageData = {
+        1: { avg: 0.240, obp: 0.300, slg: 0.320 },
+        2: { avg: 0.260, obp: 0.330, slg: 0.370 },
+        3: { avg: 0.280, obp: 0.350, slg: 0.400 },
+        4: { avg: 0.300, obp: 0.400, slg: 0.500 },
+        5: { avg: 0.355, obp: 0.444, slg: 0.633 }
+    };
 
-    // 🔥 툴팁 클릭 이벤트
+    // 데이터 불러오기 함수
+    function loadStage(num) {
+        const data = stageData[num];
+        document.getElementById('avg').value = data.avg.toFixed(3);
+        document.getElementById('obp').value = data.obp.toFixed(3);
+        document.getElementById('slg').value = data.slg.toFixed(3);
+        calculate(); // 불러오자마자 바로 계산 실행
+    }
+
     function toggleTooltip(event) {
-        event.stopPropagation(); // 클릭 이벤트가 부모로 전달되는 것 방지
+        event.stopPropagation();
         document.getElementById('tooltip').classList.toggle('show');
     }
 
-    // 화면의 다른 곳을 클릭하면 툴팁 닫기
-    document.addEventListener('click', function(event) {
-        const tooltip = document.getElementById('tooltip');
-        const icon = document.querySelector('.info-icon');
-        // 툴팁이 열려있고, 클릭한 곳이 아이콘 내부가 아니면 닫기
-        if (tooltip.classList.contains('show') && !icon.contains(event.target)) {
-            tooltip.classList.remove('show');
-        }
-    });
-
-    function autoFormat(el) {
-        let val = el.value.trim();
-        if (val === "" || isNaN(val)) return;
-        let num = parseFloat(val);
-        el.value = num.toFixed(3);
-    }
-
-    inputs.forEach(id => {
-        let el = document.getElementById(id);
-        el.addEventListener("blur", function() { autoFormat(this); });
-        el.addEventListener("keydown", e => { if (e.key === "-") e.preventDefault(); });
-    });
-
-    function format(num) { return Number(num).toFixed(3); }
+    document.addEventListener('click', () => document.getElementById('tooltip').classList.remove('show'));
 
     function getGrade(ops) {
-        if (ops >= 1.050) return ["SS", "ss"];
-        if (ops >= 1.000) return ["S+", "s"];
-        if (ops >= 0.950) return ["S", "s"];
-        if (ops >= 0.900) return ["A+", "a"];
-        if (ops >= 0.850) return ["A", "a"];
-        if (ops >= 0.800) return ["B+", "b"];
-        if (ops >= 0.750) return ["B", "b"];
-        if (ops >= 0.700) return ["C+", "c"];
-        if (ops >= 0.650) return ["C", "c"];
-        if (ops >= 0.600) return ["D", "d"];
-        return ["D 이하", "d"];
+        if (ops >= 1.050) return ["SS - 역사에 남을 시즌", "ss"];
+        if (ops >= 1.000) return ["S+ - MVP급 시즌", "s"];
+        if (ops >= 0.950) return ["S - 리그 최상위권", "s"];
+        if (ops >= 0.900) return ["A+ - 리그 상위권", "a"];
+        if (ops >= 0.850) return ["A - 훌륭한 시즌", "a"];
+        if (ops >= 0.800) return ["B+ - 좋은 시즌", "b"];
+        if (ops >= 0.750) return ["B - 평균적인 지표", "b"];
+        if (ops >= 0.700) return ["C+ - 수비형 하한선", "c"];
+        if (ops >= 0.650) return ["C - 아쉬운 시즌", "c"];
+        return ["D - 최악의 시즌", "d"];
     }
 
     function calculate() {
-        inputs.forEach(id => autoFormat(document.getElementById(id)));
-
         let avg = parseFloat(document.getElementById("avg").value) || 0;
         let obp = parseFloat(document.getElementById("obp").value) || 0;
         let slg = parseFloat(document.getElementById("slg").value) || 0;
 
+        // 에러 체크
         let error = "";
-        if (avg > 1) error += "타율이 1을 넘었습니다!<br>";
-        if (obp > 1) error += "출루율이 1을 넘었습니다!<br>";
-        if (slg > 4) error += "장타율이 4를 넘었습니다!<br>";
-        if (avg > slg) error += "타율이 장타율보다 큽니다!<br>";
-
+        if (avg > 1 || obp > 1) error = "타율/출루율은 1을 넘을 수 없습니다.";
+        if (avg > slg && slg > 0) error = "타율이 장타율보다 높을 수 없습니다.";
+        
         if (error !== "") {
-            document.getElementById("error").innerHTML = error;
+            document.getElementById("error").innerText = error;
             document.getElementById("resultBox").style.display = "none";
             return;
         }
+        document.getElementById("error").innerText = "";
 
-        document.getElementById("error").innerHTML = "";
+        // 🔥 야구공 날리기 애니메이션
+        const ball = document.getElementById('flyingBall');
+        ball.style.display = 'block';
+        ball.style.left = '380px'; 
+        ball.style.top = '320px';
+        ball.style.animation = 'none';
+        ball.offsetHeight; 
+        ball.style.animation = 'hitBall 0.7s ease-out forwards';
+
+        // 계산 결과 반영
         let ops = obp + slg;
-        let [gradeText, gradeClass] = getGrade(ops);
-
-        let box = document.getElementById("resultBox");
-        document.getElementById("ops").innerText = format(ops);
-        document.getElementById("grade").innerText = gradeText;
-
-        box.className = "result-box";
-        box.classList.add(gradeClass);
-        box.style.display = "block";
+        let [text, cls] = getGrade(ops);
+        
+        setTimeout(() => {
+            document.getElementById("opsValue").innerText = ops.toFixed(3);
+            document.getElementById("gradeText").innerText = text;
+            const box = document.getElementById("resultBox");
+            box.className = "result-box " + cls;
+            box.style.display = "block";
+        }, 200);
     }
-
-    document.addEventListener("keydown", function(event) {
-        let active = document.activeElement;
-        let index = inputs.indexOf(active.id);
-
-        if (event.key === "ArrowRight" && index < inputs.length - 1) {
-            document.getElementById(inputs[index + 1]).focus();
-        }
-        if (event.key === "ArrowLeft" && index > 0) {
-            document.getElementById(inputs[index - 1]).focus();
-        }
-        if (event.key === "Enter") {
-            calculate();
-        }
-    });
 </script>
 
 </body>
