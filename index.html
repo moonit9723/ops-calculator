@@ -500,15 +500,28 @@
         let ops = obp + slg;
         let [gradeText, gradeClass] = getGrade(ops);
 
-        // 5+단계 개수 계산
+        // 5+단계 개수 & 1단계 개수 계산
         const plusCount = inputIds.filter(id => {
             const val = parseFloat(document.getElementById(id).value) || 0;
             return getStage(id, val) === 6;
         }).length;
 
+        const oneCount = inputIds.filter(id => {
+            const val = parseFloat(document.getElementById(id).value) || 0;
+            return getStage(id, val) === 1;
+        }).length;
+
         let specialMsg = '';
 
-        if (plusCount >= 2) {
+        if (plusCount >= 2 && oneCount >= 1) {
+            // 2개 5+ + 1개 1단계 → A 고정 + 야박 메시지
+            gradeText = "A - 훌륭한 시즌";
+            gradeClass = "a";
+            specialMsg = "2개의 분야에서 최고를 받았는데.. 너무 야박한거 아닌가요?";
+        } else if (plusCount >= 1 && oneCount >= 1) {
+            // 5+와 1단계 동시 → 등급 유지 + 자신만의 색 메시지
+            specialMsg = "그는 심각한 단점과 장점으로 자신만의 색의 야구를 했습니다";
+        } else if (plusCount >= 2) {
             // 2개 이상 5+: 무조건 SS+
             gradeText = "SS+ - 미친 시즌";
             gradeClass = "ss";
@@ -517,21 +530,42 @@
             // 1개 5+: 한 등급 업
             const idx = gradeList.findIndex(g => g[0] === gradeText);
             if (idx === gradeList.length - 1) {
-                // 이미 SS: SS+로
                 gradeText = "SS+ - 미친 시즌";
                 gradeClass = "ss";
-                specialMsg = "그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!";
             } else {
                 const upgraded = gradeList[idx + 1];
                 gradeText = upgraded[0];
                 gradeClass = upgraded[1];
-                specialMsg = "그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!";
             }
+            specialMsg = "그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!";
+        } else if (oneCount >= 1) {
+            // 1단계 1개 이상: 한 등급 다운
+            const idx = gradeList.findIndex(g => g[0] === gradeText);
+            if (idx > 0) {
+                const downgraded = gradeList[idx - 1];
+                gradeText = downgraded[0];
+                gradeClass = downgraded[1];
+            }
+            specialMsg = "그는 심각한 단점으로 좋지 않은 시즌을 보냈습니다...";
         }
 
         const msgEl = document.getElementById('specialMsg');
         if (specialMsg) {
             msgEl.textContent = specialMsg;
+            // 메시지 종류에 따라 색상 분기
+            if (specialMsg.includes('야박')) {
+                msgEl.style.color = '#ff8a80';
+                msgEl.style.textShadow = '0 0 8px #ff8a8088';
+            } else if (specialMsg.includes('단점과 장점')) {
+                msgEl.style.color = '#b39ddb';
+                msgEl.style.textShadow = '0 0 8px #b39ddb88';
+            } else if (specialMsg.includes('단점')) {
+                msgEl.style.color = '#ff9b9b';
+                msgEl.style.textShadow = '0 0 8px #ff9b9b88';
+            } else {
+                msgEl.style.color = '#ffb84d';
+                msgEl.style.textShadow = '0 0 8px #ffb84d88';
+            }
             msgEl.style.display = 'block';
         } else {
             msgEl.style.display = 'none';
