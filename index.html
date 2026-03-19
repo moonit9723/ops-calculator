@@ -167,6 +167,58 @@
 
         .grade { font-size: 32px; font-weight: bold; margin-top: 10px; }
         #error { color: #ff9b9b; margin-top: 15px; font-weight: bold; }
+
+        /* 단계 표시 */
+        #stageSection {
+            border-top: 1px solid #2a4444;
+            padding-top: 16px;
+        }
+        .stage-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .stage-label {
+            width: 42px;
+            text-align: right;
+            font-size: 13px;
+            color: #7ecfcf;
+            flex-shrink: 0;
+        }
+        .stage-dots {
+            display: flex;
+            gap: 5px;
+            flex: 1;
+        }
+        .stage-dot {
+            flex: 1;
+            height: 10px;
+            border-radius: 4px;
+            background: #1f3333;
+            border: 1px solid #2a5555;
+            transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        .stage-dot.active-1 { background: #bcaaa4; border-color: #bcaaa4; }
+        .stage-dot.active-2 { background: #64b5f6; border-color: #64b5f6; box-shadow: 0 0 4px #64b5f6aa; }
+        .stage-dot.active-3 { background: #81c784; border-color: #81c784; box-shadow: 0 0 4px #81c784aa; }
+        .stage-dot.active-4 { background: #ff8a80; border-color: #ff8a80; box-shadow: 0 0 4px #ff8a80aa; }
+        .stage-dot.active-5 { background: #fff176; border-color: #fff176; box-shadow: 0 0 6px #fff176bb; }
+        .stage-dot.active-6 { background: #ffb84d; border-color: #ffb84d; box-shadow: 0 0 8px #ffb84dcc; }
+        .stage-num {
+            width: 36px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: left;
+            flex-shrink: 0;
+        }
+        .stage-num.sn-0 { color: #4a7070; }
+        .stage-num.sn-1 { color: #bcaaa4; }
+        .stage-num.sn-2 { color: #64b5f6; }
+        .stage-num.sn-3 { color: #81c784; }
+        .stage-num.sn-4 { color: #ff8a80; }
+        .stage-num.sn-5 { color: #fff176; }
+        .stage-num.sn-6 { color: #ffb84d; }
     </style>
 </head>
 <body>
@@ -223,6 +275,24 @@
         <p style="font-size: 18px; margin:0; opacity: 0.8;">최종 OPS</p>
         <span id="ops" style="font-size: 26px; font-weight: bold;"></span>
         <div class="grade" id="grade"></div>
+    </div>
+
+    <div id="stageSection" style="display:none; margin-top: 20px;">
+        <div class="stage-row">
+            <span class="stage-label">타율</span>
+            <div class="stage-dots" id="stage-avg"></div>
+            <span class="stage-num" id="stagenum-avg"></span>
+        </div>
+        <div class="stage-row">
+            <span class="stage-label">출루율</span>
+            <div class="stage-dots" id="stage-obp"></div>
+            <span class="stage-num" id="stagenum-obp"></span>
+        </div>
+        <div class="stage-row">
+            <span class="stage-label">장타율</span>
+            <div class="stage-dots" id="stage-slg"></div>
+            <span class="stage-num" id="stagenum-slg"></span>
+        </div>
     </div>
 </div>
 
@@ -292,6 +362,37 @@
         e.preventDefault();
         changeValue(focused, e.deltaY < 0 ? 1 : -1);
     }, { passive: false });
+
+    /* ── 단계 커트라인 ── */
+    const stageCuts = {
+        avg: [0.240, 0.260, 0.280, 0.300, 0.355],
+        obp: [0.300, 0.330, 0.350, 0.400, 0.444],
+        slg: [0.320, 0.370, 0.400, 0.500, 0.633]
+    };
+
+    function getStage(id, val) {
+        const cuts = stageCuts[id];
+        let stage = 1; // 기본 1단계 (모든 커트라인 미달)
+        for (let i = 0; i < cuts.length; i++) {
+            if (val >= cuts[i]) stage = i + 2; // 커트라인 통과마다 +1
+        }
+        return stage; // 1~6단계
+    }
+
+    function updateStage(id) {
+        const val = parseFloat(document.getElementById(id).value) || 0;
+        const stage = getStage(id, val);
+        const container = document.getElementById('stage-' + id);
+        const numEl = document.getElementById('stagenum-' + id);
+        container.innerHTML = '';
+        for (let i = 1; i <= 6; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'stage-dot' + (i <= stage ? ' active-' + stage : '');
+            container.appendChild(dot);
+        }
+        numEl.textContent = stage + '단계';
+        numEl.className = 'stage-num sn-' + stage;
+    }
 
     /* ── 값 조절 공통 함수 ── */
     function changeValue(id, direction) {
@@ -375,6 +476,8 @@
         }
 
         document.getElementById("error").innerHTML = "";
+        inputIds.forEach(id => updateStage(id));
+        document.getElementById('stageSection').style.display = 'block';
         let ops = obp + slg;
         let [gradeText, gradeClass] = getGrade(ops);
 
