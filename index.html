@@ -1,132 +1,46 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>OPS 계산기</title>
-
-<style>
-body {
-    background: #121212;
-    color: #e8fefe;
-    font-family: 'Segoe UI', Arial;
-    text-align: center;
-}
-
-.container {
-    width: 520px; /* 🔥 더 크게 */
-    margin: 60px auto;
-    padding: 40px;
-    border-radius: 18px;
-    background: #1a1a1a;
-    border: 1px solid #2ee6c9;
-    box-shadow: 0 0 30px rgba(0,255,200,0.25);
-}
-
-h1 {
-    color: #b9fff7;
-    text-shadow: 0 0 12px #00ffe1;
-    margin-bottom: 25px;
-}
-
-/* 라벨 */
-.labels {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
-    color: #9efcff;
-}
-
-/* 입력창 */
-.inputs {
-    display: flex;
-    justify-content: space-around;
-}
-
-input {
-    width: 120px;
-    padding: 12px;
-    background: #0f0f0f;
-    border: 1px solid #3eeed2;
-    border-radius: 8px;
-    color: #b9fff7;
-    text-align: center;
-    font-size: 16px;
-}
-
-input:focus {
-    border: 1px solid #00ffe1;
-    box-shadow: 0 0 12px #00ffe1;
-}
-
-/* 버튼 */
-button {
-    margin-top: 25px;
-    padding: 12px 25px;
-    background: transparent;
-    border: 1px solid #00ffe1;
-    color: #b9fff7;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #00ffe1;
-    color: black;
-    box-shadow: 0 0 15px #00ffe1;
-}
-
-#error {
-    color: #ff9b9b;
-    margin-top: 12px;
-}
-
-.result-box {
-    margin-top: 25px;
-    padding: 18px;
-    border-radius: 12px;
-    display: none;
-    border: 1px solid;
-}
-
-/* 등급 색 */
-.ss { border-color: #ffb84d; color: #ffd699; }
-.s  { border-color: #fff176; color: #fff9c4; }
-.a  { border-color: #ff8a80; color: #ffcdd2; }
-.b  { border-color: #81c784; color: #c8e6c9; }
-.c  { border-color: #64b5f6; color: #bbdefb; }
-.d  { border-color: #bcaaa4; color: #d7ccc8; }
-
-.grade {
-    font-size: 26px;
-    font-weight: bold;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>OPS 계산기</title>
+    <style>
+        body { background: #121212; color: #e8fefe; font-family: 'Segoe UI', Arial; text-align: center; }
+        .container { width: 520px; margin: 60px auto; padding: 40px; border-radius: 18px; background: #1a1a1a; border: 1px solid #2ee6c9; box-shadow: 0 0 30px rgba(0,255,200,0.25); }
+        h1 { color: #b9fff7; text-shadow: 0 0 12px #00ffe1; margin-bottom: 25px; }
+        .labels { display: flex; justify-content: space-around; margin-bottom: 10px; color: #9efcff; }
+        .inputs { display: flex; justify-content: space-around; }
+        /* input type을 text로 변경 (0.280 같은 포맷 유지를 위해) */
+        input { width: 120px; padding: 12px; background: #0f0f0f; border: 1px solid #3eeed2; border-radius: 8px; color: #b9fff7; text-align: center; font-size: 16px; }
+        input:focus { border: 1px solid #00ffe1; box-shadow: 0 0 12px #00ffe1; }
+        button { margin-top: 25px; padding: 12px 25px; background: transparent; border: 1px solid #00ffe1; color: #b9fff7; border-radius: 8px; cursor: pointer; }
+        button:hover { background: #00ffe1; color: black; box-shadow: 0 0 15px #00ffe1; }
+        #error { color: #ff9b9b; margin-top: 12px; }
+        .result-box { margin-top: 25px; padding: 18px; border-radius: 12px; display: none; border: 1px solid; }
+        .ss { border-color: #ffb84d; color: #ffd699; }
+        .s  { border-color: #fff176; color: #fff9c4; }
+        .a  { border-color: #ff8a80; color: #ffcdd2; }
+        .b  { border-color: #81c784; color: #c8e6c9; }
+        .c  { border-color: #64b5f6; color: #bbdefb; }
+        .d  { border-color: #bcaaa4; color: #d7ccc8; }
+        .grade { font-size: 26px; font-weight: bold; }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
     <h1>OPS 등급 계산기</h1>
-
-    <!-- 🔥 라벨 -->
     <div class="labels">
         <div>타율</div>
         <div>출루율</div>
         <div>장타율</div>
     </div>
-
-    <!-- 🔥 입력 -->
     <div class="inputs">
-        <input id="avg" type="number" step="0.001" min="0">
-        <input id="obp" type="number" step="0.001" min="0">
-        <input id="slg" type="number" step="0.001" min="0">
+        <input id="avg" type="text" placeholder="0.000">
+        <input id="obp" type="text" placeholder="0.000">
+        <input id="slg" type="text" placeholder="0.000">
     </div>
-
-    <!-- 🔥 버튼 -->
     <button onclick="calculate()">계산</button>
-
     <p id="error"></p>
-
     <div id="resultBox" class="result-box">
         <p>OPS: <span id="ops"></span></p>
         <p class="grade" id="grade"></p>
@@ -134,93 +48,102 @@ button:hover {
 </div>
 
 <script>
-const inputs = ["avg", "obp", "slg"];
+    const inputs = ["avg", "obp", "slg"];
 
-// 음수 차단
-inputs.forEach(id => {
-    let el = document.getElementById(id);
+    // 자동 포맷팅 함수 (소수점 3자리 고정)
+    function autoFormat(el) {
+        let val = el.value.trim();
+        if (val === "" || isNaN(val)) return;
+        
+        // 숫자로 변환 후 소수점 3자리 문자열로 고정
+        let num = parseFloat(val);
+        el.value = num.toFixed(3);
+    }
 
-    el.addEventListener("keydown", e => {
-        if (e.key === "-") e.preventDefault();
+    inputs.forEach(id => {
+        let el = document.getElementById(id);
+
+        // 1. 입력 칸을 벗어날 때 자동 포맷팅
+        el.addEventListener("blur", function() {
+            autoFormat(this);
+        });
+
+        // 2. 음수 입력 방지 및 숫자 관련 키 제어
+        el.addEventListener("keydown", e => {
+            if (e.key === "-") e.preventDefault();
+        });
     });
 
-    el.addEventListener("input", function() {
-        if (this.value < 0) this.value = 0;
+    function format(num) {
+        return Number(num).toFixed(3);
+    }
+
+    function getGrade(ops) {
+        if (ops >= 1.050) return ["SS", "ss"];
+        if (ops >= 1.000) return ["S+", "s"];
+        if (ops >= 0.950) return ["S", "s"];
+        if (ops >= 0.900) return ["A+", "a"];
+        if (ops >= 0.850) return ["A", "a"];
+        if (ops >= 0.800) return ["B+", "b"];
+        if (ops >= 0.750) return ["B", "b"];
+        if (ops >= 0.700) return ["C+", "c"];
+        if (ops >= 0.650) return ["C", "c"];
+        if (ops >= 0.600) return ["D", "d"];
+        return ["D 이하", "d"];
+    }
+
+    function calculate() {
+        // 계산 전 모든 입력창 포맷팅 강제 적용
+        inputs.forEach(id => autoFormat(document.getElementById(id)));
+
+        let avg = parseFloat(document.getElementById("avg").value) || 0;
+        let obp = parseFloat(document.getElementById("obp").value) || 0;
+        let slg = parseFloat(document.getElementById("slg").value) || 0;
+
+        let error = "";
+        if (avg > 1) error += "타율이 1을 넘었습니다!<br>";
+        if (obp > 1) error += "출루율이 1을 넘었습니다!<br>";
+        if (slg > 4) error += "장타율이 4를 넘었습니다!<br>";
+        if (avg > slg) error += "타율이 장타율보다 큽니다!<br>";
+
+        if (error !== "") {
+            document.getElementById("error").innerHTML = error;
+            document.getElementById("resultBox").style.display = "none";
+            return;
+        }
+
+        document.getElementById("error").innerHTML = "";
+        let ops = obp + slg;
+        let [gradeText, gradeClass] = getGrade(ops);
+
+        let box = document.getElementById("resultBox");
+        document.getElementById("ops").innerText = format(ops);
+        document.getElementById("grade").innerText = gradeText;
+
+        box.className = "result-box";
+        box.classList.add(gradeClass);
+        box.style.display = "block";
+    }
+
+    // 키보드 이벤트
+    document.addEventListener("keydown", function(event) {
+        let active = document.activeElement;
+        let index = inputs.indexOf(active.id);
+
+        if (event.key === "ArrowRight") {
+            if (index < inputs.length - 1) {
+                document.getElementById(inputs[index + 1]).focus();
+            }
+        }
+        if (event.key === "ArrowLeft") {
+            if (index > 0) {
+                document.getElementById(inputs[index - 1]).focus();
+            }
+        }
+        if (event.key === "Enter") {
+            calculate();
+        }
     });
-});
-
-function format(num) {
-    return Number(num).toFixed(3); // 🔥 소수점 3자리
-}
-
-function getGrade(ops) {
-    if (ops >= 1.050) return ["SS", "ss"];
-    if (ops >= 1.000) return ["S+", "s"];
-    if (ops >= 0.950) return ["S", "s"];
-    if (ops >= 0.900) return ["A+", "a"];
-    if (ops >= 0.850) return ["A", "a"];
-    if (ops >= 0.800) return ["B+", "b"];
-    if (ops >= 0.750) return ["B", "b"];
-    if (ops >= 0.700) return ["C+", "c"];
-    if (ops >= 0.650) return ["C", "c"];
-    if (ops >= 0.600) return ["D", "d"];
-    return ["D 이하", "d"];
-}
-
-function calculate() {
-    let avg = parseFloat(document.getElementById("avg").value) || 0;
-    let obp = parseFloat(document.getElementById("obp").value) || 0;
-    let slg = parseFloat(document.getElementById("slg").value) || 0;
-
-    let error = "";
-
-    if (avg > 1) error += "타율이 1을 넘었습니다!<br>";
-    if (obp > 1) error += "출루율이 1을 넘었습니다!<br>";
-    if (slg > 4) error += "장타율이 4를 넘었습니다!<br>";
-    if (avg > slg) error += "타율이 장타율보다 큽니다!<br>";
-
-    if (error !== "") {
-        document.getElementById("error").innerHTML = error;
-        document.getElementById("resultBox").style.display = "none";
-        return;
-    }
-
-    document.getElementById("error").innerHTML = "";
-
-    let ops = obp + slg;
-    let [gradeText, gradeClass] = getGrade(ops);
-
-    let box = document.getElementById("resultBox");
-
-    document.getElementById("ops").innerText = format(ops); // 🔥 3자리 적용
-    document.getElementById("grade").innerText = gradeText;
-
-    box.className = "result-box";
-    box.classList.add(gradeClass);
-    box.style.display = "block";
-}
-
-// 키보드
-document.addEventListener("keydown", function(event) {
-    let active = document.activeElement;
-    let index = inputs.indexOf(active.id);
-
-    if (event.key === "ArrowRight") {
-        if (index < inputs.length - 1) {
-            document.getElementById(inputs[index + 1]).focus();
-        }
-    }
-
-    if (event.key === "ArrowLeft") {
-        if (index > 0) {
-            document.getElementById(inputs[index - 1]).focus();
-        }
-    }
-
-    if (event.key === "Enter") {
-        calculate();
-    }
-});
 </script>
 
 </body>
