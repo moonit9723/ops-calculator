@@ -38,6 +38,19 @@
             font-weight: bold;
             cursor: pointer;
             user-select: none;
+            transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+        }
+        .info-icon:hover {
+            background: #3eeed2;
+            color: #121212;
+            border-color: #3eeed2;
+            box-shadow: 0 0 12px #3eeed2aa;
+        }
+        .info-icon.pinned {
+            background: #3eeed2;
+            color: #121212;
+            border-color: #3eeed2;
+            box-shadow: 0 0 12px #3eeed2aa;
         }
 
         .info-tooltip {
@@ -161,7 +174,7 @@
 <div class="container">
     <div class="title-wrapper">
         <h1>OPS 등급 계산기</h1>
-        <div class="info-icon" onclick="toggleTooltip(event)">
+        <div class="info-icon" onclick="toggleTooltip(event)" onmouseenter="hoverTooltip(true)" onmouseleave="hoverTooltip(false)">
             ?
             <div class="info-tooltip" id="tooltip">
                 <span class="t-ss">SS (1.050)</span> : 역사에 남을 만한 시즌<br>
@@ -216,14 +229,27 @@
 <script>
     const inputIds = ["avg", "obp", "slg"];
 
-    /* ── 툴팁 ── */
+    /* ── 툴팁: 호버시 표시, 클릭시 고정 ── */
+    let tooltipPinned = false;
+
+    function hoverTooltip(entering) {
+        if (tooltipPinned) return;
+        document.getElementById('tooltip').classList.toggle('show', entering);
+    }
+
     function toggleTooltip(event) {
         event.stopPropagation();
-        document.getElementById('tooltip').classList.toggle('show');
+        tooltipPinned = !tooltipPinned;
+        document.getElementById('tooltip').classList.toggle('show', tooltipPinned);
+        event.currentTarget.classList.toggle('pinned', tooltipPinned);
     }
+
     document.addEventListener('click', function(event) {
-        if (!event.target.closest('.info-icon'))
+        if (!event.target.closest('.info-icon')) {
+            tooltipPinned = false;
             document.getElementById('tooltip').classList.remove('show');
+            document.querySelector('.info-icon').classList.remove('pinned');
+        }
     });
 
     /* ── 포커스 래퍼 강조 ── */
@@ -339,6 +365,7 @@
 
         let error = "";
         if (avg > 1 || obp > 1) error = "타율/출루율은 1을 넘을 수 없습니다.";
+        else if (slg > 4) error = "장타율은 4를 넘을 수 없습니다.";
         else if (avg > slg && slg > 0) error = "타율이 장타율보다 높을 수 없습니다.";
 
         if (error !== "") {
