@@ -103,7 +103,7 @@
             padding: 0;
             line-height: 1;
             opacity: 0.35;
-            pointer-events: none;
+            pointer-events: auto;
         }
         /* 포커스 된 래퍼의 화살표 버튼만 활성 */
         .input-wrapper.focused .arrow-btn {
@@ -154,11 +154,28 @@
 
         .grade { font-size: 32px; font-weight: bold; margin-top: 10px; }
         #error { color: #ff9b9b; margin-top: 15px; font-weight: bold; }
+
+        .copy-btn {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: transparent;
+            border: 1px solid #3eeed2;
+            border-radius: 7px;
+            color: #3eeed2;
+            font-size: 12px;
+            padding: 5px 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: auto; margin: 0;
+        }
+        .copy-btn:hover { background: #00ffe122; box-shadow: 0 0 8px #00ffe188; }
+        .copy-btn.copied { border-color: #81c784; color: #81c784; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <button class="copy-btn" onclick="copyCode(this)">코드 복사</button>
     <div class="title-wrapper">
         <h1>OPS 등급 계산기</h1>
         <div class="info-icon" onclick="toggleTooltip(event)">
@@ -179,7 +196,7 @@
     </div>
 
     <div class="key-hint">
-        <kbd>←</kbd> <kbd>→</kbd> 입력창 이동 &nbsp;|&nbsp; <kbd>↑</kbd> <kbd>↓</kbd> 값 0.001 조절 &nbsp;|&nbsp; <kbd>Enter</kbd> 계산
+        <kbd>←</kbd> <kbd>→</kbd> 입력창 이동 &nbsp;|&nbsp; <kbd>↑</kbd> <kbd>↓</kbd> 또는 🖱️ 휠로 값 0.001 조절 &nbsp;|&nbsp; <kbd>Enter</kbd> 계산
     </div>
 
     <div class="labels">
@@ -187,19 +204,19 @@
     </div>
     <div class="inputs">
         <div class="input-wrapper" id="wrap-avg">
-            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',1)">▲</button>
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button>
             <input id="avg" type="text" placeholder=".000">
-            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',-1)">▼</button>
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button>
         </div>
         <div class="input-wrapper" id="wrap-obp">
-            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'obp',1)">▲</button>
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'obp',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button>
             <input id="obp" type="text" placeholder=".000">
-            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'obp',-1)">▼</button>
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'obp',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button>
         </div>
         <div class="input-wrapper" id="wrap-slg">
-            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'slg',1)">▲</button>
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'slg',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button>
             <input id="slg" type="text" placeholder=".000">
-            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'slg',-1)">▼</button>
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'slg',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button>
         </div>
     </div>
     
@@ -247,56 +264,67 @@
         });
 
         el.addEventListener('blur', function() { autoFormat(this); });
+
         el.addEventListener('keydown', function(e) {
             const idx = inputIds.indexOf(id);
-
             if (e.key === '-') { e.preventDefault(); return; }
-
-            /* 좌우 화살표: 입력창 이동 */
-            if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                const prev = inputIds[idx - 1];
-                if (prev) document.getElementById(prev).focus();
-                return;
-            }
-            if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                const next = inputIds[idx + 1];
-                if (next) document.getElementById(next).focus();
-                return;
-            }
-
-            /* 위아래 화살표: 값 0.001 조절 */
-            if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                changeValue(id, 1);
-                return;
-            }
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                changeValue(id, -1);
-                return;
-            }
-
+            if (e.key === 'ArrowLeft') { e.preventDefault(); const prev = inputIds[idx-1]; if (prev) document.getElementById(prev).focus(); return; }
+            if (e.key === 'ArrowRight') { e.preventDefault(); const next = inputIds[idx+1]; if (next) document.getElementById(next).focus(); return; }
+            if (e.key === 'ArrowUp') { e.preventDefault(); changeValue(id, 1); return; }
+            if (e.key === 'ArrowDown') { e.preventDefault(); changeValue(id, -1); return; }
             if (e.key === 'Enter') { calculate(); return; }
         });
     });
+
+    /* ── 휠: 포커스된 입력창이면 커서 위치 무관 작동 ── */
+    window.addEventListener('wheel', function(e) {
+        const focused = inputIds.find(i => document.getElementById(i) === document.activeElement);
+        if (!focused) return;
+        e.preventDefault();
+        changeValue(focused, e.deltaY < 0 ? 1 : -1);
+    }, { passive: false });
 
     /* ── 값 조절 공통 함수 ── */
     function changeValue(id, direction) {
         const el = document.getElementById(id);
         let val = parseFloat(el.value) || 0;
         val = Math.round((val + direction * 0.001) * 1000) / 1000;
-        val = Math.max(0, Math.min(id === 'slg' ? 4 : 1, val)); // slg는 최대 4
+        val = Math.max(0, Math.min(id === 'slg' ? 4 : 1, val));
         el.value = val.toFixed(3);
     }
 
-    /* ── 마우스 클릭 화살표 버튼 ── */
+    /* ── 화살표 버튼 꾹 누르기: 가속 지원 ── */
+    let holdTimer = null;
+    let holdInterval = null;
+    let holdCount = 0;
+
     function stepValue(event, id, direction) {
-        event.preventDefault(); // blur 방지
+        event.preventDefault();
         document.getElementById(id).focus();
         changeValue(id, direction);
+
+        holdCount = 0;
+        clearTimeout(holdTimer);
+        clearInterval(holdInterval);
+
+        holdTimer = setTimeout(() => {
+            holdInterval = setInterval(() => {
+                holdCount++;
+                // 0.5초 후 빠르게, 2초 후 더 빠르게
+                const speed = holdCount > 40 ? 5 : holdCount > 15 ? 3 : 1;
+                for (let i = 0; i < speed; i++) changeValue(id, direction);
+            }, 50);
+        }, 400);
     }
+
+    function stopStep() {
+        clearTimeout(holdTimer);
+        clearInterval(holdInterval);
+        holdCount = 0;
+    }
+
+    document.addEventListener('mouseup', stopStep);
+    document.addEventListener('mouseleave', stopStep);
 
     /* ── 포맷 ── */
     function autoFormat(el) {
@@ -346,6 +374,19 @@
 
         box.className = "result-box " + gradeClass;
         box.style.display = "block";
+    }
+
+    /* ── 코드 복사 ── */
+    function copyCode(btn) {
+        const code = document.documentElement.outerHTML;
+        navigator.clipboard.writeText(code).then(() => {
+            btn.textContent = "✓ 복사됨!";
+            btn.classList.add("copied");
+            setTimeout(() => {
+                btn.textContent = "코드 복사";
+                btn.classList.remove("copied");
+            }, 2000);
+        });
     }
 </script>
 
