@@ -1,57 +1,103 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>OPS 계산기</title>
-    <style>
-        body { font-family: Arial; text-align: center; }
-        input { margin: 5px; padding: 8px; width: 100px; text-align: center; }
-        table { margin: auto; border-collapse: collapse; margin-top: 20px; }
-        td, th { border: 1px solid black; padding: 10px; }
-    </style>
+<meta charset="UTF-8">
+<title>OPS 계산기</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Arial;
+    background: #f4f6f9;
+    text-align: center;
+}
+
+.container {
+    width: 400px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+h1 { margin-bottom: 20px; }
+
+input {
+    width: 100px;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+#error { color: red; }
+
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    display: none;
+    color: white;
+    font-weight: bold;
+}
+
+/* 색상 */
+.ss { background: orange; }
+.s { background: gold; color: black; }
+.a { background: red; }
+.b { background: green; }
+.c { background: blue; }
+.d { background: brown; }
+
+</style>
 </head>
+
 <body>
 
-<h1>선수 OPS 등급 계산기</h1>
+<div class="container">
+    <h1>OPS 등급 계산기</h1>
 
-<input type="number" step="0.001" id="avg" placeholder="타율">
-<input type="number" step="0.001" id="obp" placeholder="출루율">
-<input type="number" step="0.001" id="slg" placeholder="장타율">
+    <input id="avg" type="number" step="0.001" placeholder="타율">
+    <input id="obp" type="number" step="0.001" placeholder="출루율">
+    <input id="slg" type="number" step="0.001" placeholder="장타율">
 
-<p id="error" style="color:red;"></p>
+    <br>
+    <button onclick="calculate()">계산</button>
 
-<table id="result" style="display:none;">
-    <tr>
-        <th>타율</th>
-        <th>출루율</th>
-        <th>장타율</th>
-        <th>OPS</th>
-        <th>등급</th>
-    </tr>
-    <tr>
-        <td id="r_avg"></td>
-        <td id="r_obp"></td>
-        <td id="r_slg"></td>
-        <td id="r_ops"></td>
-        <td id="r_grade"></td>
-    </tr>
-</table>
+    <p id="error"></p>
+
+    <div id="resultBox" class="result-box">
+        OPS: <span id="ops"></span><br>
+        등급: <span id="grade"></span>
+    </div>
+</div>
 
 <script>
 const inputs = ["avg", "obp", "slg"];
 
 function getGrade(ops) {
-    if (ops >= 1.050) return "SS";
-    if (ops >= 1.000) return "S+";
-    if (ops >= 0.950) return "S";
-    if (ops >= 0.900) return "A+";
-    if (ops >= 0.850) return "A";
-    if (ops >= 0.800) return "B+";
-    if (ops >= 0.750) return "B (평균)";
-    if (ops >= 0.700) return "C+";
-    if (ops >= 0.650) return "C";
-    if (ops >= 0.600) return "D";
-    return "D 이하";
+    if (ops >= 1.050) return ["SS", "ss"];
+    if (ops >= 1.000) return ["S+", "s"];
+    if (ops >= 0.950) return ["S", "s"];
+    if (ops >= 0.900) return ["A+", "a"];
+    if (ops >= 0.850) return ["A", "a"];
+    if (ops >= 0.800) return ["B+", "b"];
+    if (ops >= 0.750) return ["B", "b"];
+    if (ops >= 0.700) return ["C+", "c"];
+    if (ops >= 0.650) return ["C", "c"];
+    if (ops >= 0.600) return ["D", "d"];
+    return ["D 이하", "d"];
 }
 
 function calculate() {
@@ -68,25 +114,26 @@ function calculate() {
 
     if (error !== "") {
         document.getElementById("error").innerHTML = error;
-        document.getElementById("result").style.display = "none";
+        document.getElementById("resultBox").style.display = "none";
         return;
     }
 
     document.getElementById("error").innerHTML = "";
 
     let ops = obp + slg;
-    let grade = getGrade(ops);
+    let [gradeText, gradeClass] = getGrade(ops);
 
-    document.getElementById("r_avg").innerText = avg;
-    document.getElementById("r_obp").innerText = obp;
-    document.getElementById("r_slg").innerText = slg;
-    document.getElementById("r_ops").innerText = ops.toFixed(3);
-    document.getElementById("r_grade").innerText = grade;
+    let box = document.getElementById("resultBox");
 
-    document.getElementById("result").style.display = "table";
+    document.getElementById("ops").innerText = ops.toFixed(3);
+    document.getElementById("grade").innerText = gradeText;
+
+    box.className = "result-box";
+    box.classList.add(gradeClass);
+    box.style.display = "block";
 }
 
-// ✅ 키보드 조작
+// 🔥 화살표 이동만 (계산 없음)
 document.addEventListener("keydown", function(event) {
     let active = document.activeElement;
     let index = inputs.indexOf(active.id);
@@ -94,8 +141,6 @@ document.addEventListener("keydown", function(event) {
     if (event.key === "ArrowRight") {
         if (index < inputs.length - 1) {
             document.getElementById(inputs[index + 1]).focus();
-        } else {
-            calculate(); // 마지막 칸이면 계산
         }
     }
 
