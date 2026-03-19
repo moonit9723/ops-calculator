@@ -204,21 +204,14 @@
         .stage-dot.active-3 { background: #81c784; border-color: #81c784; box-shadow: 0 0 4px #81c784aa; }
         .stage-dot.active-4 { background: #ff8a80; border-color: #ff8a80; box-shadow: 0 0 4px #ff8a80aa; }
         .stage-dot.active-5 { background: #fff176; border-color: #fff176; box-shadow: 0 0 6px #fff176bb; }
-        .stage-dot.active-6 { background: #ffb84d; border-color: #ffb84d; box-shadow: 0 0 8px #ffb84dcc; }
-        .stage-num {
-            width: 36px;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: left;
-            flex-shrink: 0;
-        }
-        .stage-num.sn-0 { color: #4a7070; }
+        .stage-dot.active-plus { background: #ffb84d; border-color: #ffb84d; box-shadow: 0 0 8px #ffb84dcc; }
+        .stage-num { width: 42px; font-size: 12px; font-weight: bold; text-align: left; flex-shrink: 0; }
         .stage-num.sn-1 { color: #bcaaa4; }
         .stage-num.sn-2 { color: #64b5f6; }
         .stage-num.sn-3 { color: #81c784; }
         .stage-num.sn-4 { color: #ff8a80; }
         .stage-num.sn-5 { color: #fff176; }
-        .stage-num.sn-6 { color: #ffb84d; }
+        .stage-num.sn-plus { color: #ffb84d; }
     </style>
 </head>
 <body>
@@ -294,6 +287,9 @@
             <span class="stage-num" id="stagenum-slg"></span>
         </div>
     </div>
+    <div id="specialMsg" style="display:none; margin-top: 14px; font-size: 14px; color: #ffb84d; font-style: italic; text-shadow: 0 0 8px #ffb84d88;">
+        그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!
+    </div>
 </div>
 
 <script>
@@ -363,20 +359,20 @@
         changeValue(focused, e.deltaY < 0 ? 1 : -1);
     }, { passive: false });
 
-    /* ── 단계 커트라인 ── */
+    /* ── 단계 커트라인 (각 경계값: 이 값 이상이면 다음 단계) ── */
     const stageCuts = {
-        avg: [0.240, 0.260, 0.280, 0.300, 0.355],
-        obp: [0.300, 0.330, 0.350, 0.400, 0.444],
-        slg: [0.320, 0.370, 0.400, 0.500, 0.633]
+        avg: [0.241, 0.261, 0.281, 0.301, 0.355],
+        obp: [0.301, 0.341, 0.366, 0.401, 0.444],
+        slg: [0.321, 0.381, 0.421, 0.501, 0.633]
     };
 
     function getStage(id, val) {
         const cuts = stageCuts[id];
-        let stage = 1; // 기본 1단계 (모든 커트라인 미달)
+        let stage = 1;
         for (let i = 0; i < cuts.length; i++) {
-            if (val >= cuts[i]) stage = i + 2; // 커트라인 통과마다 +1
+            if (val >= cuts[i]) stage = i + 2; // 2~6
         }
-        return stage; // 1~6단계
+        return stage; // 1~6 (6 = 5+단계)
     }
 
     function updateStage(id) {
@@ -384,14 +380,21 @@
         const stage = getStage(id, val);
         const container = document.getElementById('stage-' + id);
         const numEl = document.getElementById('stagenum-' + id);
+        const isPlus = stage === 6;
+        const displayStage = isPlus ? 5 : stage; // 칸은 항상 5개
+
         container.innerHTML = '';
-        for (let i = 1; i <= 6; i++) {
+        for (let i = 1; i <= 5; i++) {
             const dot = document.createElement('div');
-            dot.className = 'stage-dot' + (i <= stage ? ' active-' + stage : '');
+            if (i <= displayStage) {
+                dot.className = isPlus ? 'stage-dot active-plus' : 'stage-dot active-' + stage;
+            } else {
+                dot.className = 'stage-dot';
+            }
             container.appendChild(dot);
         }
-        numEl.textContent = stage + '단계';
-        numEl.className = 'stage-num sn-' + stage;
+        numEl.textContent = isPlus ? '5+단계' : stage + '단계';
+        numEl.className = 'stage-num sn-' + (isPlus ? 'plus' : stage);
     }
 
     /* ── 값 조절 공통 함수 ── */
@@ -443,18 +446,33 @@
         el.value = parseFloat(val).toFixed(3);
     }
 
+    /* ── 등급 순서 (업그레이드용) ── */
+    const gradeList = [
+        ["D - 최악의 시즌",      "d"],
+        ["C - 아쉬운 시즌",      "c"],
+        ["C+ - 수비형 하한선",   "c"],
+        ["B - 평균적인 지표",    "b"],
+        ["B+ - 좋은 시즌",       "b"],
+        ["A - 훌륭한 시즌",      "a"],
+        ["A+ - 리그 상위권",     "a"],
+        ["S - 리그 최상위권",    "s"],
+        ["S+ - MVP급 시즌",      "s"],
+        ["SS - 역사에 남을 시즌","ss"],
+        ["SS+ - 미친 시즌",      "ss"],
+    ];
+
     /* ── 등급 ── */
     function getGrade(ops) {
-        if (ops >= 1.050) return ["SS - 역사에 남을 시즌", "ss"];
-        if (ops >= 1.000) return ["S+ - MVP급 시즌", "s"];
-        if (ops >= 0.950) return ["S - 리그 최상위권", "s"];
-        if (ops >= 0.900) return ["A+ - 리그 상위권", "a"];
-        if (ops >= 0.850) return ["A - 훌륭한 시즌", "a"];
-        if (ops >= 0.800) return ["B+ - 좋은 시즌", "b"];
-        if (ops >= 0.750) return ["B - 평균적인 지표", "b"];
-        if (ops >= 0.700) return ["C+ - 수비형 하한선", "c"];
-        if (ops >= 0.650) return ["C - 아쉬운 시즌", "c"];
-        return ["D - 최악의 시즌", "d"];
+        if (ops >= 1.050) return gradeList[9];
+        if (ops >= 1.000) return gradeList[8];
+        if (ops >= 0.950) return gradeList[7];
+        if (ops >= 0.900) return gradeList[6];
+        if (ops >= 0.850) return gradeList[5];
+        if (ops >= 0.800) return gradeList[4];
+        if (ops >= 0.750) return gradeList[3];
+        if (ops >= 0.700) return gradeList[2];
+        if (ops >= 0.650) return gradeList[1];
+        return gradeList[0];
     }
 
     /* ── 계산 ── */
@@ -478,13 +496,50 @@
         document.getElementById("error").innerHTML = "";
         inputIds.forEach(id => updateStage(id));
         document.getElementById('stageSection').style.display = 'block';
+
         let ops = obp + slg;
         let [gradeText, gradeClass] = getGrade(ops);
+
+        // 5+단계 개수 계산
+        const plusCount = inputIds.filter(id => {
+            const val = parseFloat(document.getElementById(id).value) || 0;
+            return getStage(id, val) === 6;
+        }).length;
+
+        let specialMsg = '';
+
+        if (plusCount >= 2) {
+            // 2개 이상 5+: 무조건 SS+
+            gradeText = "SS+ - 미친 시즌";
+            gradeClass = "ss";
+            specialMsg = "그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!";
+        } else if (plusCount === 1) {
+            // 1개 5+: 한 등급 업
+            const idx = gradeList.findIndex(g => g[0] === gradeText);
+            if (idx === gradeList.length - 1) {
+                // 이미 SS: SS+로
+                gradeText = "SS+ - 미친 시즌";
+                gradeClass = "ss";
+                specialMsg = "그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!";
+            } else {
+                const upgraded = gradeList[idx + 1];
+                gradeText = upgraded[0];
+                gradeClass = upgraded[1];
+                specialMsg = "그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!";
+            }
+        }
+
+        const msgEl = document.getElementById('specialMsg');
+        if (specialMsg) {
+            msgEl.textContent = specialMsg;
+            msgEl.style.display = 'block';
+        } else {
+            msgEl.style.display = 'none';
+        }
 
         let box = document.getElementById("resultBox");
         document.getElementById("ops").innerText = ops.toFixed(3);
         document.getElementById("grade").innerText = gradeText;
-
         box.className = "result-box " + gradeClass;
         box.style.display = "block";
     }
