@@ -40,7 +40,6 @@
             user-select: none;
         }
 
-        /* 툴팁 내 등급별 색상 적용 */
         .info-tooltip {
             visibility: hidden; opacity: 0;
             width: 300px; background: #1a1a1a; color: #e8fefe;
@@ -52,28 +51,98 @@
         }
         .info-tooltip.show { visibility: visible; opacity: 1; }
         
-        /* 툴팁 텍스트 색상 정의 */
-        .t-ss { color: #ffb84d; font-weight: bold; } /* 황금색 */
-        .t-s  { color: #fff176; font-weight: bold; } /* 노란색 */
-        .t-a  { color: #ff8a80; font-weight: bold; } /* 연빨강 */
-        .t-b  { color: #81c784; font-weight: bold; } /* 초록색 */
-        .t-c  { color: #64b5f6; font-weight: bold; } /* 파란색 */
-        .t-d  { color: #bcaaa4; font-weight: bold; } /* 회갈색 */
+        .t-ss { color: #ffb84d; font-weight: bold; }
+        .t-s  { color: #fff176; font-weight: bold; }
+        .t-a  { color: #ff8a80; font-weight: bold; }
+        .t-b  { color: #81c784; font-weight: bold; }
+        .t-c  { color: #64b5f6; font-weight: bold; }
+        .t-d  { color: #bcaaa4; font-weight: bold; }
 
         .labels { display: flex; justify-content: space-around; margin-bottom: 10px; color: #9efcff; font-weight: bold; }
-        .inputs { display: flex; justify-content: space-around; }
-        input { width: 120px; padding: 12px; background: #0f0f0f; border: 1px solid #3eeed2; border-radius: 8px; color: #b9fff7; text-align: center; font-size: 18px; }
+
+        /* 키 힌트 안내 */
+        .key-hint {
+            font-size: 12px;
+            color: #4a8f8a;
+            margin-bottom: 14px;
+            letter-spacing: 0.03em;
+        }
+        .key-hint kbd {
+            background: #1f2e2e;
+            border: 1px solid #3eeed2;
+            border-radius: 4px;
+            padding: 1px 6px;
+            color: #3eeed2;
+            font-size: 11px;
+            font-family: monospace;
+        }
+
+        .inputs { display: flex; justify-content: space-around; gap: 10px; }
+
+        /* 입력 래퍼: 포커스 시 화살표 버튼 표시 */
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .arrow-btn {
+            background: transparent;
+            border: 1px solid #2a6660;
+            border-radius: 5px;
+            color: #3eeed2;
+            width: 120px;
+            height: 22px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        /* 포커스 된 래퍼의 화살표 버튼만 활성 */
+        .input-wrapper.focused .arrow-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .arrow-btn:hover {
+            background: #00ffe122;
+            border-color: #00ffe1;
+        }
+
+        input {
+            width: 120px;
+            padding: 12px;
+            background: #0f0f0f;
+            border: 1px solid #3eeed2;
+            border-radius: 8px;
+            color: #b9fff7;
+            text-align: center;
+            font-size: 18px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
         input:focus { border: 1px solid #00ffe1; box-shadow: 0 0 12px #00ffe1; outline: none; }
+
+        /* 포커스된 input-wrapper 강조 */
+        .input-wrapper.focused input {
+            border-color: #00ffe1;
+            box-shadow: 0 0 14px #00ffe188;
+        }
         
-        button {
+        button.calc-btn {
             display: block; margin: 30px auto 0; width: 280px; padding: 15px;
             font-size: 20px; font-weight: bold; background: transparent;
             border: 2px solid #00ffe1; color: #b9fff7; border-radius: 10px;
             cursor: pointer; transition: 0.3s;
         }
-        button:hover { background: #00ffe1; color: black; box-shadow: 0 0 20px #00ffe1; }
+        button.calc-btn:hover { background: #00ffe1; color: black; box-shadow: 0 0 20px #00ffe1; }
 
-        /* 결과창 등급별 스타일 */
         .result-box { margin-top: 30px; padding: 25px; border-radius: 12px; display: none; border: 3px solid; transition: 0.3s; }
         
         .ss { border-color: #ffb84d; background: rgba(255, 184, 77, 0.1); color: #ffd699; text-shadow: 0 0 10px #ffb84d; }
@@ -109,16 +178,32 @@
         </div>
     </div>
 
+    <div class="key-hint">
+        <kbd>←</kbd> <kbd>→</kbd> 입력창 이동 &nbsp;|&nbsp; <kbd>↑</kbd> <kbd>↓</kbd> 값 0.001 조절 &nbsp;|&nbsp; <kbd>Enter</kbd> 계산
+    </div>
+
     <div class="labels">
         <div>타율</div><div>출루율</div><div>장타율</div>
     </div>
     <div class="inputs">
-        <input id="avg" type="text" placeholder=".000">
-        <input id="obp" type="text" placeholder=".000">
-        <input id="slg" type="text" placeholder=".000">
+        <div class="input-wrapper" id="wrap-avg">
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',1)">▲</button>
+            <input id="avg" type="text" placeholder=".000">
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',-1)">▼</button>
+        </div>
+        <div class="input-wrapper" id="wrap-obp">
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'obp',1)">▲</button>
+            <input id="obp" type="text" placeholder=".000">
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'obp',-1)">▼</button>
+        </div>
+        <div class="input-wrapper" id="wrap-slg">
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'slg',1)">▲</button>
+            <input id="slg" type="text" placeholder=".000">
+            <button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'slg',-1)">▼</button>
+        </div>
     </div>
     
-    <button onclick="calculate()">기록 계산하기</button>
+    <button class="calc-btn" onclick="calculate()">기록 계산하기</button>
 
     <p id="error"></p>
     <div id="resultBox" class="result-box">
@@ -129,39 +214,98 @@
 </div>
 
 <script>
-    // 내부 데이터 보관 (1~5단계)
-    const stageData = {
-        1: { avg: 0.240, obp: 0.300, slg: 0.320 },
-        2: { avg: 0.260, obp: 0.330, slg: 0.370 },
-        3: { avg: 0.280, obp: 0.350, slg: 0.400 },
-        4: { avg: 0.300, obp: 0.400, slg: 0.500 },
-        5: { avg: 0.355, obp: 0.444, slg: 0.633 }
-    };
+    const inputIds = ["avg", "obp", "slg"];
 
-    const inputs = ["avg", "obp", "slg"];
-
+    /* ── 툴팁 ── */
     function toggleTooltip(event) {
         event.stopPropagation();
         document.getElementById('tooltip').classList.toggle('show');
     }
-
     document.addEventListener('click', function(event) {
-        const tooltip = document.getElementById('tooltip');
-        if (!event.target.closest('.info-icon')) tooltip.classList.remove('show');
+        if (!event.target.closest('.info-icon'))
+            document.getElementById('tooltip').classList.remove('show');
     });
 
+    /* ── 포커스 래퍼 강조 ── */
+    function setFocusedWrapper(id) {
+        inputIds.forEach(i => {
+            document.getElementById('wrap-' + i).classList.toggle('focused', i === id);
+        });
+    }
+
+    inputIds.forEach(id => {
+        const el = document.getElementById(id);
+
+        el.addEventListener('focus', () => setFocusedWrapper(id));
+        el.addEventListener('blur', () => {
+            // 마우스로 화살표 버튼 클릭 시 blur 후 즉시 포커스 복귀 → 짧은 딜레이로 체크
+            setTimeout(() => {
+                if (!inputIds.some(i => document.getElementById(i) === document.activeElement)) {
+                    setFocusedWrapper(null);
+                }
+            }, 150);
+        });
+
+        el.addEventListener('blur', function() { autoFormat(this); });
+        el.addEventListener('keydown', function(e) {
+            const idx = inputIds.indexOf(id);
+
+            if (e.key === '-') { e.preventDefault(); return; }
+
+            /* 좌우 화살표: 입력창 이동 */
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prev = inputIds[idx - 1];
+                if (prev) document.getElementById(prev).focus();
+                return;
+            }
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const next = inputIds[idx + 1];
+                if (next) document.getElementById(next).focus();
+                return;
+            }
+
+            /* 위아래 화살표: 값 0.001 조절 */
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                changeValue(id, 1);
+                return;
+            }
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                changeValue(id, -1);
+                return;
+            }
+
+            if (e.key === 'Enter') { calculate(); return; }
+        });
+    });
+
+    /* ── 값 조절 공통 함수 ── */
+    function changeValue(id, direction) {
+        const el = document.getElementById(id);
+        let val = parseFloat(el.value) || 0;
+        val = Math.round((val + direction * 0.001) * 1000) / 1000;
+        val = Math.max(0, Math.min(id === 'slg' ? 4 : 1, val)); // slg는 최대 4
+        el.value = val.toFixed(3);
+    }
+
+    /* ── 마우스 클릭 화살표 버튼 ── */
+    function stepValue(event, id, direction) {
+        event.preventDefault(); // blur 방지
+        document.getElementById(id).focus();
+        changeValue(id, direction);
+    }
+
+    /* ── 포맷 ── */
     function autoFormat(el) {
         let val = el.value.trim();
         if (val === "" || isNaN(val)) return;
         el.value = parseFloat(val).toFixed(3);
     }
 
-    inputs.forEach(id => {
-        let el = document.getElementById(id);
-        el.addEventListener("blur", function() { autoFormat(this); });
-        el.addEventListener("keydown", e => { if (e.key === "-") e.preventDefault(); });
-    });
-
+    /* ── 등급 ── */
     function getGrade(ops) {
         if (ops >= 1.050) return ["SS - 역사에 남을 시즌", "ss"];
         if (ops >= 1.000) return ["S+ - MVP급 시즌", "s"];
@@ -175,8 +319,9 @@
         return ["D - 최악의 시즌", "d"];
     }
 
+    /* ── 계산 ── */
     function calculate() {
-        inputs.forEach(id => autoFormat(document.getElementById(id)));
+        inputIds.forEach(id => autoFormat(document.getElementById(id)));
         let avg = parseFloat(document.getElementById("avg").value) || 0;
         let obp = parseFloat(document.getElementById("obp").value) || 0;
         let slg = parseFloat(document.getElementById("slg").value) || 0;
@@ -202,11 +347,6 @@
         box.className = "result-box " + gradeClass;
         box.style.display = "block";
     }
-
-    document.addEventListener("keydown", (e) => {
-        let idx = inputs.indexOf(document.activeElement.id);
-        if (e.key === "Enter") calculate();
-    });
 </script>
 
 </body>
