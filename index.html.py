@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>OPS 계산기</title>
+    <style>
+        body { font-family: Arial; text-align: center; }
+        input { margin: 5px; padding: 5px; }
+        button { padding: 10px; }
+        table { margin: auto; border-collapse: collapse; margin-top: 20px; }
+        td, th { border: 1px solid black; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>선수 OPS 등급 계산기</h1>
+
+<input type="number" step="0.001" id="avg" placeholder="타율">
+<input type="number" step="0.001" id="obp" placeholder="출루율">
+<input type="number" step="0.001" id="slg" placeholder="장타율">
+<br>
+<button onclick="calculate()">계산</button>
+
+<p id="error" style="color:red;"></p>
+
+<table id="result" style="display:none;">
+    <tr>
+        <th>타율</th>
+        <th>출루율</th>
+        <th>장타율</th>
+        <th>OPS</th>
+        <th>등급</th>
+    </tr>
+    <tr>
+        <td id="r_avg"></td>
+        <td id="r_obp"></td>
+        <td id="r_slg"></td>
+        <td id="r_ops"></td>
+        <td id="r_grade"></td>
+    </tr>
+</table>
+
+<script>
+function getGrade(ops) {
+    if (ops >= 1.050) return "SS";
+    if (ops >= 1.000) return "S+";
+    if (ops >= 0.950) return "S";
+    if (ops >= 0.900) return "A+";
+    if (ops >= 0.850) return "A";
+    if (ops >= 0.800) return "B+";
+    if (ops >= 0.750) return "B (평균)";
+    if (ops >= 0.700) return "C+";
+    if (ops >= 0.650) return "C";
+    if (ops >= 0.600) return "D";
+    return "D 이하";
+}
+
+function calculate() {
+    let avg = parseFloat(document.getElementById("avg").value);
+    let obp = parseFloat(document.getElementById("obp").value);
+    let slg = parseFloat(document.getElementById("slg").value);
+
+    let error = "";
+
+    if (avg > 1) error += "타율이 1을 넘었습니다!<br>";
+    if (obp > 1) error += "출루율이 1을 넘었습니다!<br>";
+    if (slg > 4) error += "장타율이 4를 넘었습니다!<br>";
+    if (avg > slg) error += "타율이 장타율보다 큽니다!<br>";
+
+    if (error !== "") {
+        document.getElementById("error").innerHTML = error;
+        document.getElementById("result").style.display = "none";
+        return;
+    }
+
+    document.getElementById("error").innerHTML = "";
+
+    let ops = obp + slg;
+    let grade = getGrade(ops);
+
+    document.getElementById("r_avg").innerText = avg;
+    document.getElementById("r_obp").innerText = obp;
+    document.getElementById("r_slg").innerText = slg;
+    document.getElementById("r_ops").innerText = ops.toFixed(3);
+    document.getElementById("r_grade").innerText = grade;
+
+    document.getElementById("result").style.display = "table";
+}
+</script>
+
+</body>
+</html>
