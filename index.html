@@ -154,28 +154,11 @@
 
         .grade { font-size: 32px; font-weight: bold; margin-top: 10px; }
         #error { color: #ff9b9b; margin-top: 15px; font-weight: bold; }
-
-        .copy-btn {
-            position: absolute;
-            top: 16px; right: 16px;
-            background: transparent;
-            border: 1px solid #3eeed2;
-            border-radius: 7px;
-            color: #3eeed2;
-            font-size: 12px;
-            padding: 5px 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            width: auto; margin: 0;
-        }
-        .copy-btn:hover { background: #00ffe122; box-shadow: 0 0 8px #00ffe188; }
-        .copy-btn.copied { border-color: #81c784; color: #81c784; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <button class="copy-btn" onclick="copyCode(this)">코드 복사</button>
     <div class="title-wrapper">
         <h1>OPS 등급 계산기</h1>
         <div class="info-icon" onclick="toggleTooltip(event)">
@@ -374,19 +357,6 @@
 
         box.className = "result-box " + gradeClass;
         box.style.display = "block";
-    }
-
-    /* ── 코드 복사 ── */
-    function copyCode(btn) {
-        const code = document.documentElement.outerHTML;
-        navigator.clipboard.writeText(code).then(() => {
-            btn.textContent = "✓ 복사됨!";
-            btn.classList.add("copied");
-            setTimeout(() => {
-                btn.textContent = "코드 복사";
-                btn.classList.remove("copied");
-            }, 2000);
-        });
     }
 </script>
 
