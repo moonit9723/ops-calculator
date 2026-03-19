@@ -72,4 +72,158 @@
             position: absolute;
             z-index: 10;
             bottom: 140%; /* 아이콘 위쪽으로 배치 */
-            left
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px solid #00ffe1;
+            box-shadow: 0 0 15px rgba(0, 255, 225, 0.2);
+            font-size: 13px;
+            line-height: 1.5;
+            transition: opacity 0.3s;
+            font-weight: normal;
+        }
+        
+        /* 말풍선 꼬리표 (아래쪽 화살표 모양) */
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: #00ffe1 transparent transparent transparent;
+        }
+
+        .info-icon:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #error { color: #ff9b9b; margin-top: 15px; }
+        .result-box { margin-top: 25px; padding: 18px; border-radius: 12px; display: none; border: 1px solid; }
+        .ss { border-color: #ffb84d; color: #ffd699; box-shadow: 0 0 15px rgba(255, 184, 77, 0.2); }
+        .s  { border-color: #fff176; color: #fff9c4; box-shadow: 0 0 15px rgba(255, 241, 118, 0.2); }
+        .a  { border-color: #ff8a80; color: #ffcdd2; box-shadow: 0 0 15px rgba(255, 138, 128, 0.2); }
+        .b  { border-color: #81c784; color: #c8e6c9; }
+        .c  { border-color: #64b5f6; color: #bbdefb; }
+        .d  { border-color: #bcaaa4; color: #d7ccc8; }
+        .grade { font-size: 26px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>OPS 등급 계산기</h1>
+    <div class="labels">
+        <div>타율</div>
+        <div>출루율</div>
+        <div>장타율</div>
+    </div>
+    <div class="inputs">
+        <input id="avg" type="text" placeholder="0.000">
+        <input id="obp" type="text" placeholder="0.000">
+        <input id="slg" type="text" placeholder="0.000">
+    </div>
+    
+    <div class="btn-wrapper">
+        <button onclick="calculate()">계산하기</button>
+        <div class="info-icon">
+            ?
+            <span class="info-tooltip">
+                <strong>OPS (On-base Plus Slugging)</strong><br><br>
+                출루율과 장타율을 합친 값으로,<br>
+                타자의 득점 생산력을 직관적으로<br>
+                평가할 수 있는 대표적인 지표입니다.
+            </span>
+        </div>
+    </div>
+
+    <p id="error"></p>
+    <div id="resultBox" class="result-box">
+        <p>OPS: <span id="ops"></span></p>
+        <p class="grade" id="grade"></p>
+    </div>
+</div>
+
+<script>
+    const inputs = ["avg", "obp", "slg"];
+
+    function autoFormat(el) {
+        let val = el.value.trim();
+        if (val === "" || isNaN(val)) return;
+        let num = parseFloat(val);
+        el.value = num.toFixed(3);
+    }
+
+    inputs.forEach(id => {
+        let el = document.getElementById(id);
+        el.addEventListener("blur", function() { autoFormat(this); });
+        el.addEventListener("keydown", e => { if (e.key === "-") e.preventDefault(); });
+    });
+
+    function format(num) { return Number(num).toFixed(3); }
+
+    function getGrade(ops) {
+        if (ops >= 1.050) return ["SS", "ss"];
+        if (ops >= 1.000) return ["S+", "s"];
+        if (ops >= 0.950) return ["S", "s"];
+        if (ops >= 0.900) return ["A+", "a"];
+        if (ops >= 0.850) return ["A", "a"];
+        if (ops >= 0.800) return ["B+", "b"];
+        if (ops >= 0.750) return ["B", "b"];
+        if (ops >= 0.700) return ["C+", "c"];
+        if (ops >= 0.650) return ["C", "c"];
+        if (ops >= 0.600) return ["D", "d"];
+        return ["D 이하", "d"];
+    }
+
+    function calculate() {
+        inputs.forEach(id => autoFormat(document.getElementById(id)));
+
+        let avg = parseFloat(document.getElementById("avg").value) || 0;
+        let obp = parseFloat(document.getElementById("obp").value) || 0;
+        let slg = parseFloat(document.getElementById("slg").value) || 0;
+
+        let error = "";
+        if (avg > 1) error += "타율이 1을 넘었습니다!<br>";
+        if (obp > 1) error += "출루율이 1을 넘었습니다!<br>";
+        if (slg > 4) error += "장타율이 4를 넘었습니다!<br>";
+        if (avg > slg) error += "타율이 장타율보다 큽니다!<br>";
+
+        if (error !== "") {
+            document.getElementById("error").innerHTML = error;
+            document.getElementById("resultBox").style.display = "none";
+            return;
+        }
+
+        document.getElementById("error").innerHTML = "";
+        let ops = obp + slg;
+        let [gradeText, gradeClass] = getGrade(ops);
+
+        let box = document.getElementById("resultBox");
+        document.getElementById("ops").innerText = format(ops);
+        document.getElementById("grade").innerText = gradeText;
+
+        box.className = "result-box";
+        box.classList.add(gradeClass);
+        box.style.display = "block";
+    }
+
+    document.addEventListener("keydown", function(event) {
+        let active = document.activeElement;
+        let index = inputs.indexOf(active.id);
+
+        if (event.key === "ArrowRight" && index < inputs.length - 1) {
+            document.getElementById(inputs[index + 1]).focus();
+        }
+        if (event.key === "ArrowLeft" && index > 0) {
+            document.getElementById(inputs[index - 1]).focus();
+        }
+        if (event.key === "Enter") {
+            calculate();
+        }
+    });
+</script>
+
+</body>
+</html>
