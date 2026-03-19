@@ -4,134 +4,115 @@
     <meta charset="UTF-8">
     <title>OPS 등급 계산기</title>
     <style>
-        body { background: #121212; color: #e8fefe; font-family: 'Segoe UI', Arial; text-align: center; overflow-x: hidden; }
+        body { background: #121212; color: #e8fefe; font-family: 'Segoe UI', Arial; text-align: center; }
         
+        /* 메인 컨테이너 */
         .container { 
-            position: relative; 
             width: 520px; 
-            margin: 80px auto; 
+            margin: 100px auto; 
             padding: 40px; 
-            border-radius: 25px; 
+            border-radius: 18px; 
             background: #1a1a1a; 
             border: 1px solid #2ee6c9; 
-            box-shadow: 0 0 40px rgba(0,255,200,0.15); 
-            z-index: 10;
+            box-shadow: 0 0 30px rgba(0,255,200,0.25); 
         }
 
-        /* 🔥 날아가는 야구공 애니메이션 */
-        #flyingBall {
-            position: absolute;
-            width: 45px;
-            z-index: 100;
-            display: none;
-            pointer-events: none;
-        }
-
-        @keyframes hitBall {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(900px, -300px) rotate(1080deg); opacity: 0; }
-        }
-
-        /* 📸 이미지 배치 (자연스러운 레이아웃) */
-        .deco-img { position: absolute; pointer-events: none; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
-        .img-mask { width: 100px; left: -110px; top: 10px; transform: rotate(-10deg); }
-        .img-glove { width: 120px; left: -130px; bottom: -20px; transform: rotate(15deg); }
-        .img-bat { width: 140px; right: -120px; top: -30px; transform: rotate(20deg); }
-        .img-ball-static { width: 50px; right: -100px; bottom: 20px; opacity: 0.8; }
-
-        /* 🔥 단계 선택 버튼 (내부 데이터 로드) */
-        .stage-selector {
+        /* 제목 영역 */
+        .title-wrapper {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 25px;
         }
-        .stage-btn {
-            background: #222;
-            border: 1px solid #3eeed2;
-            color: #3eeed2;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: 0.3s;
-        }
-        .stage-btn:hover { background: #3eeed2; color: #111; }
+        h1 { color: #b9fff7; text-shadow: 0 0 12px #00ffe1; margin: 0; font-size: 32px; }
 
-        /* 타이틀 & 툴팁 */
-        .title-wrapper { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px; }
-        h1 { color: #b9fff7; text-shadow: 0 0 15px #00ffe1; margin: 0; font-size: 28px; }
-        .info-icon { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #3eeed2; color: #3eeed2; cursor: pointer; font-weight: bold; line-height: 26px; }
+        /* 입력창 및 라벨 */
+        .labels { display: flex; justify-content: space-around; margin-bottom: 10px; color: #9efcff; font-weight: bold; }
+        .inputs { display: flex; justify-content: space-around; }
+        input { width: 120px; padding: 12px; background: #0f0f0f; border: 1px solid #3eeed2; border-radius: 8px; color: #b9fff7; text-align: center; font-size: 18px; }
+        input:focus { border: 1px solid #00ffe1; box-shadow: 0 0 12px #00ffe1; outline: none; }
+        
+        /* 계산 버튼 */
+        button {
+            display: block;
+            margin: 30px auto 0;
+            width: 280px;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            background: transparent;
+            border: 2px solid #00ffe1;
+            color: #b9fff7;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover { background: #00ffe1; color: black; box-shadow: 0 0 20px #00ffe1; }
+
+        /* 툴팁 (도움말) */
+        .info-icon {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 2px solid #3eeed2;
+            color: #3eeed2;
+            cursor: pointer;
+            user-select: none;
+        }
         .info-tooltip {
-            visibility: hidden; opacity: 0; width: 280px; background: #222; color: #fff;
-            text-align: left; border-radius: 10px; padding: 15px; position: absolute;
-            top: 60px; left: 50%; transform: translateX(-50%); border: 1px solid #00ffe1;
-            box-shadow: 0 0 20px rgba(0,255,225,0.3); font-size: 14px; line-height: 1.6; transition: 0.3s; z-index: 100;
+            visibility: hidden; opacity: 0;
+            width: 300px; background: #222; color: #e8fefe;
+            text-align: left; border-radius: 8px; padding: 15px;
+            position: absolute; z-index: 10; top: 150%; left: 50%;
+            transform: translateX(-50%); border: 1px solid #00ffe1;
+            box-shadow: 0 0 15px rgba(0, 255, 225, 0.2);
+            font-size: 14px; line-height: 1.7; transition: 0.2s;
         }
         .info-tooltip.show { visibility: visible; opacity: 1; }
+        .info-tooltip b { color: #00ffe1; }
 
-        /* 입력 및 라벨 */
-        .labels { display: flex; justify-content: space-around; margin-bottom: 8px; color: #9efcff; font-weight: bold; }
-        .inputs { display: flex; justify-content: space-around; }
-        input { width: 110px; padding: 12px; background: #080808; border: 1px solid #3eeed2; border-radius: 10px; color: #b9fff7; text-align: center; font-size: 18px; }
-        input:focus { border: 1px solid #00ffe1; box-shadow: 0 0 15px #00ffe1; outline: none; }
-        
-        button#calcBtn {
-            display: block; margin: 30px auto 0; width: 320px; padding: 16px;
-            font-size: 20px; font-weight: bold; background: transparent;
-            border: 2px solid #00ffe1; color: #b9fff7; border-radius: 12px;
-            cursor: pointer; transition: 0.3s;
-        }
-        button#calcBtn:hover { background: #00ffe1; color: black; box-shadow: 0 0 25px #00ffe1; }
-
-        /* 결과창 스타일 */
-        .result-box { margin-top: 30px; padding: 20px; border-radius: 15px; display: none; border: 2px solid; }
-        .ss { border-color: #ffb84d; color: #ffd699; box-shadow: 0 0 20px rgba(255, 184, 77, 0.3); }
+        /* 결과창 */
+        .result-box { margin-top: 30px; padding: 20px; border-radius: 12px; display: none; border: 2px solid; }
+        .ss { border-color: #ffb84d; color: #ffd699; text-shadow: 0 0 10px #ffb84d; }
         .s  { border-color: #fff176; color: #fff9c4; }
         .a  { border-color: #ff8a80; color: #ffcdd2; }
         .b  { border-color: #81c784; color: #c8e6c9; }
         .c  { border-color: #64b5f6; color: #bbdefb; }
         .d  { border-color: #bcaaa4; color: #d7ccc8; }
-        .grade { font-size: 26px; font-weight: bold; margin-top: 8px; }
+        .grade { font-size: 32px; font-weight: bold; margin-top: 10px; }
+        #error { color: #ff9b9b; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<img id="flyingBall" src="image-removebg-preview (4).png" alt="flying ball">
-
 <div class="container">
-    <img src="image-removebg-preview (2).png" class="deco-img img-mask" alt="mask">
-    <img src="image-removebg-preview.png" class="deco-img img-glove" alt="glove">
-    <img src="image-removebg-preview (1).png" class="deco-img img-bat" alt="bat">
-    <img src="image-removebg-preview (4).png" class="deco-img img-ball-static" alt="ball">
-
     <div class="title-wrapper">
         <h1>OPS 등급 계산기</h1>
-        <div class="info-icon" onclick="toggleTooltip(event)">?</div>
-        <div class="info-tooltip" id="tooltip">
-            <b>SS (1.050)</b> : 역사에 남을 만한 시즌<br>
-            <b>S+ (1.000)</b> : MVP급 시즌<br>
-            <b>S (0.950)</b> : 리그 최상위권<br>
-            <b>A+ (0.900)</b> : 리그 상위권<br>
-            <b>A (0.850)</b> : 훌륭한 시즌<br>
-            <b>B+ (0.800)</b> : 좋은 시즌<br>
-            <b>B (0.750)</b> : 평균적인 지표<br>
-            <b>C+ (0.700)</b> : 수비형 선수의 하한선<br>
-            <b>C (0.650)</b> : 아쉬운 시즌<br>
-            <b>D (0.600↓)</b> : 최악의 시즌
+        <div class="info-icon" onclick="toggleTooltip(event)">
+            ?
+            <div class="info-tooltip" id="tooltip">
+                <b>SS (1.050)</b> : 역사에 남을 만한 시즌<br>
+                <b>S+ (1.000)</b> : MVP급 시즌<br>
+                <b>S (0.950)</b> : 리그 최상위권<br>
+                <b>A+ (0.900)</b> : 리그 상위권<br>
+                <b>A (0.850)</b> : 훌륭한 시즌<br>
+                <b>B+ (0.800)</b> : 좋은 시즌<br>
+                <b>B (0.750)</b> : 평균적인 지표<br>
+                <b>C+ (0.700)</b> : 수비형 선수의 하한선<br>
+                <b>C (0.650)</b> : 아쉬운 시즌<br>
+                <b>D (0.600↓)</b> : 최악의 시즌
+            </div>
         </div>
     </div>
 
-    <div class="stage-selector">
-        <button class="stage-btn" onclick="loadStage(1)">1단계</button>
-        <button class="stage-btn" onclick="loadStage(2)">2단계</button>
-        <button class="stage-btn" onclick="loadStage(3)">3단계</button>
-        <button class="stage-btn" onclick="loadStage(4)">4단계</button>
-        <button class="stage-btn" onclick="loadStage(5)">5단계</button>
-    </div>
-
     <div class="labels">
-        <div>타율</div><div>출루율</div><div>장타율</div>
+        <div>타율</div>
+        <div>출루율</div>
+        <div>장타율</div>
     </div>
     <div class="inputs">
         <input id="avg" type="text" placeholder=".000">
@@ -139,19 +120,17 @@
         <input id="slg" type="text" placeholder=".000">
     </div>
     
-    <button id="calcBtn" onclick="calculate()">기록 계산하기</button>
+    <button onclick="calculate()">기록 계산하기</button>
 
-    <p id="error" style="font-size: 14px; margin-top: 15px; color: #ff9b9b; height: 20px;"></p>
-    
+    <p id="error"></p>
     <div id="resultBox" class="result-box">
-        <p style="margin:0; opacity:0.8; font-size: 14px;">최종 OPS</p>
-        <span id="opsValue" style="font-size: 24px; font-weight: bold;"></span>
-        <div class="grade" id="gradeText"></div>
+        <p style="font-size: 18px; margin:0;">최종 OPS: <span id="ops"></span></p>
+        <div class="grade" id="grade"></div>
     </div>
 </div>
 
 <script>
-    // 🔥 요청하신 내부 데이터 저장
+    // 💡 내부 데이터 보관 (1~5단계)
     const stageData = {
         1: { avg: 0.240, obp: 0.300, slg: 0.320 },
         2: { avg: 0.260, obp: 0.330, slg: 0.370 },
@@ -160,21 +139,29 @@
         5: { avg: 0.355, obp: 0.444, slg: 0.633 }
     };
 
-    // 데이터 불러오기 함수
-    function loadStage(num) {
-        const data = stageData[num];
-        document.getElementById('avg').value = data.avg.toFixed(3);
-        document.getElementById('obp').value = data.obp.toFixed(3);
-        document.getElementById('slg').value = data.slg.toFixed(3);
-        calculate(); // 불러오자마자 바로 계산 실행
-    }
+    const inputs = ["avg", "obp", "slg"];
 
     function toggleTooltip(event) {
         event.stopPropagation();
         document.getElementById('tooltip').classList.toggle('show');
     }
 
-    document.addEventListener('click', () => document.getElementById('tooltip').classList.remove('show'));
+    document.addEventListener('click', function(event) {
+        const tooltip = document.getElementById('tooltip');
+        if (!event.target.closest('.info-icon')) tooltip.classList.remove('show');
+    });
+
+    function autoFormat(el) {
+        let val = el.value.trim();
+        if (val === "" || isNaN(val)) return;
+        el.value = parseFloat(val).toFixed(3);
+    }
+
+    inputs.forEach(id => {
+        let el = document.getElementById(id);
+        el.addEventListener("blur", function() { autoFormat(this); });
+        el.addEventListener("keydown", e => { if (e.key === "-") e.preventDefault(); });
+    });
 
     function getGrade(ops) {
         if (ops >= 1.050) return ["SS - 역사에 남을 시즌", "ss"];
@@ -190,43 +177,41 @@
     }
 
     function calculate() {
+        inputs.forEach(id => autoFormat(document.getElementById(id)));
         let avg = parseFloat(document.getElementById("avg").value) || 0;
         let obp = parseFloat(document.getElementById("obp").value) || 0;
         let slg = parseFloat(document.getElementById("slg").value) || 0;
 
-        // 에러 체크
         let error = "";
-        if (avg > 1 || obp > 1) error = "타율/출루율은 1을 넘을 수 없습니다.";
-        if (avg > slg && slg > 0) error = "타율이 장타율보다 높을 수 없습니다.";
-        
+        if (avg > 1) error += "타율이 1을 넘을 수 없습니다.<br>";
+        if (obp > 1) error += "출루율이 1을 넘을 수 없습니다.<br>";
+        if (slg > 4) error += "장타율이 4를 넘을 수 없습니다.<br>";
+        if (avg > slg && slg > 0) error += "타율이 장타율보다 높을 수 없습니다.<br>";
+
         if (error !== "") {
-            document.getElementById("error").innerText = error;
+            document.getElementById("error").innerHTML = error;
             document.getElementById("resultBox").style.display = "none";
             return;
         }
-        document.getElementById("error").innerText = "";
 
-        // 🔥 야구공 날리기 애니메이션
-        const ball = document.getElementById('flyingBall');
-        ball.style.display = 'block';
-        ball.style.left = '380px'; 
-        ball.style.top = '320px';
-        ball.style.animation = 'none';
-        ball.offsetHeight; 
-        ball.style.animation = 'hitBall 0.7s ease-out forwards';
-
-        // 계산 결과 반영
+        document.getElementById("error").innerHTML = "";
         let ops = obp + slg;
-        let [text, cls] = getGrade(ops);
-        
-        setTimeout(() => {
-            document.getElementById("opsValue").innerText = ops.toFixed(3);
-            document.getElementById("gradeText").innerText = text;
-            const box = document.getElementById("resultBox");
-            box.className = "result-box " + cls;
-            box.style.display = "block";
-        }, 200);
+        let [gradeText, gradeClass] = getGrade(ops);
+
+        let box = document.getElementById("resultBox");
+        document.getElementById("ops").innerText = ops.toFixed(3);
+        document.getElementById("grade").innerText = gradeText;
+
+        box.className = "result-box " + gradeClass;
+        box.style.display = "block";
     }
+
+    document.addEventListener("keydown", (e) => {
+        let idx = inputs.indexOf(document.activeElement.id);
+        if (e.key === "ArrowRight" && idx < 2) document.getElementById(inputs[idx+1]).focus();
+        if (e.key === "ArrowLeft" && idx > 0) document.getElementById(inputs[idx-1]).focus();
+        if (e.key === "Enter") calculate();
+    });
 </script>
 
 </body>
