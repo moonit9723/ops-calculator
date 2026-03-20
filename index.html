@@ -483,9 +483,9 @@
         let slg = parseFloat(document.getElementById("slg").value) || 0;
 
         let error = "";
-        if (avg > 1 || obp > 1) error = "타율/출루율은 1을 넘을 수 없습니다.";
-        else if (slg > 4) error = "장타율은 4를 넘을 수 없습니다.";
-        else if (avg > slg && slg > 0) error = "타율이 장타율보다 높을 수 없습니다.";
+        if (avg > 1 || obp > 1) error = "타율과 출루율은 1.000을 넘을 수 없습니다! 다시 임력해주세요.";
+        else if (slg > 4) error = "장타율은 4.000를 넘을 수 없습니다! 다시 입력해주세요.";
+        else if (avg > slg && slg > 0) error = "타율이 장타율보다 높을 수 없습니다! 다시 입력해주세요.";
 
         if (error !== "") {
             document.getElementById("error").innerHTML = error;
