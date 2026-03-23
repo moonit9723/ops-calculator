@@ -500,6 +500,10 @@
             </div>
         </div>
 
+        <div id="p-games-warn" style="display:none; margin-top:6px; font-size:12px; color:#ff9b9b; opacity:1;">
+            출장경기는 팀경기보다 적어야합니다!
+        </div>
+
         <button class="calc-btn" onclick="calculatePitcher()">기록 계산하기</button>
         <p id="p-error" style="color:#ff9b9b; margin-top:15px; font-weight:bold;"></p>
         <div id="p-resultBox" class="result-box" style="display:none;">
@@ -711,17 +715,36 @@
     /* ── 정수 스텝 (타석/출장/팀경기 공통) ── */
     function getMax(id) {
         if (id === 'p-games') {
-            const teamVal = parseInt(document.getElementById('p-teamgames').value) || 144;
+            const teamVal = parseInt(document.getElementById('p-teamgames').value);
+            if (isNaN(teamVal) || teamVal === 0) return 0; // 팀경기 0이면 출장경기 못 올림
             return Math.min(144, teamVal);
         }
         return 144;
+    }
+
+    let gamesWarnTimer = null;
+    function showGamesWarn() {
+        const w = document.getElementById('p-games-warn');
+        w.style.opacity = '1';
+        w.style.display = 'block';
+        clearTimeout(gamesWarnTimer);
+        gamesWarnTimer = setTimeout(() => {
+            w.style.transition = 'opacity 1s';
+            w.style.opacity = '0';
+            setTimeout(() => { w.style.display = 'none'; w.style.transition = ''; }, 1000);
+        }, 1500);
     }
 
     function stepInt(event, id, dir) {
         event.preventDefault();
         const el = document.getElementById(id);
         el.focus();
-        el.value = Math.min(getMax(id), Math.max(0, (parseInt(el.value) || 0) + dir)).toString();
+        const max = getMax(id);
+        const cur = parseInt(el.value) || 0;
+        if (id === 'p-games' && dir > 0 && cur >= max) {
+            showGamesWarn(); return;
+        }
+        el.value = Math.min(max, Math.max(0, cur + dir)).toString();
         if (id === 'p-teamgames') clampGames();
 
         holdCount = 0;
@@ -732,7 +755,10 @@
                 holdCount++;
                 const speed = holdCount > 40 ? 5 : holdCount > 15 ? 3 : 1;
                 for (let i = 0; i < speed; i++) {
-                    el.value = Math.min(getMax(id), Math.max(0, (parseInt(el.value) || 0) + dir)).toString();
+                    const m = getMax(id);
+                    const c = parseInt(el.value) || 0;
+                    if (id === 'p-games' && dir > 0 && c >= m) { showGamesWarn(); break; }
+                    el.value = Math.min(m, Math.max(0, c + dir)).toString();
                     if (id === 'p-teamgames') clampGames();
                 }
             }, 50);
@@ -742,10 +768,17 @@
     // 팀경기가 바뀌면 출장경기를 즉시 clamp
     function clampGames() {
         const gEl = document.getElementById('p-games');
-        const tVal = parseInt(document.getElementById('p-teamgames').value) || 144;
+        const tVal = parseInt(document.getElementById('p-teamgames').value);
+        if (isNaN(tVal) || tVal === 0) {
+            if (gEl.value !== '' && gEl.value !== '0') {
+                gEl.value = '';
+                showGamesWarn();
+            }
+            return;
+        }
         const max = Math.min(144, tVal);
         const cur = parseInt(gEl.value) || 0;
-        if (cur > max) gEl.value = max.toString();
+        if (cur > max) { gEl.value = max.toString(); }
     }
 
     // 타석/출장/팀경기 키보드+휠 이벤트
@@ -782,7 +815,10 @@
             e.preventDefault();
             const dir = e.key === 'ArrowUp' ? 1 : -1;
             const step = () => {
-                el.value = Math.min(getMax(id), Math.max(0, (parseInt(el.value) || 0) + dir)).toString();
+                const m = getMax(id);
+                const c = parseInt(el.value) || 0;
+                if (id === 'p-games' && dir > 0 && c >= m) { showGamesWarn(); return; }
+                el.value = Math.min(m, Math.max(0, c + dir)).toString();
                 if (id === 'p-teamgames') clampGames();
             };
             step();
@@ -804,7 +840,10 @@
         e.preventDefault();
         const el = document.getElementById(focused);
         const dir = e.deltaY < 0 ? 1 : -1;
-        el.value = Math.min(getMax(focused), Math.max(0, (parseInt(el.value) || 0) + dir)).toString();
+        const m = getMax(focused);
+        const c = parseInt(el.value) || 0;
+        if (focused === 'p-games' && dir > 0 && c >= m) { showGamesWarn(); return; }
+        el.value = Math.min(m, Math.max(0, c + dir)).toString();
         if (focused === 'p-teamgames') clampGames();
     }, { passive: false });
 
@@ -943,7 +982,7 @@
         let box = document.getElementById("resultBox");
         const pa = parseInt(document.getElementById('b-pa').value) || 0;
         document.getElementById("ops").innerText = ops.toFixed(3);
-        document.getElementById("grade").innerText = gradeText;
+        // grade는 아래 PA 처리에서 설정
         // 타석 표시
         let paHtml = pa ? `<div style="margin-top:8px; font-size:13px; opacity:0.7;">타석: <b>${pa}</b></div>` : '';
         const existingPaEl = document.getElementById('b-pa-display');
@@ -962,18 +1001,19 @@
         const obpWarnEl = document.getElementById('obp-warn');
         obpWarnEl.style.display = avg > obp ? 'block' : 'none';
 
-        // 타석 표본 경고
+        // 타석 표본 경고 및 등급 텍스트 페이스 처리
         const paWarnEl = document.getElementById('pa-warn');
-        if (pa > 0 && pa < 150) {
-            paWarnEl.textContent = '⚠️ 표본이 부족합니다. 정보가 부정확할 수 있습니다.';
-            paWarnEl.style.color = '#ff9b9b';
-            paWarnEl.style.display = 'block';
-        } else if (pa >= 150 && pa < 300) {
-            paWarnEl.textContent = '⚠️ 표본이 다소 적습니다. 정보가 부정확할 수도 있습니다.';
+        const underQuota = pa > 0 && pa < 447;
+        if (underQuota) {
+            paWarnEl.textContent = '⚠️ 규정타석이 아닙니다. 정보가 부정확할 수 있습니다.';
             paWarnEl.style.color = '#ffcc80';
             paWarnEl.style.display = 'block';
+            // 등급 텍스트에 "페이스" 추가
+            const gradeEl = document.getElementById("grade");
+            gradeEl.innerText = gradeText + ' 페이스';
         } else {
             paWarnEl.style.display = 'none';
+            document.getElementById("grade").innerText = gradeText;
         }
     }
 
