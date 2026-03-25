@@ -328,11 +328,106 @@
         }
         .p-field-input:focus { border-color: #00ffe1; box-shadow: 0 0 12px #00ffe1; outline: none; }
         .p-arrowbtn { width: 100%; }
+
+        /* 세부/비교 서브탭 */
+        .sub-tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .sub-tab {
+            flex: 1;
+            padding: 8px 0;
+            font-size: 14px;
+            font-weight: bold;
+            background: transparent;
+            border: 1px solid #2a6660;
+            color: #7ecfcf;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: auto; margin: 0;
+        }
+        .sub-tab.active {
+            background: #1a4a44;
+            border-color: #3eeed2;
+            color: #3eeed2;
+            box-shadow: 0 0 8px #3eeed255;
+        }
+        .sub-tab:not(.active):hover { background: #1a3333; }
+
+        /* 비교 섹션 */
+        .compare-wrapper {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-top: 16px;
+        }
+        .compare-player {
+            flex: 1;
+            background: #141414;
+            border: 1px solid #2a5555;
+            border-radius: 12px;
+            padding: 16px 12px;
+        }
+        .compare-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #9efcff;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .compare-labels {
+            display: flex;
+            justify-content: space-around;
+            font-size: 12px;
+            color: #7ecfcf;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .compare-inputs {
+            display: flex;
+            gap: 6px;
+        }
+        .cmp-input {
+            flex: 1;
+            padding: 10px 4px;
+            background: #0f0f0f;
+            border: 1px solid #3eeed2;
+            border-radius: 8px;
+            color: #b9fff7;
+            text-align: center;
+            font-size: 15px;
+            box-sizing: border-box;
+            min-width: 0;
+        }
+        .cmp-input:focus { border-color: #00ffe1; box-shadow: 0 0 8px #00ffe1; outline: none; }
+        .compare-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #3eeed2;
+            padding-top: 60px;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
+
+    <!-- 세부 / 비교 탭 -->
+    <div class="sub-tabs">
+        <button class="sub-tab active" id="subtab-main" onclick="switchSubTab('main')">기록 계산기</button>
+        <button class="sub-tab" id="subtab-detail" onclick="switchSubTab('detail')">세부</button>
+        <button class="sub-tab" id="subtab-compare" onclick="switchSubTab('compare')">비교</button>
+    </div>
+
+    <!-- 메인 섹션 -->
+    <div id="section-main">
     <div class="title-wrapper">
         <h1 id="mainTitle">OPS 등급 계산기</h1>
         <div class="info-icon" onclick="toggleTooltip(event)" onmouseenter="hoverTooltip(true)" onmouseleave="hoverTooltip(false)">
@@ -541,13 +636,62 @@
             <span class="stage-num" id="stagenum-slg"></span>
         </div>
     </div>
-    <div id="specialMsg" style="display:none; margin-top: 14px; font-size: 14px; color: #ffb84d; font-style: italic; text-shadow: 0 0 8px #ffb84d88;">
-        그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!
-    </div>
+    <div id="specialMsg" style="display:none; margin-top: 14px; font-size: 14px; color: #ffb84d; font-style: italic; text-shadow: 0 0 8px #ffb84d88;"></div>
     <div id="obp-warn" style="display:none; margin-top: 10px; font-size: 13px; color: #fff9c4; opacity: 0.85;">
         ⚠️ 타율은 보통 출루율보다 값이 낮습니다. 기록을 재확인해주세요.
     </div>
     <div id="pa-warn" style="display:none; margin-top: 10px; font-size: 13px; font-style: italic;"></div>
+
+    </div><!-- /section-main -->
+
+    <!-- 세부 섹션 -->
+    <div id="section-detail" style="display:none;">
+        <p style="color:#7ecfcf; margin-top:20px; font-size:14px; opacity:0.7;">세부 기능은 준비 중입니다.</p>
+    </div>
+
+    <!-- 비교 섹션 -->
+    <div id="section-compare" style="display:none;">
+        <div class="compare-wrapper">
+            <!-- 선수 A -->
+            <div class="compare-player">
+                <div class="compare-title">선수 A</div>
+                <div class="compare-labels"><div>타율</div><div>출루율</div><div>장타율</div></div>
+                <div class="compare-inputs">
+                    <input id="cmp-a-avg" type="text" placeholder=".000" class="cmp-input">
+                    <input id="cmp-a-obp" type="text" placeholder=".000" class="cmp-input">
+                    <input id="cmp-a-slg" type="text" placeholder=".000" class="cmp-input">
+                </div>
+                <button class="calc-btn" style="margin-top:16px;" onclick="calculateCompare('a')">계산</button>
+                <div id="cmp-a-result" class="result-box" style="display:none; margin-top:16px;">
+                    <p style="font-size:15px; margin:0; opacity:0.7;">OPS</p>
+                    <span id="cmp-a-ops" style="font-size:26px; font-weight:bold;"></span>
+                    <div class="grade" id="cmp-a-grade"></div>
+                </div>
+                <p id="cmp-a-error" style="color:#ff9b9b; margin-top:10px; font-size:13px;"></p>
+            </div>
+
+            <div class="compare-divider">VS</div>
+
+            <!-- 선수 B -->
+            <div class="compare-player">
+                <div class="compare-title">선수 B</div>
+                <div class="compare-labels"><div>타율</div><div>출루율</div><div>장타율</div></div>
+                <div class="compare-inputs">
+                    <input id="cmp-b-avg" type="text" placeholder=".000" class="cmp-input">
+                    <input id="cmp-b-obp" type="text" placeholder=".000" class="cmp-input">
+                    <input id="cmp-b-slg" type="text" placeholder=".000" class="cmp-input">
+                </div>
+                <button class="calc-btn" style="margin-top:16px;" onclick="calculateCompare('b')">계산</button>
+                <div id="cmp-b-result" class="result-box" style="display:none; margin-top:16px;">
+                    <p style="font-size:15px; margin:0; opacity:0.7;">OPS</p>
+                    <span id="cmp-b-ops" style="font-size:26px; font-weight:bold;"></span>
+                    <div class="grade" id="cmp-b-grade"></div>
+                </div>
+                <p id="cmp-b-error" style="color:#ff9b9b; margin-top:10px; font-size:13px;"></p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -935,34 +1079,16 @@
         let ops = obp + slg;
         let [gradeText, gradeClass] = getGrade(ops);
 
-        // 5+단계 개수 & 1단계 개수 계산
+        // 5+단계 개수 계산
         const plusCount = inputIds.filter(id => {
             const val = parseFloat(document.getElementById(id).value) || 0;
             return getStage(id, val) === 6;
         }).length;
 
-        const oneCount = inputIds.filter(id => {
-            const val = parseFloat(document.getElementById(id).value) || 0;
-            return getStage(id, val) === 1;
-        }).length;
-
-        let specialMsg = '';
-
-        if (plusCount >= 2 && oneCount >= 1) {
-            // 2개 5+ + 1개 1단계 → A 고정 + 야박 메시지
-            gradeText = "A - 훌륭한 시즌";
-            gradeClass = "a";
-            specialMsg = "2개의 분야에서 최고를 받았는데.. 너무 야박한거 아닌가요?";
-        } else if (plusCount >= 1 && oneCount >= 1) {
-            // 5+와 1단계 동시 → 등급 유지 + 자신만의 색 메시지
-            specialMsg = "그는 심각한 단점과 장점으로 자신만의 색의 야구를 했습니다";
-        } else if (plusCount >= 2) {
-            // 2개 이상 5+: 무조건 SS+
+        if (plusCount >= 2) {
             gradeText = "SS+ - 미친 시즌";
             gradeClass = "ss";
-            specialMsg = "그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!";
         } else if (plusCount === 1) {
-            // 1개 5+: 한 등급 업
             const idx = gradeList.findIndex(g => g[0] === gradeText);
             if (idx === gradeList.length - 1) {
                 gradeText = "SS+ - 미친 시즌";
@@ -972,38 +1098,6 @@
                 gradeText = upgraded[0];
                 gradeClass = upgraded[1];
             }
-            specialMsg = "그는 자신만의 길로 더 좋은 시즌을 만들어 냈습니다!";
-        } else if (oneCount >= 1) {
-            // 1단계 1개 이상: 한 등급 다운
-            const idx = gradeList.findIndex(g => g[0] === gradeText);
-            if (idx > 0) {
-                const downgraded = gradeList[idx - 1];
-                gradeText = downgraded[0];
-                gradeClass = downgraded[1];
-            }
-            specialMsg = "그는 심각한 단점으로 좋지 않은 시즌을 보냈습니다...";
-        }
-
-        const msgEl = document.getElementById('specialMsg');
-        if (specialMsg) {
-            msgEl.textContent = specialMsg;
-            // 메시지 종류에 따라 색상 분기
-            if (specialMsg.includes('야박')) {
-                msgEl.style.color = '#ff8a80';
-                msgEl.style.textShadow = '0 0 8px #ff8a8088';
-            } else if (specialMsg.includes('단점과 장점')) {
-                msgEl.style.color = '#b39ddb';
-                msgEl.style.textShadow = '0 0 8px #b39ddb88';
-            } else if (specialMsg.includes('단점')) {
-                msgEl.style.color = '#ff9b9b';
-                msgEl.style.textShadow = '0 0 8px #ff9b9b88';
-            } else {
-                msgEl.style.color = '#ffb84d';
-                msgEl.style.textShadow = '0 0 8px #ffb84d88';
-            }
-            msgEl.style.display = 'block';
-        } else {
-            msgEl.style.display = 'none';
         }
 
         let box = document.getElementById("resultBox");
@@ -1118,12 +1212,10 @@
             if (el) el.style.display = isBatter ? '' : 'none';
         });
 
-        // 타자 결과/단계/메시지는 이전에 계산한 적 있을 때만 복원
+        // 타자 결과/단계는 이전에 계산한 적 있을 때만 복원
         document.getElementById('resultBox').style.display  = (isBatter && batterResultShown) ? 'block' : 'none';
         document.getElementById('stageSection').style.display = (isBatter && batterResultShown) ? 'block' : 'none';
-        // specialMsg는 텍스트 있을 때만
-        const msgEl = document.getElementById('specialMsg');
-        msgEl.style.display = (isBatter && batterResultShown && msgEl.textContent.trim()) ? 'block' : 'none';
+        document.getElementById('specialMsg').style.display = 'none';
         document.getElementById('obp-warn').style.display = 'none';
 
         document.getElementById('pitcherSection').style.display = isBatter ? 'none' : 'block';
@@ -1457,6 +1549,39 @@
         const box = document.getElementById('p-resultBox');
         box.className = 'result-box ' + gradeClass;
         box.style.display = 'block';
+    }
+
+    /* ── 서브탭 전환 ── */
+    function switchSubTab(tab) {
+        ['main','detail','compare'].forEach(t => {
+            document.getElementById('subtab-' + t).classList.toggle('active', t === tab);
+            document.getElementById('section-' + t).style.display = t === tab ? '' : 'none';
+        });
+    }
+
+    /* ── 비교 계산 ── */
+    function calculateCompare(player) {
+        const avg = parseFloat(document.getElementById(`cmp-${player}-avg`).value) || 0;
+        const obp = parseFloat(document.getElementById(`cmp-${player}-obp`).value) || 0;
+        const slg = parseFloat(document.getElementById(`cmp-${player}-slg`).value) || 0;
+        const errEl = document.getElementById(`cmp-${player}-error`);
+
+        let error = '';
+        if (avg > 1 || obp > 1) error = '타율/출루율은 1을 넘을 수 없습니다.';
+        else if (slg > 4) error = '장타율은 4를 넘을 수 없습니다.';
+        else if (avg > slg) error = '타율이 장타율보다 높을 수 없습니다.';
+
+        if (error) { errEl.textContent = error; document.getElementById(`cmp-${player}-result`).style.display = 'none'; return; }
+        errEl.textContent = '';
+
+        const ops = obp + slg;
+        const [gradeText, gradeClass] = getGrade(ops);
+
+        document.getElementById(`cmp-${player}-ops`).textContent = ops.toFixed(3);
+        document.getElementById(`cmp-${player}-grade`).textContent = gradeText;
+        const result = document.getElementById(`cmp-${player}-result`);
+        result.className = 'result-box ' + gradeClass;
+        result.style.display = 'block';
     }
 </script>
 
