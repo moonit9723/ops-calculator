@@ -745,6 +745,7 @@
             showGamesWarn(); return;
         }
         el.value = Math.min(max, Math.max(0, cur + dir)).toString();
+        if (id === 'p-games') gamesOriginal = parseInt(el.value) || null;
         if (id === 'p-teamgames') clampGames();
 
         holdCount = 0;
@@ -759,26 +760,46 @@
                     const c = parseInt(el.value) || 0;
                     if (id === 'p-games' && dir > 0 && c >= m) { showGamesWarn(); break; }
                     el.value = Math.min(m, Math.max(0, c + dir)).toString();
+                    if (id === 'p-games') gamesOriginal = parseInt(el.value) || null;
                     if (id === 'p-teamgames') clampGames();
                 }
             }, 50);
         }, 400);
     }
 
-    // 팀경기가 바뀌면 출장경기를 즉시 clamp
+    // 출장경기 원래 값 기억 (팀경기가 다시 올라올 때 복원용)
+    let gamesOriginal = null;
+
+    // 팀경기가 바뀌면 출장경기를 즉시 clamp, 원래 값 복원
     function clampGames() {
         const gEl = document.getElementById('p-games');
         const tVal = parseInt(document.getElementById('p-teamgames').value);
+
         if (isNaN(tVal) || tVal === 0) {
-            if (gEl.value !== '' && gEl.value !== '0') {
+            const cur = parseInt(gEl.value) || 0;
+            if (cur > 0) {
+                if (gamesOriginal === null) gamesOriginal = cur;
                 gEl.value = '';
                 showGamesWarn();
             }
             return;
         }
+
         const max = Math.min(144, tVal);
         const cur = parseInt(gEl.value) || 0;
-        if (cur > max) { gEl.value = max.toString(); }
+
+        if (cur > max) {
+            // 줄어드는 경우: 원래 값 기억하고 clamp
+            if (gamesOriginal === null) gamesOriginal = cur;
+            gEl.value = max.toString();
+        } else if (gamesOriginal !== null && tVal >= gamesOriginal) {
+            // 팀경기가 다시 올라와서 원래 값 이상이 되면 복원
+            gEl.value = gamesOriginal.toString();
+            gamesOriginal = null;
+        } else if (gamesOriginal !== null && tVal > cur) {
+            // 팀경기가 올라오는 중이지만 아직 원래 값 미만
+            gEl.value = max.toString();
+        }
     }
 
     // 타석/출장/팀경기 키보드+휠 이벤트
@@ -801,6 +822,10 @@
                 v = Math.min(getMax(id), v);
                 el.value = v.toString();
             }
+            // 출장경기 직접 수정 시 원래 값 업데이트
+            if (id === 'p-games') {
+                gamesOriginal = parseInt(el.value) || null;
+            }
             if (id === 'p-teamgames') clampGames();
         });
         el.addEventListener('keydown', e => {
@@ -819,6 +844,7 @@
                 const c = parseInt(el.value) || 0;
                 if (id === 'p-games' && dir > 0 && c >= m) { showGamesWarn(); return; }
                 el.value = Math.min(m, Math.max(0, c + dir)).toString();
+                if (id === 'p-games') gamesOriginal = parseInt(el.value) || null;
                 if (id === 'p-teamgames') clampGames();
             };
             step();
@@ -844,6 +870,7 @@
         const c = parseInt(el.value) || 0;
         if (focused === 'p-games' && dir > 0 && c >= m) { showGamesWarn(); return; }
         el.value = Math.min(m, Math.max(0, c + dir)).toString();
+        if (focused === 'p-games') gamesOriginal = parseInt(el.value) || null;
         if (focused === 'p-teamgames') clampGames();
     }, { passive: false });
 
