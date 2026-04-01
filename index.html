@@ -418,6 +418,231 @@
             padding-top: 60px;
             flex-shrink: 0;
         }
+
+        /* 세부 모달 */
+        .detail-modal {
+            background: #1a1a1a;
+            border: 1px solid #3eeed2;
+            box-shadow: 0 0 40px rgba(0,255,200,0.2);
+            border-radius: 18px;
+            width: 560px;
+            margin: 60px auto;
+            overflow: hidden;
+        }
+        .detail-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 28px;
+            border-bottom: 1px solid #2a4444;
+            background: #141414;
+        }
+        .detail-modal-header span {
+            font-size: 20px;
+            font-weight: bold;
+            color: #b9fff7;
+            text-shadow: 0 0 10px #00ffe155;
+        }
+        .detail-modal-close {
+            background: transparent;
+            border: 1px solid #3eeed2;
+            color: #3eeed2;
+            border-radius: 50%;
+            width: 32px; height: 32px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            width: auto; margin: 0; padding: 0 10px; border-radius: 8px;
+        }
+        .detail-modal-close:hover { background: #3eeed2; color: #121212; }
+        .detail-modal-body { padding: 28px; }
+        .detail-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 12px;
+        }
+        .detail-modal-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .detail-modal-item label {
+            font-size: 12px;
+            color: #7ecfcf;
+            font-weight: bold;
+        }
+        .detail-modal-input {
+            width: 100%;
+            padding: 10px 4px;
+            background: #0f0f0f;
+            border: 1px solid #3eeed2;
+            border-radius: 8px;
+            color: #b9fff7;
+            text-align: center;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        .detail-modal-input:focus { border-color: #00ffe1; box-shadow: 0 0 10px #00ffe1; outline: none; }
+
+        /* 세부 화면 그리드 */
+        .detail-section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #b9fff7;
+            text-shadow: 0 0 10px #00ffe155;
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #2a4444;
+        }
+        .detail-input-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 10px;
+        }
+        .detail-input-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .detail-input-cell label {
+            font-size: 13px;
+            color: #9efcff;
+            font-weight: bold;
+        }
+        .detail-labels {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 8px;
+            color: #9efcff;
+            font-weight: bold;
+            font-size: 14px;
+            gap: 10px;
+        }
+        .detail-labels div { flex: 1; text-align: center; }
+        .detail-row {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+        .detail-row .input-wrapper { flex: 1; }
+        .detail-field-input {
+            width: 100%;
+            padding: 12px 4px;
+            background: #0f0f0f;
+            border: 1px solid #3eeed2;
+            border-radius: 8px;
+            color: #b9fff7;
+            text-align: center;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .detail-field-input:focus { border-color: #00ffe1; box-shadow: 0 0 12px #00ffe1; outline: none; }
+        .detail-switch-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .detail-switch-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #7ecfcf;
+        }
+        .detail-switch {
+            width: 42px; height: 22px;
+            background: #1f3333;
+            border: 1px solid #3eeed2;
+            border-radius: 11px;
+            position: relative;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .detail-switch.on {
+            background: #1a4a44;
+            box-shadow: 0 0 8px #3eeed255;
+        }
+        .detail-switch-knob {
+            width: 16px; height: 16px;
+            background: #3eeed2;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px; left: 3px;
+            transition: left 0.2s;
+        }
+        .detail-switch.on .detail-switch-knob { left: 21px; }
+        .detail-section-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #9efcff;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .detail-group-label {
+            font-size: 12px;
+            color: #7ecfcf;
+            margin-bottom: 8px;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        .detail-toggle-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .detail-toggle {
+            padding: 6px 14px;
+            font-size: 13px;
+            background: transparent;
+            border: 1px solid #2a6660;
+            color: #7ecfcf;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: auto; margin: 0;
+        }
+        .detail-toggle.on {
+            background: #1a4a44;
+            border-color: #3eeed2;
+            color: #3eeed2;
+            box-shadow: 0 0 6px #3eeed255;
+        }
+        .detail-toggle:not(.on):hover { background: #1a3333; }
+        .detail-stat-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .detail-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .detail-stat-item label {
+            font-size: 11px;
+            color: #7ecfcf;
+            font-weight: bold;
+        }
+        .detail-input {
+            width: 80px;
+            padding: 7px 4px;
+            background: #0f0f0f;
+            border: 1px solid #3eeed2;
+            border-radius: 8px;
+            color: #b9fff7;
+            text-align: center;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .detail-input:focus { border-color: #00ffe1; box-shadow: 0 0 8px #00ffe1; outline: none; }
     </style>
 </head>
 <body>
@@ -427,7 +652,12 @@
     <!-- 세부 / 비교 탭 -->
     <div class="sub-tabs">
         <button class="sub-tab active" id="subtab-main" onclick="switchSubTab('main')">기록 계산기</button>
-        <button class="sub-tab" id="subtab-detail" onclick="switchSubTab('detail')">세부</button>
+        <label class="detail-switch-wrap" onclick="toggleDetail()">
+            <span class="detail-switch-label">세부</span>
+            <div class="detail-switch" id="detail-switch">
+                <div class="detail-switch-knob"></div>
+            </div>
+        </label>
         <button class="sub-tab" id="subtab-compare" onclick="switchSubTab('compare')">비교</button>
     </div>
 
@@ -649,10 +879,113 @@
 
     </div><!-- /section-main -->
 
-    <!-- 세부 섹션 -->
+    <!-- 세부 섹션 (토글 시 section-main과 교체) -->
     <div id="section-detail" style="display:none;">
-        <p style="color:#7ecfcf; margin-top:20px; font-size:14px; opacity:0.7;">세부 기능은 준비 중입니다.</p>
-    </div>
+
+        <!-- 타자 세부 -->
+        <div id="detail-batter">
+            <div class="detail-section-title">타자 세부 기록</div>
+            <div class="detail-group-label">타선 위치</div>
+            <div class="detail-toggle-group" style="margin-bottom:20px;">
+                <button class="detail-toggle" id="dt-leadoff" data-group="batting-order" onclick="toggleDetailBtn('batting-order','leadoff')">테이블세터</button>
+                <button class="detail-toggle" id="dt-cleanup" data-group="batting-order" onclick="toggleDetailBtn('batting-order','cleanup')">중심타선</button>
+                <button class="detail-toggle" id="dt-lower" data-group="batting-order" onclick="toggleDetailBtn('batting-order','lower')">하위타선</button>
+            </div>
+
+            <div class="detail-labels"><div>타율</div><div>출루율</div><div>장타율</div></div>
+            <div class="detail-row">
+                <div class="input-wrapper" id="wrap-d-avg"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'d-avg',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-avg" type="text" placeholder=".000" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'d-avg',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-obp"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'d-obp',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-obp" type="text" placeholder=".000" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'d-obp',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-slg"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'d-slg',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-slg" type="text" placeholder=".000" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'d-slg',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+            </div>
+
+            <div class="detail-labels" style="margin-top:14px;"><div>홈런</div><div>타점</div><div>득점</div></div>
+            <div class="detail-row">
+                <div class="input-wrapper" id="wrap-d-hr"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-hr',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-hr" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-hr',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-rbi"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-rbi',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-rbi" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-rbi',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-r"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-r',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-r" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-r',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+            </div>
+
+            <div class="detail-labels" style="margin-top:14px;"><div>삼진</div><div>도루</div><div>도루실패</div></div>
+            <div class="detail-row">
+                <div class="input-wrapper" id="wrap-d-so"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-so',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-so" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-so',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-sb"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-sb',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-sb" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-sb',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-cs"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-cs',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-cs" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-cs',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+            </div>
+
+            <div class="detail-labels" style="margin-top:14px; justify-content:center;"><div style="flex:0 0 calc(33% - 7px); text-align:center;">타석</div></div>
+            <div class="detail-row" style="justify-content:center;">
+                <div class="input-wrapper" id="wrap-d-pa" style="flex:0 0 calc(33% - 7px);"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-pa',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-pa" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-pa',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+            </div>
+
+            <button class="calc-btn" style="margin-top:24px;" onclick="calculateDetail()">기록 계산하기</button>
+            <p id="detail-error" style="color:#ff9b9b; margin-top:12px; font-weight:bold;"></p>
+            <div id="detail-result" class="result-box" style="display:none; margin-top:16px;">
+                <p style="font-size:15px; margin:0; opacity:0.7;">최종 OPS</p>
+                <span id="detail-ops" style="font-size:26px; font-weight:bold;"></span>
+                <div class="grade" id="detail-grade"></div>
+                <div id="detail-extra" style="margin-top:10px; font-size:13px; opacity:0.8; line-height:1.9;"></div>
+            </div>
+        </div>
+
+        <!-- 투수 세부 -->
+        <div id="detail-pitcher" style="display:none;">
+            <div class="detail-section-title">투수 세부 기록</div>
+            <div class="detail-group-label">투구폼</div>
+            <div class="detail-toggle-group" style="margin-bottom:12px;">
+                <button class="detail-toggle" id="dt-over" data-group="pitch-form" onclick="toggleDetailBtn('pitch-form','over')">오버스로</button>
+                <button class="detail-toggle" id="dt-three" data-group="pitch-form" onclick="toggleDetailBtn('pitch-form','three')">쓰리쿼터</button>
+                <button class="detail-toggle" id="dt-side" data-group="pitch-form" onclick="toggleDetailBtn('pitch-form','side')">사이드암</button>
+                <button class="detail-toggle" id="dt-under" data-group="pitch-form" onclick="toggleDetailBtn('pitch-form','under')">언더스로</button>
+            </div>
+            <div class="detail-group-label">투구 방향</div>
+            <div class="detail-toggle-group" style="margin-bottom:20px;">
+                <button class="detail-toggle" id="dt-lefty" data-group="handedness" onclick="toggleDetailBtn('handedness','lefty')">좌완</button>
+                <button class="detail-toggle" id="dt-righty" data-group="handedness" onclick="toggleDetailBtn('handedness','righty')">우완</button>
+            </div>
+
+            <div class="detail-labels"><div>이닝</div><div>승리</div><div>패배</div></div>
+            <div class="detail-row">
+                <div class="input-wrapper" id="wrap-d-ip"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'d-ip',0.1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-ip" type="text" placeholder="0.0" class="detail-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'d-ip',-0.1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-win"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-win',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-win" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-win',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-loss"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-loss',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-loss" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-loss',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+            </div>
+
+            <div class="detail-labels" style="margin-top:14px;"><div>ERA</div><div>WHIP</div><div>FIP</div></div>
+            <div class="detail-row">
+                <div class="input-wrapper" id="wrap-d-era"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'d-era',0.01)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-era" type="text" placeholder="0.00" class="detail-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'d-era',-0.01)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-whip"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'d-whip',0.01)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-whip" type="text" placeholder="0.00" class="detail-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'d-whip',-0.01)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-fip"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'d-fip',0.01)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-fip" type="text" placeholder="0.00" class="detail-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'d-fip',-0.01)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+            </div>
+
+            <div class="detail-labels" style="margin-top:14px;"><div>탈삼진</div><div>볼넷</div><div>피안타</div></div>
+            <div class="detail-row">
+                <div class="input-wrapper" id="wrap-d-k"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-k',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-k" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-k',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-bb"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-bb',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-bb" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-bb',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-h"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-h',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-h" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-h',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+            </div>
+
+            <div class="detail-labels" style="margin-top:14px; justify-content:center; gap:10px;"><div style="flex:0 0 calc(33% - 7px); text-align:center;">출장경기</div><div style="flex:0 0 calc(33% - 7px); text-align:center;">팀경기</div></div>
+            <div class="detail-row" style="justify-content:center; gap:10px;">
+                <div class="input-wrapper" id="wrap-d-games" style="flex:0 0 calc(33% - 7px);"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-games',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-games" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-games',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+                <div class="input-wrapper" id="wrap-d-teamgames" style="flex:0 0 calc(33% - 7px);"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-teamgames',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-teamgames" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-teamgames',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+            </div>
+
+            <div id="d-games-warn" style="display:none; margin-top:8px; font-size:12px; color:#ff9b9b;">
+                출장경기는 팀경기보다 적어야합니다!
+            </div>
+
+            <button class="calc-btn" style="margin-top:24px;" onclick="calculateDetailPitcher()">기록 계산하기</button>
+            <p id="detail-p-error" style="color:#ff9b9b; margin-top:12px; font-weight:bold;"></p>
+            <div id="detail-p-result" class="result-box" style="display:none; margin-top:16px;">
+                <p style="font-size:15px; margin:0; opacity:0.7;" id="detail-p-label">ERA 등급</p>
+                <span id="detail-p-era" style="font-size:26px; font-weight:bold;"></span>
+                <div class="grade" id="detail-p-grade"></div>
+                <div id="detail-p-extra" style="margin-top:10px; font-size:13px; opacity:0.8; line-height:1.9;"></div>
+            </div>
+        </div>
+
+    </div><!-- /section-detail -->
 
     <!-- 비교 섹션 -->
     <div id="section-compare" style="display:none;">
@@ -824,9 +1157,53 @@
         const el = document.getElementById(id);
         let val = parseFloat(el.value) || 0;
         val = Math.round((val + direction * 0.001) * 1000) / 1000;
-        val = Math.max(0, Math.min(id === 'slg' ? 4 : 1, val));
+        // slg는 최대 4, 나머지는 최대 1
+        const isSlg = id === 'slg' || id === 'd-slg';
+        val = Math.max(0, Math.min(isSlg ? 4 : 1, val));
         el.value = val.toFixed(3);
     }
+
+    /* ── 세부 입력창 포커스/휠/키보드 ── */
+    const detailDecIds = ['d-avg','d-obp','d-slg'];
+    detailDecIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('focus', () => {
+            const wrap = document.getElementById('wrap-' + id);
+            if (wrap) wrap.classList.add('focused');
+        });
+        el.addEventListener('blur', () => {
+            setTimeout(() => {
+                const wrap = document.getElementById('wrap-' + id);
+                if (wrap && document.activeElement !== el) wrap.classList.remove('focused');
+            }, 150);
+            autoFormat(el);
+        });
+        let dKeyTimer = null, dKeyInterval = null;
+        el.addEventListener('keydown', e => {
+            if (e.key === '-') { e.preventDefault(); return; }
+            if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+            if (dKeyTimer || dKeyInterval) return;
+            e.preventDefault();
+            const dir = e.key === 'ArrowUp' ? 1 : -1;
+            changeValue(id, dir);
+            dKeyTimer = setTimeout(() => { dKeyInterval = setInterval(() => changeValue(id, dir), 50); }, 400);
+        });
+        el.addEventListener('keyup', e => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                clearTimeout(dKeyTimer); clearInterval(dKeyInterval);
+                dKeyTimer = null; dKeyInterval = null;
+            }
+        });
+    });
+
+    // 세부 .000 칸 휠 지원
+    window.addEventListener('wheel', function(e) {
+        const focused = detailDecIds.find(id => document.getElementById(id) === document.activeElement);
+        if (!focused) return;
+        e.preventDefault();
+        changeValue(focused, e.deltaY < 0 ? 1 : -1);
+    }, { passive: false });
 
     /* ── 화살표 버튼 꾹 누르기: 가속 지원 ── */
     let holdTimer = null;
@@ -1229,6 +1606,7 @@
         document.getElementById('p-error').textContent = '';
 
         updateTooltipContent(isBatter ? 'batter' : currentPitcherRole);
+        updateDetailPanel();
     }
 
     // 역할별 3,4번째 필드 정보
@@ -1271,6 +1649,7 @@
         document.getElementById('p-resultBox').style.display = 'none';
         document.getElementById('p-error').textContent = '';
         updateTooltipContent(role);
+        updateDetailPanel();
     }
 
     // 투수 단일 스텝 (휠 전용 - holdTimer 없음)
@@ -1557,12 +1936,183 @@
     }
 
     /* ── 서브탭 전환 ── */
+    /* ── 세부 토글: section-main ↔ section-detail 교체 ── */
+    let detailOpen = false;
+    function toggleDetail() {
+        detailOpen = !detailOpen;
+        document.getElementById('section-main').style.display = detailOpen ? 'none' : '';
+        document.getElementById('section-detail').style.display = detailOpen ? '' : 'none';
+        // 비교 탭도 닫기
+        if (detailOpen) {
+            document.getElementById('section-compare').style.display = 'none';
+            document.querySelector('.container').classList.remove('wide');
+            document.getElementById('subtab-main').classList.remove('active');
+        } else {
+            document.getElementById('subtab-main').classList.add('active');
+        }
+        document.getElementById('detail-switch').classList.toggle('on', detailOpen);
+        if (detailOpen) updateDetailPanel();
+    }
+
     function switchSubTab(tab) {
-        ['main','detail','compare'].forEach(t => {
-            document.getElementById('subtab-' + t).classList.toggle('active', t === tab);
-            document.getElementById('section-' + t).style.display = t === tab ? '' : 'none';
+        // 세부가 열려있으면 닫기
+        if (detailOpen) {
+            detailOpen = false;
+            document.getElementById('section-detail').style.display = 'none';
+            document.getElementById('detail-switch').classList.remove('on');
+        }
+        ['main','compare'].forEach(t => {
+            document.getElementById('subtab-' + t)?.classList.toggle('active', t === tab);
+            const sec = document.getElementById('section-' + t);
+            if (sec) sec.style.display = t === tab ? '' : 'none';
         });
         document.querySelector('.container').classList.toggle('wide', tab === 'compare');
+    }
+
+    /* ── 세부 계산 (타자) ── */
+    function calculateDetail() {
+        const avg = parseFloat(document.getElementById('d-avg').value) || 0;
+        const obp = parseFloat(document.getElementById('d-obp').value) || 0;
+        const slg = parseFloat(document.getElementById('d-slg').value) || 0;
+        const errEl = document.getElementById('detail-error');
+
+        let error = '';
+        if (avg > 1 || obp > 1) error = '타율/출루율은 1을 넘을 수 없습니다.';
+        else if (slg > 4) error = '장타율은 4를 넘을 수 없습니다.';
+        else if (avg > slg) error = '타율이 장타율보다 높을 수 없습니다.';
+        if (error) { errEl.textContent = error; document.getElementById('detail-result').style.display='none'; return; }
+        errEl.textContent = '';
+
+        const ops = obp + slg;
+        let [gradeText, gradeClass] = getGrade(ops);
+
+        const plusCount = ['avg','obp','slg'].filter(id => {
+            const cuts = stageCuts[id];
+            const val = id==='avg'?avg:id==='obp'?obp:slg;
+            let s=1; for(let i=0;i<cuts.length;i++) if(val>=cuts[i]) s=i+2;
+            return s===6;
+        }).length;
+        if (plusCount >= 2) { gradeText="SS+ - 미친 시즌"; gradeClass="ss"; }
+        else if (plusCount === 1) {
+            const idx = gradeList.findIndex(g=>g[0]===gradeText);
+            if (idx===gradeList.length-1) { gradeText="SS+ - 미친 시즌"; gradeClass="ss"; }
+            else { [gradeText,gradeClass]=gradeList[idx+1]; }
+        }
+
+        const hr  = document.getElementById('d-hr').value;
+        const rbi = document.getElementById('d-rbi').value;
+        const so  = document.getElementById('d-so').value;
+        const sb  = document.getElementById('d-sb').value;
+        const cs  = document.getElementById('d-cs').value;
+        const pa  = parseInt(document.getElementById('d-pa').value) || 0;
+
+        let extra = `타율: <b>${avg.toFixed(3)}</b> &nbsp;|&nbsp; 출루율: <b>${obp.toFixed(3)}</b> &nbsp;|&nbsp; 장타율: <b>${slg.toFixed(3)}</b><br>`;
+        if (hr)  extra += `홈런: <b>${hr}</b> &nbsp;`;
+        if (rbi) extra += `타점: <b>${rbi}</b> &nbsp;`;
+        if (so)  extra += `삼진: <b>${so}</b> &nbsp;`;
+        if (sb||cs) extra += `<br>도루: <b>${sb||0}</b> &nbsp;|&nbsp; 도루실패: <b>${cs||0}</b>`;
+        if (pa)  extra += `<br>타석: <b>${pa}</b>${pa<447?' <span style="color:#ffcc80;font-size:11px;">(규정타석 미달)</span>':''}`;
+
+        const underQuota = pa > 0 && pa < 447;
+        document.getElementById('detail-ops').textContent = ops.toFixed(3);
+        document.getElementById('detail-grade').textContent = underQuota ? gradeText+' 페이스' : gradeText;
+        document.getElementById('detail-extra').innerHTML = extra;
+        const box = document.getElementById('detail-result');
+        box.className = 'result-box ' + gradeClass;
+        box.style.display = 'block';
+    }
+
+    /* ── 세부 투수: 출장/팀경기 실시간 경고 ── */
+    ['d-games','d-teamgames'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', function() {
+            const g  = parseInt(document.getElementById('d-games').value);
+            const tg = parseInt(document.getElementById('d-teamgames').value);
+            const warn = document.getElementById('d-games-warn');
+            if (!isNaN(g) && !isNaN(tg) && g > tg) {
+                warn.style.display = 'block';
+            } else {
+                warn.style.display = 'none';
+            }
+        });
+    });
+
+    /* ── 세부 계산 (투수) ── */
+    function calculateDetailPitcher() {
+        const era       = parseFloat(document.getElementById('d-era').value);
+        const gamesVal  = document.getElementById('d-games').value.trim();
+        const teamVal   = document.getElementById('d-teamgames').value.trim();
+        const games     = gamesVal !== '' ? parseInt(gamesVal) : null;
+        const teamGames = teamVal  !== '' ? parseInt(teamVal)  : null;
+        const errEl = document.getElementById('detail-p-error');
+        if (isNaN(era)) { errEl.textContent = 'ERA를 입력해주세요.'; return; }
+
+        // 팀경기 ≥ 세부경기 검사
+        if (games !== null && teamGames !== null && games > teamGames) {
+            errEl.textContent = '출장 경기는 팀 경기를 초과할 수 없습니다.'; return;
+        }
+        errEl.textContent = '';
+
+        const [gradeText, gradeClass] = getPitcherGrade(era, currentPitcherRole);
+        const ip   = document.getElementById('d-ip').value;
+        const whip = document.getElementById('d-whip').value;
+        const k    = document.getElementById('d-k').value;
+        const fip  = document.getElementById('d-fip').value;
+        const bb   = document.getElementById('d-bb').value;
+        const h    = document.getElementById('d-h').value;
+        const form = detailSelections['pitch-form'];
+        const hand = detailSelections['handedness'];
+
+        let extra = '';
+        if (hand) extra += `${hand==='lefty'?'좌완':'우완'} &nbsp;`;
+        if (form) { const fn={'over':'오버스로','three':'쓰리쿼터','side':'사이드암','under':'언더스로'}; extra += fn[form]||''; }
+        if (extra) extra += '<br>';
+        if (ip)   extra += `이닝: <b>${ip}</b> &nbsp;`;
+        if (whip) extra += `WHIP: <b>${whip}</b> &nbsp;`;
+        if (k)    extra += `탈삼진: <b>${k}</b><br>`;
+        if (fip)  extra += `FIP: <b>${fip}</b> &nbsp;`;
+        if (bb)   extra += `볼넷: <b>${bb}</b> &nbsp;`;
+        if (h)    extra += `피안타: <b>${h}</b>`;
+
+        const roleName = {starter:'선발',bullpen:'불펜',closer:'마무리'}[currentPitcherRole];
+        document.getElementById('detail-p-label').textContent = roleName + ' ERA 등급';
+        document.getElementById('detail-p-era').textContent = era.toFixed(2);
+        document.getElementById('detail-p-grade').textContent = gradeText;
+        document.getElementById('detail-p-extra').innerHTML = extra;
+        const box = document.getElementById('detail-p-result');
+        box.className = 'result-box ' + gradeClass;
+        box.style.display = 'block';
+    }
+
+    /* ── 세부 토글 버튼 (단일 선택) ── */
+    const detailSelections = {};
+    function toggleDetailBtn(group, key) {
+        const isSame = detailSelections[group] === key;
+        detailSelections[group] = isSame ? null : key;
+
+        // 같은 그룹 버튼 전체 off
+        document.querySelectorAll(`[id^="dt-"]`).forEach(el => {
+            const elGroup = el.dataset.group;
+            if (elGroup === group) el.classList.remove('on');
+        });
+        // 선택된 버튼만 on
+        if (!isSame) {
+            const btn = document.getElementById('dt-' + key);
+            if (btn) btn.classList.add('on');
+        }
+    }
+
+    // 세부 패널: 타자/투수 전환 연동
+    function updateDetailPanel() {
+        const isBatter = currentMode === 'batter';
+        const role = currentPitcherRole;
+        const db = document.getElementById('detail-batter');
+        const dp = document.getElementById('detail-pitcher');
+        const dbr = document.getElementById('detail-bullpen-role');
+        if (db) db.style.display = isBatter ? 'block' : 'none';
+        if (dp) dp.style.display = !isBatter ? 'block' : 'none';
+        if (dbr) dbr.style.display = (!isBatter && role === 'bullpen') ? 'block' : 'none';
     }
 
     /* ── 비교 계산 ── */
