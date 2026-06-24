@@ -105,7 +105,6 @@ button.calc-btn:hover{background:#00ffe1;color:black;box-shadow:0 0 20px #00ffe1
   <button class="sub-tab" id="subtab-compare" onclick="switchSubTab('compare')">비교</button>
 </div>
 
-<!-- 메인 섹션 -->
 <div id="section-main">
 <div class="title-wrapper">
   <h1 id="mainTitle">OPS 등급 계산기</h1>
@@ -129,7 +128,7 @@ button.calc-btn:hover{background:#00ffe1;color:black;box-shadow:0 0 20px #00ffe1
 <div id="batter-keyhint" class="key-hint"><kbd>↑</kbd> <kbd>↓</kbd> 또는 🖱️ 휠로 값 0.001 조절 &nbsp;|&nbsp; <kbd>Enter</kbd> 계산</div>
 <div id="batter-labels" class="labels"><div>타율</div><div>출루율</div><div>장타율</div></div>
 <div id="batter-inputs" class="inputs">
-  <div class="input-wrapper" id="wrap-avg"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="avg" type="text" placeholder=".000"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+  <div class="input-wrapper" id="wrap-avg"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',1)'" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="avg" type="text" placeholder=".000"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'avg',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
   <div class="input-wrapper" id="wrap-obp"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'obp',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="obp" type="text" placeholder=".000"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'obp',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
   <div class="input-wrapper" id="wrap-slg"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'slg',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="slg" type="text" placeholder=".000"><button class="arrow-btn" tabindex="-1" onmousedown="stepValue(event,'slg',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
 </div>
@@ -143,7 +142,6 @@ button.calc-btn:hover{background:#00ffe1;color:black;box-shadow:0 0 20px #00ffe1
 </div>
 <button id="batter-calcbtn" class="calc-btn" onclick="calculate()">기록 계산하기</button>
 
-<!-- 투수 섹션 -->
 <div id="pitcherSection" style="display:none">
   <div class="pitcher-tabs">
     <button class="pitcher-tab active" id="ptab-starter" onclick="switchPitcher('starter')">선발</button>
@@ -154,8 +152,8 @@ button.calc-btn:hover{background:#00ffe1;color:black;box-shadow:0 0 20px #00ffe1
   <div class="p-row-inputs" id="p-row-inputs">
     <div class="input-wrapper"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'p-innings',0.1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="p-innings" type="text" placeholder="0.0" class="p-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'p-innings',-0.1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
     <div class="input-wrapper"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'p-era',0.01)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="p-era" type="text" placeholder="0.00" class="p-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" onmousedown="stepPValue(event,'p-era',-0.01)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
-    <div class="input-wrapper"><button class="arrow-btn p-arrowbtn" tabindex="-1" id="pbtn-up3" onmousedown="stepPRole(event,3,1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="p-field3" type="text" placeholder="0" class="p-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" id="pbtn-dn3" onmousedown="stepPRole(event,3,-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
-    <div class="input-wrapper"><button class="arrow-btn p-arrowbtn" tabindex="-1" id="pbtn-up4" onmousedown="stepPRole(event,4,1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="p-field4" type="text" placeholder="0" class="p-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" id="pbtn-dn4" onmousedown="stepPRole(event,4,-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+    <div class="input-wrapper"><button class="arrow-btn p-arrowbtn" tabindex="-1" id="pbtn-up3" onmousedown="stepInt(event,'p-field3',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="p-field3" type="text" placeholder="0" class="p-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" id="pbtn-dn3" onmousedown="stepInt(event,'p-field3',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
+    <div class="input-wrapper"><button class="arrow-btn p-arrowbtn" tabindex="-1" id="pbtn-up4" onmousedown="stepInt(event,'p-field4',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="p-field4" type="text" placeholder="0" class="p-field-input"><button class="arrow-btn p-arrowbtn" tabindex="-1" id="pbtn-dn4" onmousedown="stepInt(event,'p-field4',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
   </div>
   <div style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:20px">
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
@@ -193,11 +191,7 @@ button.calc-btn:hover{background:#00ffe1;color:black;box-shadow:0 0 20px #00ffe1
 <div id="specialMsg" style="display:none;margin-top:14px;font-size:14px;color:#ffb84d;font-style:italic;text-shadow:0 0 8px #ffb84d88"></div>
 <div id="obp-warn" style="display:none;margin-top:10px;font-size:13px;color:#fff9c4;opacity:.85">⚠️ 타율은 보통 출루율보다 값이 낮습니다. 기록을 재확인해주세요.</div>
 <div id="pa-warn" style="display:none;margin-top:10px;font-size:13px;font-style:italic"></div>
-</div><!-- /section-main -->
-
-<!-- 세부 섹션 -->
-<div id="section-detail" style="display:none">
-  <!-- 타자 세부 -->
+</div><div id="section-detail" style="display:none">
   <div id="detail-batter">
     <div class="detail-section-title">타자 세부 기록</div>
     <div class="detail-group-label">타선 위치</div>
@@ -238,7 +232,6 @@ button.calc-btn:hover{background:#00ffe1;color:black;box-shadow:0 0 20px #00ffe1
     </div>
   </div>
 
-  <!-- 투수 세부 -->
   <div id="detail-pitcher" style="display:none">
     <div class="detail-section-title">투수 세부 기록</div>
     <div class="detail-group-label">투구폼</div>
@@ -276,475 +269,593 @@ button.calc-btn:hover{background:#00ffe1;color:black;box-shadow:0 0 20px #00ffe1
       <div class="input-wrapper" id="wrap-d-games" style="flex:0 0 calc(33% - 7px)"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-games',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-games" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-games',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
       <div class="input-wrapper" id="wrap-d-teamgames" style="flex:0 0 calc(33% - 7px)"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-teamgames',1)" onmouseup="stopStep()" onmouseleave="stopStep()">▲</button><input id="d-teamgames" type="text" placeholder="0" class="detail-field-input"><button class="arrow-btn" tabindex="-1" onmousedown="stepInt(event,'d-teamgames',-1)" onmouseup="stopStep()" onmouseleave="stopStep()">▼</button></div>
     </div>
-    <div id="d-games-warn" style="display:none;margin-top:8px;font-size:12px;color:#ff9b9b">출장경기는 팀경기보다 적어야합니다!</div>
-    <button class="calc-btn" style="margin-top:24px" onclick="calculateDetailPitcher()">기록 계산하기</button>
+    <button class="calc-btn" style="margin-top:24px" onclick="calculatePitcherDetail()">기록 계산하기</button>
     <p id="detail-p-error" style="color:#ff9b9b;margin-top:12px;font-weight:bold"></p>
     <div id="detail-p-result" class="result-box" style="display:none;margin-top:16px">
-      <p style="font-size:15px;margin:0;opacity:.7" id="detail-p-label">ERA 등급</p>
+      <p style="font-size:15px;margin:0;opacity:.7">ERA 등급</p>
       <span id="detail-p-era" style="font-size:26px;font-weight:bold"></span>
       <div class="grade" id="detail-p-grade"></div>
       <div id="detail-p-extra" style="margin-top:10px;font-size:13px;opacity:.8;line-height:1.9"></div>
     </div>
   </div>
-</div><!-- /section-detail -->
+</div>
 
-<!-- 비교 섹션 -->
 <div id="section-compare" style="display:none">
+  <div class="compare-title" id="compare-section-title">선수 성적 비교</div>
   <div class="compare-wrapper">
     <div class="compare-player">
-      <div class="compare-title">선수 A</div>
-      <div class="compare-labels"><div>타율</div><div>출루율</div><div>장타율</div></div>
-      <div class="compare-inputs"><input id="cmp-a-avg" type="text" placeholder=".000" class="cmp-input"><input id="cmp-a-obp" type="text" placeholder=".000" class="cmp-input"><input id="cmp-a-slg" type="text" placeholder=".000" class="cmp-input"></div>
-      <button class="calc-btn" style="margin-top:16px" onclick="calculateCompare('a')">계산</button>
-      <div id="cmp-a-result" class="result-box" style="display:none;margin-top:16px"><p style="font-size:15px;margin:0;opacity:.7">OPS</p><span id="cmp-a-ops" style="font-size:26px;font-weight:bold"></span><div class="grade" id="cmp-a-grade"></div></div>
-      <p id="cmp-a-error" style="color:#ff9b9b;margin-top:10px;font-size:13px"></p>
+      <div class="compare-title" style="font-size:14px;color:#3eeed2">선수 A</div>
+      <div class="compare-labels" id="cmp-labels-1"><div>타율</div><div>출루율</div><div>장타율</div></div>
+      <div class="compare-inputs">
+        <input type="text" id="cmp-a-1" placeholder=".000" class="cmp-input">
+        <input type="text" id="cmp-a-2" placeholder=".000" class="cmp-input">
+        <input type="text" id="cmp-a-3" placeholder=".000" class="cmp-input">
+      </div>
+      <div id="cmp-res-a" style="margin-top:15px;font-weight:bold;font-size:16px"></div>
     </div>
     <div class="compare-divider">VS</div>
     <div class="compare-player">
-      <div class="compare-title">선수 B</div>
-      <div class="compare-labels"><div>타율</div><div>출루율</div><div>장타율</div></div>
-      <div class="compare-inputs"><input id="cmp-b-avg" type="text" placeholder=".000" class="cmp-input"><input id="cmp-b-obp" type="text" placeholder=".000" class="cmp-input"><input id="cmp-b-slg" type="text" placeholder=".000" class="cmp-input"></div>
-      <button class="calc-btn" style="margin-top:16px" onclick="calculateCompare('b')">계산</button>
-      <div id="cmp-b-result" class="result-box" style="display:none;margin-top:16px"><p style="font-size:15px;margin:0;opacity:.7">OPS</p><span id="cmp-b-ops" style="font-size:26px;font-weight:bold"></span><div class="grade" id="cmp-b-grade"></div></div>
-      <p id="cmp-b-error" style="color:#ff9b9b;margin-top:10px;font-size:13px"></p>
+      <div class="compare-title" style="font-size:14px;color:#3eeed2">선수 B</div>
+      <div class="compare-labels" id="cmp-labels-2"><div>타율</div><div>출루율</div><div>장타율</div></div>
+      <div class="compare-inputs">
+        <input type="text" id="cmp-b-1" placeholder=".000" class="cmp-input">
+        <input type="text" id="cmp-b-2" placeholder=".000" class="cmp-input">
+        <input type="text" id="cmp-b-3" placeholder=".000" class="cmp-input">
+      </div>
+      <div id="cmp-res-b" style="margin-top:15px;font-weight:bold;font-size:16px"></div>
     </div>
   </div>
+  <button class="calc-btn" style="margin-top:24px" onclick="comparePlayers()">비교하기</button>
+  <div id="compare-summary" style="margin-top:20px;font-size:16px;color:#ffb84d;font-weight:bold"></div>
 </div>
 
-</div><!-- /container -->
+</div>
+
 <script>
-const inputIds=["avg","obp","slg"];
-let tooltipPinned=false;
-function hoverTooltip(e){if(!tooltipPinned)document.getElementById('tooltip').classList.toggle('show',e)}
-function toggleTooltip(e){e.stopPropagation();tooltipPinned=!tooltipPinned;document.getElementById('tooltip').classList.toggle('show',tooltipPinned);e.currentTarget.classList.toggle('pinned',tooltipPinned)}
-document.addEventListener('click',e=>{if(!e.target.closest('.info-icon')){tooltipPinned=false;document.getElementById('tooltip').classList.remove('show');document.querySelector('.info-icon').classList.remove('pinned')}});
+// 전역 상태 변수
+let currentMode = 'batter'; // 'batter' | 'pitcher'
+let currentPitcherRole = 'starter'; // 'starter' | 'bullpen' | 'closer'
+let currentSubTab = 'main'; // 'main' | 'compare'
+let isDetailOn = false;
+let stepInterval = null;
 
-function setFocusedWrapper(id){inputIds.forEach(i=>document.getElementById('wrap-'+i).classList.toggle('focused',i===id))}
-inputIds.forEach(id=>{
-  const el=document.getElementById(id);
-  el.addEventListener('focus',()=>setFocusedWrapper(id));
-  el.addEventListener('blur',()=>{setTimeout(()=>{if(!inputIds.some(i=>document.getElementById(i)===document.activeElement))setFocusedWrapper(null)},150);autoFormat(el)});
-  let bT=null,bI=null;
-  el.addEventListener('keydown',e=>{
-    if(e.key==='-'){e.preventDefault();return}
-    if(e.key==='Enter'){calculate();return}
-    if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;
-    if(bT||bI)return;
-    e.preventDefault();const dir=e.key==='ArrowUp'?1:-1;changeValue(id,dir);
-    bT=setTimeout(()=>{bI=setInterval(()=>changeValue(id,dir),50)},400);
-  });
-  el.addEventListener('keyup',e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){clearTimeout(bT);clearInterval(bI);bT=bI=null}});
-});
-window.addEventListener('wheel',e=>{const f=inputIds.find(i=>document.getElementById(i)===document.activeElement);if(!f)return;e.preventDefault();changeValue(f,e.deltaY<0?1:-1)},{passive:false});
-
-const stageCuts={avg:[.241,.261,.281,.301,.355],obp:[.301,.341,.366,.401,.444],slg:[.321,.381,.421,.501,.633]};
-function getStage(id,val){let s=1;stageCuts[id].forEach((c,i)=>{if(val>=c)s=i+2});return s}
-function updateStage(id){
-  const val=parseFloat(document.getElementById(id).value)||0,stage=getStage(id,val);
-  const cont=document.getElementById('stage-'+id),numEl=document.getElementById('stagenum-'+id);
-  const isPlus=stage===6,ds=isPlus?5:stage;
-  cont.innerHTML='';
-  for(let i=1;i<=5;i++){const d=document.createElement('div');d.className=i<=ds?(isPlus?'stage-dot active-plus':'stage-dot active-'+stage):'stage-dot';cont.appendChild(d)}
-  numEl.textContent=isPlus?'5+단계':stage+'단계';numEl.className='stage-num sn-'+(isPlus?'plus':stage);
-}
-function changeValue(id,dir){
-  const el=document.getElementById(id);let val=parseFloat(el.value)||0;
-  val=Math.round((val+dir*.001)*1000)/1000;
-  val=Math.max(0,Math.min((id==='slg'||id==='d-slg')?4:1,val));el.value=val.toFixed(3);
-}
-
-// 세부 .000 입력 포커스/키보드
-const detailDecIds=['d-avg','d-obp','d-slg'];
-detailDecIds.forEach(id=>{
-  const el=document.getElementById(id);if(!el)return;
-  el.addEventListener('focus',()=>{const w=document.getElementById('wrap-'+id);if(w)w.classList.add('focused')});
-  el.addEventListener('blur',()=>{setTimeout(()=>{const w=document.getElementById('wrap-'+id);if(w&&document.activeElement!==el)w.classList.remove('focused')},150);autoFormat(el)});
-  let dT=null,dI=null;
-  el.addEventListener('keydown',e=>{
-    if(e.key==='-'){e.preventDefault();return}
-    if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;if(dT||dI)return;
-    e.preventDefault();const dir=e.key==='ArrowUp'?1:-1;changeValue(id,dir);
-    dT=setTimeout(()=>{dI=setInterval(()=>changeValue(id,dir),50)},400);
-  });
-  el.addEventListener('keyup',e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){clearTimeout(dT);clearInterval(dI);dT=dI=null}});
-});
-window.addEventListener('wheel',e=>{const f=detailDecIds.find(id=>document.getElementById(id)===document.activeElement);if(!f)return;e.preventDefault();changeValue(f,e.deltaY<0?1:-1)},{passive:false});
-
-// 화살표 버튼 꾹 누르기
-let holdTimer=null,holdInterval=null,holdCount=0;
-function stepValue(event,id,dir){
-  event.preventDefault();document.getElementById(id).focus();changeValue(id,dir);
-  holdCount=0;clearTimeout(holdTimer);clearInterval(holdInterval);
-  holdTimer=setTimeout(()=>{holdInterval=setInterval(()=>{holdCount++;const s=holdCount>40?5:holdCount>15?3:1;for(let i=0;i<s;i++)changeValue(id,dir)},50)},400);
-}
-function stopStep(){clearTimeout(holdTimer);clearInterval(holdInterval);holdCount=0}
-document.addEventListener('mouseup',stopStep);document.addEventListener('mouseleave',stopStep);
-
-// 정수 스텝
-function getMax(id){
-  if(id==='p-games'){const t=parseInt(document.getElementById('p-teamgames').value);return(!t||isNaN(t))?0:Math.min(144,t)}
-  return 144;
-}
-let gamesWarnTimer=null;
-function showGamesWarn(){
-  const w=document.getElementById('p-games-warn');w.style.opacity='1';w.style.display='block';
-  clearTimeout(gamesWarnTimer);
-  gamesWarnTimer=setTimeout(()=>{w.style.transition='opacity 1s';w.style.opacity='0';setTimeout(()=>{w.style.display='none';w.style.transition=''},1000)},1500);
-}
-function stepInt(event,id,dir){
-  event.preventDefault();const el=document.getElementById(id);el.focus();
-  const max=getMax(id),cur=parseInt(el.value)||0;
-  if(id==='p-games'&&dir>0&&cur>=max){showGamesWarn();return}
-  el.value=Math.min(max,Math.max(0,cur+dir)).toString();
-  if(id==='p-games')gamesOriginal=parseInt(el.value)||null;
-  if(id==='p-teamgames')clampGames();
-  holdCount=0;clearTimeout(holdTimer);clearInterval(holdInterval);
-  holdTimer=setTimeout(()=>{holdInterval=setInterval(()=>{
-    holdCount++;const s=holdCount>40?5:holdCount>15?3:1;
-    for(let i=0;i<s;i++){const m=getMax(id),c=parseInt(el.value)||0;
-      if(id==='p-games'&&dir>0&&c>=m){showGamesWarn();break}
-      el.value=Math.min(m,Math.max(0,c+dir)).toString();
-      if(id==='p-games')gamesOriginal=parseInt(el.value)||null;
-      if(id==='p-teamgames')clampGames();}
-  },50)},400);
-}
-let gamesOriginal=null;
-function clampGames(){
-  const gEl=document.getElementById('p-games'),tVal=parseInt(document.getElementById('p-teamgames').value);
-  if(isNaN(tVal)||tVal===0){const cur=parseInt(gEl.value)||0;if(cur>0){if(gamesOriginal===null)gamesOriginal=cur;gEl.value='';showGamesWarn()}return}
-  const max=Math.min(144,tVal),cur=parseInt(gEl.value)||0;
-  if(cur>max){if(gamesOriginal===null)gamesOriginal=cur;gEl.value=max.toString()}
-  else if(gamesOriginal!==null&&tVal>=gamesOriginal){gEl.value=gamesOriginal.toString();gamesOriginal=null}
-  else if(gamesOriginal!==null&&tVal>cur){gEl.value=max.toString()}
-}
-['b-pa','p-games','p-teamgames'].forEach(id=>{
-  const el=document.getElementById(id);if(!el)return;
-  el.addEventListener('focus',()=>{const w=document.getElementById('wrap-'+id);if(w)w.classList.add('focused')});
-  el.addEventListener('blur',()=>{
-    setTimeout(()=>{const w=document.getElementById('wrap-'+id);if(w&&document.activeElement!==el)w.classList.remove('focused')},150);
-    let v=parseInt(el.value);if(isNaN(v)||v<0){el.value=''}else{el.value=Math.min(getMax(id),v).toString()}
-    if(id==='p-games')gamesOriginal=parseInt(el.value)||null;
-    if(id==='p-teamgames')clampGames();
-  });
-  el.addEventListener('keydown',e=>{if(e.key==='-'||e.key==='.')e.preventDefault()});
-  let kT=null,kI=null;
-  el.addEventListener('keydown',e=>{
-    if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;if(kT||kI)return;
-    e.preventDefault();const dir=e.key==='ArrowUp'?1:-1;
-    const step=()=>{const m=getMax(id),c=parseInt(el.value)||0;if(id==='p-games'&&dir>0&&c>=m){showGamesWarn();return}
-      el.value=Math.min(m,Math.max(0,c+dir)).toString();if(id==='p-games')gamesOriginal=parseInt(el.value)||null;if(id==='p-teamgames')clampGames()};
-    step();kT=setTimeout(()=>{kI=setInterval(step,50)},400);
-  });
-  el.addEventListener('keyup',e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){clearTimeout(kT);clearInterval(kI);kT=kI=null}});
-});
-window.addEventListener('wheel',e=>{
-  const ids=['b-pa','p-games','p-teamgames'],f=ids.find(id=>document.getElementById(id)===document.activeElement);
-  if(!f)return;e.preventDefault();const el=document.getElementById(f),dir=e.deltaY<0?1:-1,m=getMax(f),c=parseInt(el.value)||0;
-  if(f==='p-games'&&dir>0&&c>=m){showGamesWarn();return}
-  el.value=Math.min(m,Math.max(0,c+dir)).toString();
-  if(f==='p-games')gamesOriginal=parseInt(el.value)||null;if(f==='p-teamgames')clampGames();
-},{passive:false});
-
-function autoFormat(el){const v=el.value.trim();if(v===''||isNaN(v))return;el.value=parseFloat(v).toFixed(3)}
-
-const gradeList=[["D - 최악의 시즌","d"],["C - 아쉬운 시즌","c"],["C+ - 수비형 하한선","c"],["B - 평균적인 지표","b"],["B+ - 좋은 시즌","b"],["A - 훌륭한 시즌","a"],["A+ - 리그 상위권","a"],["S - 리그 최상위권","s"],["S+ - MVP급 시즌","s"],["SS - 역사에 남을 시즌","ss"],["SS+ - 미친 시즌","ss"]];
-function getGrade(ops){
-  const cuts=[1.050,1.000,.950,.900,.850,.800,.750,.700,.650];
-  for(let i=0;i<cuts.length;i++)if(ops>=cuts[i])return gradeList[9-i];
-  return gradeList[0];
-}
-function applyPlusBonus(gradeText,gradeClass,plusCount){
-  if(plusCount>=2)return["SS+ - 미친 시즌","ss"];
-  if(plusCount===1){const idx=gradeList.findIndex(g=>g[0]===gradeText);return idx===gradeList.length-1?["SS+ - 미친 시즌","ss"]:gradeList[idx+1]}
-  return[gradeText,gradeClass];
-}
-
-function calculate(){
-  inputIds.forEach(id=>autoFormat(document.getElementById(id)));
-  const avg=parseFloat(document.getElementById("avg").value)||0;
-  const obp=parseFloat(document.getElementById("obp").value)||0;
-  const slg=parseFloat(document.getElementById("slg").value)||0;
-  let err="";
-  if(avg>1||obp>1)err="타율/출루율은 1을 넘을 수 없습니다.";
-  else if(slg>4)err="장타율은 4를 넘을 수 없습니다.";
-  else if(avg>slg)err="타율이 장타율보다 높을 수 없습니다.";
-  if(err){document.getElementById("error").innerHTML=err;document.getElementById("resultBox").style.display="none";return}
-  document.getElementById("error").innerHTML="";
-  inputIds.forEach(updateStage);document.getElementById('stageSection').style.display='block';
-  const ops=obp+slg;
-  const plusCount=inputIds.filter(id=>getStage(id,parseFloat(document.getElementById(id).value)||0)===6).length;
-  let [gt,gc]=applyPlusBonus(...getGrade(ops),plusCount);
-  const box=document.getElementById("resultBox"),pa=parseInt(document.getElementById('b-pa').value)||0;
-  document.getElementById("ops").innerText=ops.toFixed(3);
-  const epEl=document.getElementById('b-pa-display');if(epEl)epEl.remove();
-  if(pa){const e=document.createElement('div');e.id='b-pa-display';e.innerHTML=`<div style="margin-top:8px;font-size:13px;opacity:.7">타석: <b>${pa}</b></div>`;box.appendChild(e)}
-  box.className="result-box "+gc;box.style.display="block";batterResultShown=true;
-  document.getElementById('obp-warn').style.display=avg>obp?'block':'none';
-  const pu=pa>0&&pa<447,pw=document.getElementById('pa-warn');
-  if(pu){pw.textContent='⚠️ 규정타석이 아닙니다. 정보가 부정확할 수 있습니다.';pw.style.color='#ffcc80';pw.style.display='block';document.getElementById("grade").innerText=gt+' 페이스'}
-  else{pw.style.display='none';document.getElementById("grade").innerText=gt}
-}
-
-function nextInnings(val,dir){
-  const w=Math.floor(val),d=Math.round((val-w)*10);let nd=d+dir,nw=w;
-  if(nd>2){nw+=1;nd=0}else if(nd<0){nw-=1;nd=2}
-  return parseFloat((Math.max(0,nw)+nd*.1).toFixed(1));
-}
-function stepPValue(event,id,step){
-  event.preventDefault();document.getElementById(id).focus();const el=document.getElementById(id);
-  function applyStep(){
-    let val=parseFloat(el.value)||0;
-    if(id==='p-innings'||id==='d-ip'){el.value=nextInnings(val,step>0?1:-1).toFixed(1)}
-    else if(Math.abs(step)<1){el.value=Math.max(0,Math.round((val+step)*100)/100).toFixed(2)}
-    else{el.value=Math.max(0,Math.round(val+step)).toString()}
-  }
-  applyStep();holdCount=0;clearTimeout(holdTimer);clearInterval(holdInterval);
-  holdTimer=setTimeout(()=>{holdInterval=setInterval(()=>{holdCount++;const s=holdCount>40?5:holdCount>15?3:1;for(let i=0;i<s;i++)applyStep()},50)},400);
-}
-
-let currentMode='batter',currentPitcherRole='starter',batterResultShown=false;
-function updateTooltipContent(k){['batter','starter','bullpen','closer'].forEach(x=>document.getElementById('tt-'+x).style.display=x===k?'block':'none')}
-function switchMode(mode){
-  currentMode=mode;const ib=mode==='batter';
-  document.getElementById('tab-batter').classList.toggle('active',ib);
-  document.getElementById('tab-pitcher').classList.toggle('active',!ib);
-  ['batter-keyhint','batter-labels','batter-inputs','batter-calcbtn','error','batter-pa-row'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=ib?'':' none'});
-  document.getElementById('resultBox').style.display=(ib&&batterResultShown)?'block':'none';
-  document.getElementById('stageSection').style.display=(ib&&batterResultShown)?'block':'none';
-  document.getElementById('specialMsg').style.display='none';
-  document.getElementById('obp-warn').style.display='none';
-  document.getElementById('pitcherSection').style.display=ib?'none':'block';
-  document.getElementById('mainTitle').textContent=ib?'OPS 등급 계산기':'투수 등급 계산기';
-  document.getElementById('p-resultBox').style.display='none';document.getElementById('p-error').textContent='';
-  updateTooltipContent(ib?'batter':currentPitcherRole);updateDetailPanel();
-}
-const roleFields={starter:{l3:'승리',l4:'패배'},bullpen:{l3:'홀드',l4:'패'},closer:{l3:'세이브',l4:'블론세이브'}};
-const roleValues={starter:{innings:'',era:'',f3:'',f4:'',games:'',teamGames:''},bullpen:{innings:'',era:'',f3:'',f4:'',games:'',teamGames:''},closer:{innings:'',era:'',f3:'',f4:'',games:'',teamGames:''}};
-function switchPitcher(role){
-  const rv=roleValues[currentPitcherRole];
-  ['innings','era','f3','f4','games','teamGames'].forEach((k,i)=>rv[k]=document.getElementById(['p-innings','p-era','p-field3','p-field4','p-games','p-teamgames'][i]).value);
-  currentPitcherRole=role;
-  ['starter','bullpen','closer'].forEach(r=>document.getElementById('ptab-'+r).classList.toggle('active',r===role));
-  const rf=roleFields[role];document.getElementById('pl-3').textContent=rf.l3;document.getElementById('pl-4').textContent=rf.l4;
-  const rv2=roleValues[role];
-  ['p-innings','p-era','p-field3','p-field4','p-games','p-teamgames'].forEach((id,i)=>document.getElementById(id).value=rv2[['innings','era','f3','f4','games','teamGames'][i]]);
-  document.getElementById('p-resultBox').style.display='none';document.getElementById('p-error').textContent='';
-  updateTooltipContent(role);updateDetailPanel();
-}
-function applyPitcherStep(pid,dir){
-  if(pid==='p-innings'){const el=document.getElementById('p-innings');el.value=nextInnings(parseFloat(el.value)||0,dir).toFixed(1)}
-  else if(pid==='p-era'){const el=document.getElementById('p-era');el.value=Math.max(0,Math.round(((parseFloat(el.value)||0)+dir*.01)*100)/100).toFixed(2)}
-  else{const el=document.getElementById(pid);el.value=Math.max(0,(parseInt(el.value)||0)+dir).toString()}
-}
-window.addEventListener('wheel',e=>{
-  const pids=['p-innings','p-era','p-field3','p-field4'],pid=pids.find(id=>document.getElementById(id)===document.activeElement);
-  if(!pid)return;e.preventDefault();applyPitcherStep(pid,e.deltaY<0?1:-1);
-},{passive:false});
-['p-innings','p-era','p-field3','p-field4'].forEach(pid=>{
-  const el=document.getElementById(pid);if(!el)return;
-  el.addEventListener('focus',()=>el.closest('.input-wrapper').classList.add('focused'));
-  el.addEventListener('blur',()=>{
-    setTimeout(()=>{if(document.activeElement!==el)el.closest('.input-wrapper').classList.remove('focused')},150);
-    if(pid==='p-innings'){
-      const raw=el.value.trim(),errEl=document.getElementById('p-error');
-      const fm=raw.match(/^(\d+)\s+(1|2)\/3$/);
-      if(fm){el.value=(parseInt(fm[1])+parseInt(fm[2])*.1).toFixed(1);errEl.textContent='';return}
-      const v=parseFloat(raw);if(!isNaN(v)){const w=Math.floor(v),d=Math.round((v-w)*10);
-        if(d!==0&&d!==1&&d!==2){errEl.textContent='이닝은 .0, .1, .2 이닝만 가능합니다';setTimeout(()=>{if(errEl.textContent.includes('이닝'))errEl.textContent=''},3000);el.value=w.toFixed(1)}
-        else{errEl.textContent='';el.value=v.toFixed(1)}}
-    }
-    if(pid==='p-era'){const v=parseFloat(el.value);if(!isNaN(v))el.value=Math.max(0,v).toFixed(2)}
-    if(pid==='p-field3'||pid==='p-field4'){const v=parseInt(el.value);el.value=isNaN(v)||v<0?'':v.toString()}
-  });
-  let kT=null,kI=null;
-  el.addEventListener('keydown',e=>{
-    if(e.key==='-'){e.preventDefault();return}
-    if(pid==='p-field3'||pid==='p-field4'){if(e.key==='.')e.preventDefault()}
-    if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;if(kT||kI)return;
-    e.preventDefault();const dir=e.key==='ArrowUp'?1:-1;
-    function ak(){if(pid==='p-innings')stepPValue({preventDefault:()=>{}},pid,dir*.1);else if(pid==='p-era')stepPValue({preventDefault:()=>{}},pid,dir*.01);else stepPRole({preventDefault:()=>{}},pid==='p-field3'?3:4,dir)}
-    ak();kT=setTimeout(()=>{kI=setInterval(ak,50)},400);
-  });
-  el.addEventListener('keyup',e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){clearTimeout(kT);clearInterval(kI);kT=kI=null}});
-});
-function stepPRole(event,col,dir){
-  event.preventDefault();const id=col===3?'p-field3':'p-field4';document.getElementById(id).focus();const el=document.getElementById(id);
-  el.value=Math.min(144,Math.max(0,Math.round((parseFloat(el.value)||0)+dir))).toString();
-  holdCount=0;clearTimeout(holdTimer);clearInterval(holdInterval);
-  holdTimer=setTimeout(()=>{holdInterval=setInterval(()=>{holdCount++;const s=holdCount>40?5:holdCount>15?3:1;for(let i=0;i<s;i++)el.value=Math.min(144,Math.max(0,(parseInt(el.value)||0)+dir)).toString()},50)},400);
-}
-
-const pitcherThresholds={
-  starter:[[1.80,"SS - 역사에 남을 시즌","ss"],[2.50,"S+ - 에이스 중의 에이스","s"],[3.00,"S - 리그 최상위 선발","s"],[3.50,"A+ - 리그 상위권 선발","a"],[4.00,"A - 훌륭한 선발","a"],[4.50,"B+ - 좋은 선발","b"],[5.00,"B - 평균적인 선발","b"],[5.50,"C+ - 아쉬운 선발","c"],[6.00,"C - 불안정한 선발","c"]],
-  bullpen:[[1.50,"SS - 역사에 남을 시즌","ss"],[2.20,"S+ - 압도적인 불펜","s"],[2.80,"S - 리그 최상위 불펜","s"],[3.20,"A+ - 리그 상위권 불펜","a"],[3.80,"A - 훌륭한 불펜","a"],[4.30,"B+ - 좋은 불펜","b"],[4.80,"B - 평균적인 불펜","b"],[5.50,"C+ - 아쉬운 불펜","c"],[6.50,"C - 불안정한 불펜","c"]],
-  closer:[[1.20,"SS - 역사에 남을 시즌","ss"],[1.80,"S+ - 압도적인 마무리","s"],[2.50,"S - 리그 최상위 마무리","s"],[3.00,"A+ - 리그 상위권 마무리","a"],[3.50,"A - 훌륭한 마무리","a"],[4.00,"B+ - 좋은 마무리","b"],[4.80,"B - 평균적인 마무리","b"],[5.50,"C+ - 아쉬운 마무리","c"],[6.50,"C - 불안정한 마무리","c"]]
+// 초기화
+window.onload = function() {
+  setupInputListeners();
 };
-function getPitcherGrade(era,role){const list=pitcherThresholds[role];for(const[t,g,c]of list)if(era<=t)return[g,c];return["D - 최악의 시즌","d"]}
 
-function validatePitcher(innings,era,games,teamGames,v3num,v4num,errEl){
-  if(isNaN(innings)||isNaN(era)){errEl.textContent='이닝과 ERA를 입력해주세요.';return false}
-  if(era<0){errEl.textContent='ERA는 0 이상이어야 합니다.';return false}
-  if(games!==null&&teamGames!==null&&games>teamGames){errEl.textContent='출장 경기는 팀 경기를 초과할 수 없습니다.';return false}
-  if(games!==null&&games>144){errEl.textContent='출장 경기는 144를 넘을 수 없습니다.';return false}
-  if(teamGames!==null&&teamGames>144){errEl.textContent='팀 경기는 144를 넘을 수 없습니다.';return false}
-  if(v3num!==null&&v3num>144){errEl.textContent=`${roleFields[currentPitcherRole].l3}은 144를 넘을 수 없습니다.`;return false}
-  if(v4num!==null&&v4num>144){errEl.textContent=`${roleFields[currentPitcherRole].l4}은 144를 넘을 수 없습니다.`;return false}
-  const role=currentPitcherRole;
-  if((role==='starter'||role==='bullpen')&&v3num!==null&&v4num!==null){
-    const sum=v3num+v4num,label=role==='starter'?`승리(${v3num}) + 패배(${v4num})`:`홀드(${v3num}) + 패(${v4num})`;
-    if(sum>144){errEl.textContent=`${label} = ${sum}이 144를 넘을 수 없습니다.`;return false}
-    if(games!==null&&sum>games){errEl.textContent=`${label} = ${sum}이 출장 경기(${games})를 초과할 수 없습니다.`;return false}
+function switchMode(mode) {
+  currentMode = mode;
+  document.getElementById('tab-batter').classList.toggle('active', mode === 'batter');
+  document.getElementById('tab-pitcher').classList.toggle('active', mode === 'pitcher');
+  
+  document.getElementById('batter-keyhint').style.display = mode === 'batter' ? 'block' : 'none';
+  document.getElementById('batter-labels').style.display = mode === 'batter' ? 'flex' : 'none';
+  document.getElementById('batter-inputs').style.display = mode === 'batter' ? 'flex' : 'none';
+  document.getElementById('batter-pa-row').style.display = mode === 'batter' ? 'flex' : 'none';
+  document.getElementById('batter-calcbtn').style.display = mode === 'batter' ? 'block' : 'none';
+  
+  document.getElementById('pitcherSection').style.display = mode === 'pitcher' ? 'block' : 'none';
+  
+  // 툴팁 노출 제어
+  updateTooltipContents();
+  // 세부 모드 요소 노출 제어
+  updateDetailVisibility();
+  // 비교 탭 라벨 제어
+  updateCompareLabels();
+  clearResults();
+}
+
+function switchPitcher(role) {
+  currentPitcherRole = role;
+  document.getElementById('ptab-starter').classList.toggle('active', role === 'starter');
+  document.getElementById('ptab-bullpen').classList.toggle('active', role === 'bullpen');
+  document.getElementById('ptab-closer').classList.toggle('active', role === 'closer');
+  
+  const l3 = document.getElementById('pl-3');
+  const l4 = document.getElementById('pl-4');
+  const f3 = document.getElementById('p-field3');
+  const f4 = document.getElementById('p-field4');
+  
+  if(role === 'starter') {
+    l3.innerText = '승리'; l4.innerText = '패배';
+    f3.placeholder = '0'; f4.placeholder = '0';
+  } else if(role === 'bullpen') {
+    l3.innerText = '홀드'; l4.innerText = '세이브';
+    f3.placeholder = '0'; f4.placeholder = '0';
+  } else {
+    l3.innerText = '세이브'; l4.innerText = '블론';
+    f3.placeholder = '0'; f4.placeholder = '0';
   }
-  if(role==='closer'&&v3num!==null&&v4num!==null&&v3num+v4num>144){errEl.textContent=`세이브(${v3num}) + 블론세이브(${v4num}) = ${v3num+v4num}이 144를 넘을 수 없습니다.`;return false}
-  errEl.textContent='';return true;
+  updateTooltipContents();
 }
 
-function calculatePitcher(){
-  const innings=parseFloat(document.getElementById('p-innings').value);
-  const era=parseFloat(document.getElementById('p-era').value);
-  const gv=document.getElementById('p-games').value.trim(),tv=document.getElementById('p-teamgames').value.trim();
-  const v3r=document.getElementById('p-field3').value.trim(),v4r=document.getElementById('p-field4').value.trim();
-  const errEl=document.getElementById('p-error');
-  const games=gv!==''?parseInt(gv):null,teamGames=tv!==''?parseInt(tv):null;
-  const v3num=v3r!==''?parseInt(v3r):null,v4num=v4r!==''?parseInt(v4r):null;
-  if(!validatePitcher(innings,era,games,teamGames,v3num,v4num,errEl))return;
-  let overuse=false;
-  if((currentPitcherRole==='bullpen'||currentPitcherRole==='closer')&&games!==null&&teamGames!==null&&teamGames>0){
-    const ratio=games/teamGames,avgIP=games>0?innings/games:0;
-    if(ratio>=.7||(ratio>=.5&&avgIP>=1.0))overuse=true;
+function switchSubTab(tab) {
+  currentSubTab = tab;
+  document.getElementById('subtab-main').classList.toggle('active', tab === 'main');
+  document.getElementById('subtab-compare').classList.toggle('active', tab === 'compare');
+  
+  const container = document.querySelector('.container');
+  if (tab === 'compare') {
+    container.classList.add('wide');
+    document.getElementById('section-main').style.display = 'none';
+    document.getElementById('section-detail').style.display = 'none';
+    document.getElementById('section-compare').style.display = 'block';
+  } else {
+    container.classList.remove('wide');
+    document.getElementById('section-compare').style.display = 'none';
+    if(isDetailOn) {
+      document.getElementById('section-main').style.display = 'none';
+      document.getElementById('section-detail').style.display = 'block';
+    } else {
+      document.getElementById('section-main').style.display = 'block';
+      document.getElementById('section-detail').style.display = 'none';
+    }
   }
-  document.getElementById('p-overuse-warn').style.display=overuse?'block':'none';
-  const[gt,gc]=getPitcherGrade(era,currentPitcherRole),rf=roleFields[currentPitcherRole];
-  let html=`이닝: <b>${innings.toFixed(1)}</b> &nbsp;|&nbsp; ERA: <b>${era.toFixed(2)}</b><br>${rf.l3}: <b>${v3r||'-'}</b> &nbsp;|&nbsp; ${rf.l4}: <b>${v4r||'-'}</b>`;
-  if(gv||tv)html+=`<br>출장: <b>${gv||'-'}</b>경기 &nbsp;|&nbsp; 팀: <b>${tv||'-'}</b>경기`;
-  const roleName={starter:'선발',bullpen:'불펜',closer:'마무리'}[currentPitcherRole];
-  document.getElementById('p-resultLabel').textContent=roleName+' ERA 등급';
-  document.getElementById('p-era-display').textContent=era.toFixed(2);
-  document.getElementById('p-grade').textContent=gt;
-  document.getElementById('p-stats').innerHTML=html;
-  const box=document.getElementById('p-resultBox');box.className='result-box '+gc;box.style.display='block';
 }
 
-let detailOpen=false;
-function toggleDetail(){
-  detailOpen=!detailOpen;
-  document.getElementById('section-main').style.display=detailOpen?'none':'';
-  document.getElementById('section-detail').style.display=detailOpen?'':'none';
-  if(detailOpen){document.getElementById('section-compare').style.display='none';document.querySelector('.container').classList.remove('wide');document.getElementById('subtab-main').classList.remove('active')}
-  else document.getElementById('subtab-main').classList.add('active');
-  document.getElementById('detail-switch').classList.toggle('on',detailOpen);
-  if(detailOpen)updateDetailPanel();
+function toggleDetail() {
+  isDetailOn = !isDetailOn;
+  document.getElementById('detail-switch').classList.toggle('on', isDetailOn);
+  if(currentSubTab === 'main') {
+    switchSubTab('main');
+  }
+  updateDetailVisibility();
 }
-function switchSubTab(tab){
-  if(detailOpen){detailOpen=false;document.getElementById('section-detail').style.display='none';document.getElementById('detail-switch').classList.remove('on')}
-  ['main','compare'].forEach(t=>{
-    document.getElementById('subtab-'+t)?.classList.toggle('active',t===tab);
-    const s=document.getElementById('section-'+t);if(s)s.style.display=t===tab?'':'none';
+
+function updateDetailVisibility() {
+  const db = document.getElementById('detail-batter');
+  const dp = document.getElementById('detail-pitcher');
+  if(currentMode === 'batter') {
+    db.style.display = 'block';
+    dp.style.display = 'none';
+  } else {
+    db.style.display = 'none';
+    dp.style.display = 'block';
+  }
+}
+
+function updateTooltipContents() {
+  document.getElementById('tt-batter').style.display = currentMode === 'batter' ? 'block' : 'none';
+  document.getElementById('tt-starter').style.display = (currentMode === 'pitcher' && currentPitcherRole === 'starter') ? 'block' : 'none';
+  document.getElementById('tt-bullpen').style.display = (currentMode === 'pitcher' && currentPitcherRole === 'bullpen') ? 'block' : 'none';
+  document.getElementById('tt-closer').style.display = (currentMode === 'pitcher' && currentPitcherRole === 'closer') ? 'block' : 'none';
+}
+
+function updateCompareLabels() {
+  const lbl1 = document.getElementById('cmp-labels-1');
+  const lbl2 = document.getElementById('cmp-labels-2');
+  const fields = ['cmp-a-1', 'cmp-a-2', 'cmp-a-3', 'cmp-b-1', 'cmp-b-2', 'cmp-b-3'];
+  
+  if(currentMode === 'batter') {
+    const html = '<div>타율</div><div>출루율</div><div>장타율</div>';
+    lbl1.innerHTML = html; lbl2.innerHTML = html;
+    fields.forEach(id => document.getElementById(id).placeholder = '.000');
+  } else {
+    const html = '<div>이닝</div><div>ERA</div><div>FIP</div>';
+    lbl1.innerHTML = html; lbl2.innerHTML = html;
+    document.getElementById('cmp-a-1').placeholder = '0.0';
+    document.getElementById('cmp-b-1').placeholder = '0.0';
+    document.getElementById('cmp-a-2').placeholder = '0.00';
+    document.getElementById('cmp-b-2').placeholder = '0.00';
+    document.getElementById('cmp-a-3').placeholder = '0.00';
+    document.getElementById('cmp-b-3').placeholder = '0.00';
+  }
+}
+
+// 토글형 세부 버튼 조작
+function toggleDetailBtn(group, id) {
+  const buttons = document.querySelectorAll(`.detail-toggle[data-group="${group}"]`);
+  buttons.forEach(btn => {
+    if(btn.id === `dt-${id}`) {
+      btn.classList.toggle('on');
+    } else {
+      btn.classList.remove('on');
+    }
   });
-  document.querySelector('.container').classList.toggle('wide',tab==='compare');
 }
 
-function calculateDetail(){
-  const avg=parseFloat(document.getElementById('d-avg').value)||0;
-  const obp=parseFloat(document.getElementById('d-obp').value)||0;
-  const slg=parseFloat(document.getElementById('d-slg').value)||0;
-  const errEl=document.getElementById('detail-error');
-  let err='';
-  if(avg>1||obp>1)err='타율/출루율은 1을 넘을 수 없습니다.';
-  else if(slg>4)err='장타율은 4를 넘을 수 없습니다.';
-  else if(avg>slg)err='타율이 장타율보다 높을 수 없습니다.';
-  if(err){errEl.textContent=err;document.getElementById('detail-result').style.display='none';return}
-  errEl.textContent='';
-  const ops=obp+slg;
-  const plusCount=['avg','obp','slg'].filter(id=>{const cuts=stageCuts[id],val=id==='avg'?avg:id==='obp'?obp:slg;let s=1;for(let i=0;i<cuts.length;i++)if(val>=cuts[i])s=i+2;return s===6}).length;
-  let[gt,gc]=applyPlusBonus(...getGrade(ops),plusCount);
-  const hr=document.getElementById('d-hr').value,rbi=document.getElementById('d-rbi').value;
-  const so=document.getElementById('d-so').value,sb=document.getElementById('d-sb').value;
-  const cs=document.getElementById('d-cs').value,pa=parseInt(document.getElementById('d-pa').value)||0;
-  let extra=`타율: <b>${avg.toFixed(3)}</b> &nbsp;|&nbsp; 출루율: <b>${obp.toFixed(3)}</b> &nbsp;|&nbsp; 장타율: <b>${slg.toFixed(3)}</b><br>`;
-  if(hr)extra+=`홈런: <b>${hr}</b> &nbsp;`;if(rbi)extra+=`타점: <b>${rbi}</b> &nbsp;`;if(so)extra+=`삼진: <b>${so}</b> &nbsp;`;
-  if(sb||cs)extra+=`<br>도루: <b>${sb||0}</b> &nbsp;|&nbsp; 도루실패: <b>${cs||0}</b>`;
-  if(pa)extra+=`<br>타석: <b>${pa}</b>${pa<447?' <span style="color:#ffcc80;font-size:11px">(규정타석 미달)</span>':''}`;
-  document.getElementById('detail-ops').textContent=ops.toFixed(3);
-  document.getElementById('detail-grade').textContent=(pa>0&&pa<447)?gt+' 페이스':gt;
-  document.getElementById('detail-extra').innerHTML=extra;
-  const box=document.getElementById('detail-result');box.className='result-box '+gc;box.style.display='block';
+// 툴팁 제어
+let isPinned = false;
+function toggleTooltip(e) {
+  e.stopPropagation();
+  isPinned = !isPinned;
+  document.querySelector('.info-icon').classList.toggle('pinned', isPinned);
+  document.getElementById('tooltip').classList.toggle('show', isPinned);
 }
-
-['d-games','d-teamgames'].forEach(id=>{
-  const el=document.getElementById(id);if(!el)return;
-  el.addEventListener('input',()=>{
-    const g=parseInt(document.getElementById('d-games').value),tg=parseInt(document.getElementById('d-teamgames').value);
-    document.getElementById('d-games-warn').style.display=(!isNaN(g)&&!isNaN(tg)&&g>tg)?'block':'none';
-  });
+function hoverTooltip(show) {
+  if(!isPinned) {
+    document.getElementById('tooltip').classList.toggle('show', show);
+  }
+}
+document.addEventListener('click', () => {
+  isPinned = false;
+  document.querySelector('.info-icon').classList.remove('pinned');
+  document.getElementById('tooltip').classList.remove('show');
 });
 
-function calculateDetailPitcher(){
-  const era=parseFloat(document.getElementById('d-era').value);
-  const gv=document.getElementById('d-games').value.trim(),tv=document.getElementById('d-teamgames').value.trim();
-  const games=gv!==''?parseInt(gv):null,teamGames=tv!==''?parseInt(tv):null;
-  const errEl=document.getElementById('detail-p-error');
-  if(isNaN(era)){errEl.textContent='ERA를 입력해주세요.';return}
-  if(games!==null&&teamGames!==null&&games>teamGames){errEl.textContent='출장 경기는 팀 경기를 초과할 수 없습니다.';return}
-  errEl.textContent='';
-  const[gt,gc]=getPitcherGrade(era,currentPitcherRole);
-  const ip=document.getElementById('d-ip').value,whip=document.getElementById('d-whip').value;
-  const k=document.getElementById('d-k').value,fip=document.getElementById('d-fip').value;
-  const bb=document.getElementById('d-bb').value,h=document.getElementById('d-h').value;
-  const form=detailSelections['pitch-form'],hand=detailSelections['handedness'];
-  let extra='';
-  if(hand)extra+=(hand==='lefty'?'좌완':'우완')+' &nbsp;';
-  if(form){const fn={over:'오버스로',three:'쓰리쿼터',side:'사이드암',under:'언더스로'};extra+=fn[form]||''}
-  if(extra)extra+='<br>';
-  if(ip)extra+=`이닝: <b>${ip}</b> &nbsp;`;if(whip)extra+=`WHIP: <b>${whip}</b> &nbsp;`;if(k)extra+=`탈삼진: <b>${k}</b><br>`;
-  if(fip)extra+=`FIP: <b>${fip}</b> &nbsp;`;if(bb)extra+=`볼넷: <b>${bb}</b> &nbsp;`;if(h)extra+=`피안타: <b>${h}</b>`;
-  const roleName={starter:'선발',bullpen:'불펜',closer:'마무리'}[currentPitcherRole];
-  document.getElementById('detail-p-label').textContent=roleName+' ERA 등급';
-  document.getElementById('detail-p-era').textContent=era.toFixed(2);
-  document.getElementById('detail-p-grade').textContent=gt;
-  document.getElementById('detail-p-extra').innerHTML=extra;
-  const box=document.getElementById('detail-p-result');box.className='result-box '+gc;box.style.display='block';
+// 값 조절 유틸 함수들
+function stepValue(e, id, direction) {
+  e.preventDefault();
+  const input = document.getElementById(id);
+  let val = parseFloat(input.value) || 0;
+  val = Math.max(0, val + direction * 0.001);
+  input.value = val === 0 ? '' : val.toFixed(3).substring(val >= 1 ? 0 : 1);
+  
+  stepInterval = setTimeout(() => {
+    stepInterval = setInterval(() => {
+      let v = parseFloat(input.value) || 0;
+      v = Math.max(0, v + direction * 0.001);
+      input.value = v === 0 ? '' : v.toFixed(3).substring(v >= 1 ? 0 : 1);
+    }, 50);
+  }, 300);
 }
 
-const detailSelections={};
-function toggleDetailBtn(group,key){
-  const same=detailSelections[group]===key;detailSelections[group]=same?null:key;
-  document.querySelectorAll('[id^="dt-"]').forEach(el=>{if(el.dataset.group===group)el.classList.remove('on')});
-  if(!same){const b=document.getElementById('dt-'+key);if(b)b.classList.add('on')}
-}
-function updateDetailPanel(){
-  const ib=currentMode==='batter',role=currentPitcherRole;
-  const db=document.getElementById('detail-batter'),dp=document.getElementById('detail-pitcher');
-  if(db)db.style.display=ib?'block':'none';if(dp)dp.style.display=!ib?'block':'none';
+function stepInt(e, id, direction) {
+  e.preventDefault();
+  const input = document.getElementById(id);
+  let val = parseInt(input.value) || 0;
+  val = Math.max(0, val + direction);
+  input.value = val === 0 ? '' : val;
+  
+  stepInterval = setTimeout(() => {
+    stepInterval = setInterval(() => {
+      let v = parseInt(input.value) || 0;
+      v = Math.max(0, v + direction);
+      input.value = v === 0 ? '' : v;
+    }, 50);
+  }, 300);
 }
 
-const cmpOps={a:null,b:null};
-function calculateCompare(player){
-  const avg=parseFloat(document.getElementById(`cmp-${player}-avg`).value)||0;
-  const obp=parseFloat(document.getElementById(`cmp-${player}-obp`).value)||0;
-  const slg=parseFloat(document.getElementById(`cmp-${player}-slg`).value)||0;
-  const errEl=document.getElementById(`cmp-${player}-error`);
-  let err='';
-  if(avg>1||obp>1)err='타율/출루율은 1을 넘을 수 없습니다.';
-  else if(slg>4)err='장타율은 4를 넘을 수 없습니다.';
-  else if(avg>slg)err='타율이 장타율보다 높을 수 없습니다.';
-  if(err){errEl.textContent=err;document.getElementById(`cmp-${player}-result`).style.display='none';cmpOps[player]=null;updateStars();return}
-  errEl.textContent='';
-  const ops=obp+slg;const[gt,gc]=getGrade(ops);cmpOps[player]=ops;
-  document.getElementById(`cmp-${player}-ops`).textContent=ops.toFixed(3);
-  document.getElementById(`cmp-${player}-grade`).textContent=gt;
-  const r=document.getElementById(`cmp-${player}-result`);r.className='result-box '+gc;r.style.display='block';
-  updateStars();
+function stepPValue(e, id, step) {
+  e.preventDefault();
+  const input = document.getElementById(id);
+  let val = parseFloat(input.value) || 0;
+  val = Math.max(0, val + step);
+  const fixed = step === 0.1 ? 1 : 2;
+  input.value = val === 0 ? '' : val.toFixed(fixed);
+  
+  stepInterval = setTimeout(() => {
+    stepInterval = setInterval(() => {
+      let v = parseFloat(input.value) || 0;
+      v = Math.max(0, v + step);
+      input.value = v === 0 ? '' : v.toFixed(fixed);
+    }, 50);
+  }, 300);
 }
-function updateStars(){
-  ['a','b'].forEach(p=>{const ps=document.querySelectorAll('#section-compare .compare-player'),idx=p==='a'?0:1;if(ps[idx])ps[idx].querySelector('.compare-title').textContent=p==='a'?'선수 A':'선수 B'});
-  if(cmpOps.a!==null&&cmpOps.b!==null){
-    if(cmpOps.a>cmpOps.b){setTitle('a','선수 A ⭐');setTitle('b','선수 B')}
-    else if(cmpOps.b>cmpOps.a){setTitle('a','선수 A');setTitle('b','선수 B ⭐')}
-    else{setTitle('a','선수 A ★');setTitle('b','선수 B ★')}
+
+function stopStep() {
+  clearTimeout(stepInterval);
+  clearInterval(stepInterval);
+}
+
+function setupInputListeners() {
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    const wrapper = input.closest('.input-wrapper');
+    if(wrapper) {
+      input.addEventListener('focus', () => wrapper.classList.add('focused'));
+      input.addEventListener('blur', () => wrapper.classList.remove('focused'));
+    }
+    
+    // 마우스 휠 이벤트 적용
+    input.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const direction = e.deltaY < 0 ? 1 : -1;
+      if(input.id === 'avg' || input.id === 'obp' || input.id === 'slg' || input.id.startsWith('d-avg') || input.id.startsWith('d-obp') || input.id.startsWith('d-slg')) {
+        let val = parseFloat(input.value) || 0;
+        val = Math.max(0, val + direction * 0.001);
+        input.value = val === 0 ? '' : val.toFixed(3).substring(val >= 1 ? 0 : 1);
+      } else if (input.id === 'p-era' || input.id === 'd-era' || input.id === 'd-whip' || input.id === 'd-fip') {
+        let val = parseFloat(input.value) || 0;
+        val = Math.max(0, val + direction * 0.01);
+        input.value = val === 0 ? '' : val.toFixed(2);
+      } else if (input.id === 'p-innings' || input.id === 'd-ip') {
+        let val = parseFloat(input.value) || 0;
+        val = Math.max(0, val + direction * 0.1);
+        input.value = val === 0 ? '' : val.toFixed(1);
+      } else {
+        let val = parseInt(input.value) || 0;
+        val = Math.max(0, val + direction);
+        input.value = val === 0 ? '' : val;
+      }
+    });
+
+    // 엔터키 입력 시 계산 실행
+    input.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') {
+        if(currentSubTab === 'compare') comparePlayers();
+        else if(isDetailOn) {
+          if(currentMode === 'batter') calculateDetail();
+          else calculatePitcherDetail();
+        } else {
+          if(currentMode === 'batter') calculate();
+          else calculatePitcher();
+        }
+      }
+    });
+  });
+}
+
+function clearResults() {
+  document.getElementById('resultBox').style.display = 'none';
+  document.getElementById('p-resultBox').style.display = 'none';
+  document.getElementById('stageSection').style.display = 'none';
+  document.getElementById('specialMsg').style.display = 'none';
+  document.getElementById('obp-warn').style.display = 'none';
+  document.getElementById('pa-warn').style.display = 'none';
+  document.getElementById('p-overuse-warn').style.display = 'none';
+  document.getElementById('p-games-warn').style.display = 'none';
+  document.getElementById('error').innerText = '';
+  document.getElementById('p-error').innerText = '';
+}
+
+// 등급 판별 로직들
+function getBatterGrade(ops) {
+  if (ops >= 1.050) return { g: 'SS', c: 'ss' };
+  if (ops >= 1.000) return { g: 'S+', c: 's' };
+  if (ops >= 0.950) return { g: 'S', c: 's' };
+  if (ops >= 0.900) return { g: 'A+', c: 'a' };
+  if (ops >= 0.850) return { g: 'A', c: 'a' };
+  if (ops >= 0.800) return { g: 'B+', c: 'b' };
+  if (ops >= 0.750) return { g: 'B', c: 'b' };
+  if (ops >= 0.700) return { g: 'C+', c: 'c' };
+  if (ops >= 0.650) return { g: 'C', c: 'c' };
+  return { g: 'D', c: 'd' };
+}
+
+function getPitcherGrade(era, role) {
+  if (role === 'starter') {
+    if (era <= 1.80) return { g: 'SS', c: 'ss' };
+    if (era <= 2.50) return { g: 'S+', c: 's' };
+    if (era <= 3.00) return { g: 'S', c: 's' };
+    if (era <= 3.50) return { g: 'A+', c: 'a' };
+    if (era <= 4.00) return { g: 'A', c: 'a' };
+    if (era <= 4.50) return { g: 'B+', c: 'b' };
+    if (era <= 5.00) return { g: 'B', c: 'b' };
+    if (era <= 5.50) return { g: 'C+', c: 'c' };
+    if (era <= 6.00) return { g: 'C', c: 'c' };
+    return { g: 'D', c: 'd' };
+  } else if (role === 'bullpen') {
+    if (era <= 1.50) return { g: 'SS', c: 'ss' };
+    if (era <= 2.20) return { g: 'S+', c: 's' };
+    if (era <= 2.80) return { g: 'S', c: 's' };
+    if (era <= 3.20) return { g: 'A+', c: 'a' };
+    if (era <= 3.80) return { g: 'A', c: 'a' };
+    if (era <= 4.30) return { g: 'B+', c: 'b' };
+    if (era <= 4.80) return { g: 'B', c: 'b' };
+    if (era <= 5.50) return { g: 'C+', c: 'c' };
+    if (era <= 6.50) return { g: 'C', c: 'c' };
+    return { g: 'D', c: 'd' };
+  } else { // closer
+    if (era <= 1.20) return { g: 'SS', c: 'ss' };
+    if (era <= 1.80) return { g: 'S+', c: 's' };
+    if (era <= 2.50) return { g: 'S', c: 's' };
+    if (era <= 3.00) return { g: 'A+', c: 'a' };
+    if (era <= 3.50) return { g: 'A', c: 'a' };
+    if (era <= 4.00) return { g: 'B+', c: 'b' };
+    if (era <= 4.80) return { g: 'B', c: 'b' };
+    if (era <= 5.50) return { g: 'C+', c: 'c' };
+    if (era <= 6.50) return { g: 'C', c: 'c' };
+    return { g: 'D', c: 'd' };
   }
 }
-function setTitle(p,t){const ps=document.querySelectorAll('#section-compare .compare-player'),idx=p==='a'?0:1;if(ps[idx])ps[idx].querySelector('.compare-title').textContent=t}
+
+function getStatStage(val, type) {
+  // 타율, 출루율, 장타율의 5단계 시각화 정보 분기
+  if(type === 'avg') {
+    if(val >= 0.330) return {lv: 5, cls: 'active-5', text: '핵정타'};
+    if(val >= 0.300) return {lv: 4, cls: 'active-4', text: '3할 타자'};
+    if(val >= 0.270) return {lv: 3, cls: 'active-3', text: '주전급'};
+    if(val >= 0.240) return {lv: 2, cls: 'active-2', text: '백업급'};
+    return {lv: 1, cls: 'active-1', text: '조정 필요'};
+  } else if(type === 'obp') {
+    if(val >= 0.400) return {lv: 5, cls: 'active-5', text: '출루머신'};
+    if(val >= 0.370) return {lv: 4, cls: 'active-4', text: '상위권'};
+    if(val >= 0.340) return {lv: 3, cls: 'active-3', text: '보통'};
+    return {lv: 1, cls: 'active-1', text: '낮음'};
+  } else { // slg
+    if(val >= 0.550) return {lv: 5, cls: 'active-5', text: '거포'};
+    if(val >= 0.480) return {lv: 4, cls: 'active-4', text: '중장거리'};
+    if(val >= 0.400) return {lv: 3, cls: 'active-3', text: '보통'};
+    return {lv: 1, cls: 'active-1', text: '소총수'};
+  }
+}
+
+function renderDots(containerId, levelClass) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  for(let i=1; i<=5; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'stage-dot';
+    if(i <= levelClass.lv) dot.classList.add(levelClass.cls);
+    container.appendChild(dot);
+  }
+}
+
+// 계산 메인 엔진들
+function calculate() {
+  clearResults();
+  const avg = parseFloat(document.getElementById('avg').value) || 0;
+  const obp = parseFloat(document.getElementById('obp').value) || 0;
+  const slg = parseFloat(document.getElementById('slg').value) || 0;
+  const pa = parseInt(document.getElementById('b-pa').value) || 0;
+  
+  if(!obp || !slg) {
+    document.getElementById('error').innerText = '출루율과 장타율을 입력해주세요!';
+    return;
+  }
+  
+  if(avg > obp) document.getElementById('obp-warn').style.display = 'block';
+  
+  const ops = obp + slg;
+  const resBox = document.getElementById('resultBox');
+  document.getElementById('ops').innerText = ops.toFixed(3);
+  
+  const res = getBatterGrade(ops);
+  const gradeEl = document.getElementById('grade');
+  gradeEl.innerText = res.g;
+  resBox.className = 'result-box ' + res.c;
+  resBox.style.display = 'block';
+  
+  // 세부 지표 시각화 바 렌더링
+  document.getElementById('stageSection').style.display = 'block';
+  const aStage = getStatStage(avg, 'avg');
+  const oStage = getStatStage(obp, 'obp');
+  const sStage = getStatStage(slg, 'slg');
+  
+  renderDots('stage-avg', aStage); document.getElementById('stagenum-avg').innerText = avg.toFixed(3);
+  renderDots('stage-obp', oStage); document.getElementById('stagenum-obp').innerText = obp.toFixed(3);
+  renderDots('stage-slg', sStage); document.getElementById('stagenum-slg').innerText = slg.toFixed(3);
+  
+  // 타석 수 경고 및 규정타석 처리
+  if(pa > 0) {
+    const paWarn = document.getElementById('pa-warn');
+    paWarn.style.display = 'block';
+    if(pa < 446) {
+      paWarn.style.color = '#ff9b9b';
+      paWarn.innerText = `⚠️ 현재 ${pa}타석으로 시즌 규정 타석(446타석) 미달입니다. 비율 스탯이 유지되지 않을 수 있습니다.`;
+    } else {
+      paWarn.style.color = '#81c784';
+      paWarn.innerText = `✔️ 규정 타석 충족 (${pa}타석) - 공식 기록으로 인정되는 수치입니다.`;
+    }
+  }
+}
+
+function calculatePitcher() {
+  clearResults();
+  const innings = parseFloat(document.getElementById('p-innings').value) || 0;
+  const era = parseFloat(document.getElementById('p-era').value) || 0;
+  const f3 = parseInt(document.getElementById('p-field3').value) || 0;
+  const f4 = parseInt(document.getElementById('p-field4').value) || 0;
+  const games = parseInt(document.getElementById('p-games').value) || 0;
+  const teamGames = parseInt(document.getElementById('p-teamgames').value) || 0;
+  
+  if(!document.getElementById('p-era').value) {
+    document.getElementById('p-error').innerText = 'ERA를 입력해주세요!';
+    return;
+  }
+  
+  if(games > 0 && teamGames > 0 && games > teamGames) {
+    document.getElementById('p-games-warn').style.display = 'block';
+    return;
+  }
+  
+  const resBox = document.getElementById('p-resultBox');
+  document.getElementById('p-era-display').innerText = era.toFixed(2);
+  
+  const res = getPitcherGrade(era, currentPitcherRole);
+  const gradeEl = document.getElementById('p-grade');
+  gradeEl.innerText = res.g;
+  resBox.className = 'result-box ' + res.c;
+  resBox.style.display = 'block';
+  
+  let labelText = '';
+  if(currentPitcherRole === 'starter') labelText = `${f3}승 ${f4}패 | ${innings}이닝`;
+  else if(currentPitcherRole === 'bullpen') labelText = `${f3}홀드 ${f4}세이브 | ${innings}이닝`;
+  else labelText = `${f3}세이브 ${f4}블론 | ${innings}이닝`;
+  
+  document.getElementById('p-stats').innerText = labelText;
+  
+  // 혹사 지수 판별
+  if(games > 0 && teamGames > 0) {
+    const rate = games / teamGames;
+    if(currentPitcherRole !== 'starter' && rate > 0.45 && games >= 15) {
+      document.getElementById('p-overuse-warn').style.display = 'block';
+    }
+  }
+}
+
+function calculateDetail() {
+  const errorEl = document.getElementById('detail-error');
+  errorEl.innerText = '';
+  const obp = parseFloat(document.getElementById('d-obp').value) || 0;
+  const slg = parseFloat(document.getElementById('d-slg').value) || 0;
+  
+  if(!obp || !slg) {
+    errorEl.innerText = '출루율과 장타율은 필수 입력 사항입니다!';
+    return;
+  }
+  
+  const ops = obp + slg;
+  const resBox = document.getElementById('detail-result');
+  document.getElementById('detail-ops').innerText = ops.toFixed(3);
+  
+  const res = getBatterGrade(ops);
+  document.getElementById('detail-grade').innerText = res.g;
+  resBox.className = 'result-box ' + res.c;
+  resBox.style.display = 'block';
+  
+  // 선택된 특성 텍스트 추출 추가
+  let orderText = '';
+  if(document.getElementById('dt-leadoff').classList.contains('on')) orderText = '리드오프형 ';
+  if(document.getElementById('dt-cleanup').classList.contains('on')) orderText = '클린업 트리오 ';
+  if(document.getElementById('dt-lower').classList.contains('on')) orderText = '하위타선 배치 ';
+  
+  document.getElementById('detail-extra').innerText = `분석: 해당 선수는 현재 [${orderText || '일반'}] 포지션에서 생산력을 발휘하고 있습니다.`;
+}
+
+function calculatePitcherDetail() {
+  const errorEl = document.getElementById('detail-p-error');
+  errorEl.innerText = '';
+  const era = parseFloat(document.getElementById('d-era').value) || 0;
+  
+  if(!document.getElementById('d-era').value) {
+    errorEl.innerText = 'ERA를 입력해주세요!';
+    return;
+  }
+  
+  const resBox = document.getElementById('detail-p-result');
+  document.getElementById('detail-p-era').innerText = era.toFixed(2);
+  
+  // 상세 투수 정보는 기본 선발 스케일로 예시 판정
+  const res = getPitcherGrade(era, 'starter');
+  document.getElementById('detail-p-grade').innerText = res.g;
+  resBox.className = 'result-box ' + res.c;
+  resBox.style.display = 'block';
+  
+  let form = '일반';
+  if(document.getElementById('dt-over').classList.contains('on')) form = '오버스로';
+  if(document.getElementById('dt-three').classList.contains('on')) form = '쓰리쿼터';
+  if(document.getElementById('dt-side').classList.contains('on')) form = '사이드암';
+  if(document.getElementById('dt-under').classList.contains('on')) form = '언더스로';
+  
+  document.getElementById('detail-p-extra').innerText = `스타일 분석: [${form}] 투구 폼을 기반으로 정밀 제구 분석을 권장합니다.`;
+}
+
+// 선수 비교 로직
+function comparePlayers() {
+  const a1 = parseFloat(document.getElementById('cmp-a-1').value) || 0;
+  const a2 = parseFloat(document.getElementById('cmp-a-2').value) || 0;
+  const a3 = parseFloat(document.getElementById('cmp-a-3').value) || 0;
+  
+  const b1 = parseFloat(document.getElementById('cmp-b-1').value) || 0;
+  const b2 = parseFloat(document.getElementById('cmp-b-2').value) || 0;
+  const b3 = parseFloat(document.getElementById('cmp-b-3').value) || 0;
+  
+  const resA = document.getElementById('cmp-res-a');
+  const resB = document.getElementById('cmp-res-b');
+  const summary = document.getElementById('compare-summary');
+  
+  if(currentMode === 'batter') {
+    const opsA = a2 + a3;
+    const opsB = b2 + b3;
+    resA.innerText = `OPS: ${opsA.toFixed(3)}`;
+    resB.innerText = `OPS: ${opsB.toFixed(3)}`;
+    
+    if(opsA > opsB) summary.innerText = `🔥 선수 A가 OPS (+ ${(opsA-opsB).toFixed(3)}) 차이로 종합 타격 생산력이 더 높습니다!`;
+    else if(opsB > opsA) summary.innerText = `🔥 선수 B가 OPS (+ ${(opsB-opsA).toFixed(3)}) 차이로 종합 타격 생산력이 더 높습니다!`;
+    else summary.innerText = '⚖️ 두 선수의 타격 생산 지표가 완벽하게 동일합니다.';
+  } else {
+    // 투수 비교 (ERA 기준, 낮을수록 우수)
+    resA.innerText = `ERA: ${a2.toFixed(2)}`;
+    resB.innerText = `ERA: ${b2.toFixed(2)}`;
+    
+    if(a2 < b2) summary.innerText = `💎 선수 A가 방어율이 더 낮아 안정적인 투구를 보여줍니다.`;
+    else if(b2 < a2) summary.innerText = `💎 선수 B가 방어율이 더 낮아 안정적인 투구를 보여줍니다.`;
+    else summary.innerText = '⚖️ 두 선수의 평균자책점 지표가 동일합니다.';
+  }
+}
 </script>
 </body>
 </html>
